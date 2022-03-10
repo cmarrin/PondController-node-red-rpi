@@ -143,7 +143,7 @@
     {
         "id": "b8db7c4fd954a85d",
         "type": "ui_group",
-        "name": "Control",
+        "name": "Skimmer Control",
         "tab": "a2477e05a35a266b",
         "order": 1,
         "disp": true,
@@ -167,31 +167,11 @@
         "type": "ui_group",
         "name": "State",
         "tab": "a2477e05a35a266b",
-        "order": 2,
+        "order": 3,
         "disp": true,
         "width": 3,
         "collapse": false,
         "className": ""
-    },
-    {
-        "id": "1ce3e44651dfc284",
-        "type": "ui_spacer",
-        "z": "ae504a8ef127642b",
-        "name": "spacer",
-        "group": "b8db7c4fd954a85d",
-        "order": 2,
-        "width": 3,
-        "height": 1
-    },
-    {
-        "id": "4979283869a20f3e",
-        "type": "ui_spacer",
-        "z": "ae504a8ef127642b",
-        "name": "spacer",
-        "group": "b8db7c4fd954a85d",
-        "order": 3,
-        "width": 3,
-        "height": 1
     },
     {
         "id": "6b421e0612d98b46",
@@ -232,6 +212,26 @@
         "order": 7,
         "width": 3,
         "height": 1
+    },
+    {
+        "id": "6481acdb8cb17527",
+        "type": "ui_group",
+        "name": "Group 1",
+        "tab": "",
+        "order": 1,
+        "disp": true,
+        "width": 6
+    },
+    {
+        "id": "b15d7d7cabf89c55",
+        "type": "ui_group",
+        "name": "Raspberry Pi Control",
+        "tab": "a2477e05a35a266b",
+        "order": 2,
+        "disp": true,
+        "width": "3",
+        "collapse": false,
+        "className": ""
     },
     {
         "id": "361eed69e3ea83fd",
@@ -460,8 +460,8 @@
         "type": "ui_button",
         "z": "ae504a8ef127642b",
         "name": "",
-        "group": "b8db7c4fd954a85d",
-        "order": 8,
+        "group": "b15d7d7cabf89c55",
+        "order": 2,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -497,8 +497,8 @@
         "type": "ui_button",
         "z": "ae504a8ef127642b",
         "name": "",
-        "group": "b8db7c4fd954a85d",
-        "order": 9,
+        "group": "b15d7d7cabf89c55",
+        "order": 3,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -530,17 +530,17 @@
         "width": 0,
         "height": 0,
         "passthru": false,
-        "label": "Close Skimmer",
-        "tooltip": "Close the skimmer valve for 15 minutes",
+        "label": "Close",
+        "tooltip": "Close the skimmer valve",
         "color": "",
         "bgcolor": "",
         "className": "",
         "icon": "",
-        "payload": "",
-        "payloadType": "date",
+        "payload": "close",
+        "payloadType": "str",
         "topic": "topic",
         "topicType": "msg",
-        "x": 170,
+        "x": 130,
         "y": 580,
         "wires": [
             [
@@ -557,7 +557,7 @@
         "links": [
             "5e68170bc315b36a"
         ],
-        "x": 315,
+        "x": 375,
         "y": 580,
         "wires": []
     },
@@ -583,7 +583,7 @@
         "type": "ui_text",
         "z": "ae504a8ef127642b",
         "group": "cb99c239e3a46cec",
-        "order": 0,
+        "order": 2,
         "width": 0,
         "height": 0,
         "name": "",
@@ -594,6 +594,62 @@
         "x": 690,
         "y": 760,
         "wires": []
+    },
+    {
+        "id": "3073b80593562073",
+        "type": "ui_button",
+        "z": "ae504a8ef127642b",
+        "name": "",
+        "group": "b8db7c4fd954a85d",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Open",
+        "tooltip": "Open the skimmer valve",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "open",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 130,
+        "y": 540,
+        "wires": [
+            [
+                "ffe8f51e22baefd9"
+            ]
+        ]
+    },
+    {
+        "id": "28e6e17712b48428",
+        "type": "ui_button",
+        "z": "ae504a8ef127642b",
+        "name": "",
+        "group": "b8db7c4fd954a85d",
+        "order": 3,
+        "width": "0",
+        "height": "0",
+        "passthru": false,
+        "label": "Timed Close",
+        "tooltip": "Close the skimmer valve for 15 minutes",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "timedclose",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 150,
+        "y": 620,
+        "wires": [
+            [
+                "ffe8f51e22baefd9"
+            ]
+        ]
     },
     {
         "id": "55c9def2f8dba5d7",
@@ -617,7 +673,7 @@
         "type": "function",
         "z": "9e626f8b528b7958",
         "name": "Handle Buttons",
-        "func": "if (msg.payload > 1.2 && msg.payload < 2.7) {\n    // Close valve button\n    return { \"payload\" : \"close\" };\n}\n\nif (msg.payload < 4) {\n    // upper right button\n    return { \"payload\" : \"UpperRight\" };\n}\n\nif (msg.payload < 6) {\n    // lower right button\n    return { \"payload\" : \"LowerRight\" };\n}\n\nif (msg.payload < 9.2) {\n    // center button\n    return { \"payload\" : \"Center\" };\n}\n\nif (msg.payload < 10.8) {\n    // lower left button\n    return { \"payload\" : \"LowerLeft\" };\n}\n\nif (msg.payload < 11.8) {\n    // upper left button\n    return { \"payload\" : \"UpperLeft\" };\n}\n\nreturn null;\n",
+        "func": "if (msg.payload > 1.2 && msg.payload < 2.7) {\n    // Close valve button\n    return { \"payload\" : \"timedclose\" };\n}\n\nif (msg.payload < 4) {\n    // upper right button\n    return { \"payload\" : \"UpperRight\" };\n}\n\nif (msg.payload < 6) {\n    // lower right button\n    return { \"payload\" : \"LowerRight\" };\n}\n\nif (msg.payload < 9.2) {\n    // center button\n    return { \"payload\" : \"Center\" };\n}\n\nif (msg.payload < 10.8) {\n    // lower left button\n    return { \"payload\" : \"LowerLeft\" };\n}\n\nif (msg.payload < 11.8) {\n    // upper left button\n    return { \"payload\" : \"UpperLeft\" };\n}\n\nreturn null;\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -637,10 +693,10 @@
         "z": "9e626f8b528b7958",
         "name": "Run Valve Motor",
         "op1": "",
-        "op2": "stop",
+        "op2": "runmotordone",
         "op1type": "nul",
         "op2type": "str",
-        "duration": "25",
+        "duration": "15",
         "extend": false,
         "overrideDelay": false,
         "units": "s",
@@ -678,7 +734,7 @@
         "extend": false,
         "overrideDelay": false,
         "units": "min",
-        "reset": "",
+        "reset": "stop",
         "bytopic": "all",
         "topic": "topic",
         "outputs": 1,
@@ -695,7 +751,7 @@
         "type": "function",
         "z": "9e626f8b528b7958",
         "name": "Manage Valve",
-        "func": "// This function receives messages to \"open\", \"close\"\n// and \"stop\" the valve motor\n\nfunction makeRelayMsg(enable, id)\n{\n    return { \"topic\" : \"relay.\" + id, \"payload\" : enable };\n}\n\n// Make a message to send multiple outputs. The first sends\n// 2 messages, one to each relay. The second sends a\n// message to trigger the timer that keeps the valve\n// motor running long enough to let it open or close.\n// The third sends a message to trigger the timer that\n// tells the valve when to reopen. All params are bool.\n// Since the timers trigger on any message \"msg\" is \n// sent when startMotor or startDelay are true and\n// \"null\" when false.\nfunction makeMsg(relay1, relay2, startMotor, startDelay)\n{\n    return [\n        [\n            makeRelayMsg(relay1, \"one\"),\n            makeRelayMsg(relay2, \"two\")\n        ],\n        startDelay ? msg : null,\n        startMotor ? msg : null\n    ];\n}\n\nif (msg.payload == \"close\") {\n    return makeMsg(false, true, true, true);\n}\n\nif (msg.payload == \"open\") {\n    return makeMsg(true, false, true, false);\n}\n\nif (msg.payload == \"stop\") {\n    return makeMsg(false, false, false, false);\n}\n\nreturn null;\n",
+        "func": "// This function receives messages to \"open\", \"close\"\n// and \"stop\" the valve motor\n\nfunction makeRelayMsg(enable, id)\n{\n    return { \"topic\" : \"relay.\" + id, \"payload\" : enable };\n}\n\n// Make a message to send multiple outputs. The first sends\n// 2 messages, one to each relay. The second sends a\n// message to trigger the timer that keeps the valve\n// motor running long enough to let it open or close.\n// The third sends a message to trigger the timer that\n// tells the valve when to reopen. All params are bool.\n// Since the timers trigger on any message \"msg\" is \n// sent when startMotor or startDelay are true and\n// \"null\" when false.\nfunction makeMsg(relay1, relay2, startMotor, startDelay, stopDelay)\n{\n    var delayPayload = null;\n    if (startDelay) {\n        delayPayload = msg;\n    } else if (stopDelay) {\n        delayPayload = { \"payload\" : \"stop\" };\n    }\n    \n    return [\n        [\n            makeRelayMsg(relay1, \"one\"),\n            makeRelayMsg(relay2, \"two\")\n        ],\n        delayPayload,\n        startMotor ? msg : null\n    ];\n}\n\nif (msg.payload == \"close\") {\n    return makeMsg(false, true, true, false, true);\n}\n\nif (msg.payload == \"timedclose\") {\n    return makeMsg(false, true, true, true, false);\n}\n\nif (msg.payload == \"open\") {\n    return makeMsg(true, false, true, false, true);\n}\n\nif (msg.payload == \"stop\") {\n    return makeMsg(false, false, false, false, true);\n}\n\nif (msg.payload == \"runmotordone\") {\n    return makeMsg(false, false, false, false, false);\n}\n\nreturn null;\n",
         "outputs": 3,
         "noerr": 0,
         "initialize": "",
@@ -705,7 +761,7 @@
         "y": 400,
         "wires": [
             [
-                "3f3ee6b11e05d312"
+                "a65df6781e263bf8"
             ],
             [
                 "3ebc7f2e926afbb4"
@@ -777,5 +833,109 @@
         "x": 355,
         "y": 280,
         "wires": []
+    },
+    {
+        "id": "2000c208b9a7eca7",
+        "type": "inject",
+        "z": "9e626f8b528b7958",
+        "name": "Open Skimmer",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "open",
+        "payloadType": "str",
+        "x": 200,
+        "y": 360,
+        "wires": [
+            [
+                "45c785554f526de0"
+            ]
+        ]
+    },
+    {
+        "id": "a65df6781e263bf8",
+        "type": "debug",
+        "z": "9e626f8b528b7958",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 840,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "e3ded562ba413ddd",
+        "type": "inject",
+        "z": "9e626f8b528b7958",
+        "name": "Timer Close Skimmer",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "timedclose",
+        "payloadType": "str",
+        "x": 220,
+        "y": 480,
+        "wires": [
+            [
+                "45c785554f526de0"
+            ]
+        ]
+    },
+    {
+        "id": "f42d592f18820fad",
+        "type": "inject",
+        "z": "9e626f8b528b7958",
+        "name": "Close Skimmer",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "close",
+        "payloadType": "str",
+        "x": 200,
+        "y": 420,
+        "wires": [
+            [
+                "45c785554f526de0"
+            ]
+        ]
     }
 ]
