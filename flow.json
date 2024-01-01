@@ -730,7 +730,7 @@
         "op2": "open",
         "op1type": "nul",
         "op2type": "str",
-        "duration": "1",
+        "duration": "15",
         "extend": false,
         "overrideDelay": false,
         "units": "min",
