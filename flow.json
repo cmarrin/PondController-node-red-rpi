@@ -19,7 +19,7 @@
         "id": "39f99e4a62f373c8",
         "type": "serial-port",
         "serialport": "/dev/serial0",
-        "serialbaud": "1200",
+        "serialbaud": "300",
         "databits": "8",
         "parity": "none",
         "stopbits": "1",
@@ -254,8 +254,8 @@
         "topic": "light.power",
         "payload": "enable",
         "payloadType": "str",
-        "x": 150,
-        "y": 100,
+        "x": 130,
+        "y": 40,
         "wires": [
             [
                 "756bc5ace9c187c4"
@@ -283,8 +283,8 @@
         "topic": "light.power",
         "payload": "disable",
         "payloadType": "str",
-        "x": 150,
-        "y": 200,
+        "x": 130,
+        "y": 120,
         "wires": [
             [
                 "756bc5ace9c187c4"
@@ -296,8 +296,8 @@
         "type": "rpi-automation-hat out",
         "z": "ae504a8ef127642b",
         "name": "",
-        "x": 480,
-        "y": 160,
+        "x": 460,
+        "y": 80,
         "wires": []
     },
     {
@@ -306,113 +306,26 @@
         "z": "ae504a8ef127642b",
         "name": "",
         "serial": "39f99e4a62f373c8",
-        "x": 810,
+        "x": 930,
         "y": 440,
         "wires": []
-    },
-    {
-        "id": "e709299f438e7fae",
-        "type": "inject",
-        "z": "ae504a8ef127642b",
-        "name": "Send Flicker Msg",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "{\"adr\":0,\"cmd\":\"F\",\"hue\":6,\"sat\":56,\"val\":32,\"par1\":0,\"par2\":0}",
-        "payloadType": "json",
-        "x": 160,
-        "y": 380,
-        "wires": [
-            [
-                "59a5d73d4167b001"
-            ]
-        ]
-    },
-    {
-        "id": "6eee368c7cb136b9",
-        "type": "inject",
-        "z": "ae504a8ef127642b",
-        "name": "Send ConstantColor Msg",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "{\"adr\":0,\"cmd\":\"C\",\"hue\":60,\"sat\":56,\"val\":16,\"par1\":0,\"par2\":0}",
-        "payloadType": "json",
-        "x": 190,
-        "y": 320,
-        "wires": [
-            [
-                "59a5d73d4167b001"
-            ]
-        ]
     },
     {
         "id": "e70b3fddd692f003",
         "type": "function",
         "z": "ae504a8ef127642b",
         "name": "Make Light Event",
-        "func": "\nfunction checksum(str) \n{\n    var sum = 0;\n\n    for (var i = 0; i < str.length; i++) {\n        sum += str.charCodeAt(i);\n    }\n    return sum & 0x3f;\n}\n\nfunction toChar(i)\n{\n    return String.fromCharCode(0x30 + i);\n}\n\n// Construct string for computing checksum\nvar str =   \"(\" +\n            toChar(msg.payload.adr) + \n            msg.payload.cmd +\n            toChar(msg.payload.hue) +\n            toChar(msg.payload.sat) +\n            toChar(msg.payload.val) +\n            toChar(msg.payload.par1) +\n            toChar(msg.payload.par2) +\n            \"0\" +\n            \")\";\n            \nvar sum = checksum(str);\n\n// replace CRC char\nstr = str.substring(0, 8) + toChar(sum) + str.substring(9);\n\nnode.warn(\"**** str=\" + str);\n\nreturn { payload : str };",
+        "func": "\nfunction checksum(buf) \n{\n    var sum = 0;\n\n    for (var i = 0; i < buf.length; i++) {\n        sum += buf.readUInt8(i);\n    }\n    return sum & 0x3f;\n}\n\nfunction toChar(i)\n{\n    return String.fromCharCode(0x30 + i);\n}\n\nfunction toCharCode(i)\n{\n    return 0x30 + i;\n}\n\nnode.warn(\"Enter Send Event\");\n\nvar buf = Buffer.alloc(6 + msg.payload.size);\nvar index = 0;\nbuf[index++] = \"(\".charCodeAt();\nbuf[index++] = toCharCode(msg.payload.adr);\nbuf[index++] = msg.payload.cmd.charCodeAt(0);\n\nbuf.writeUInt8(msg.payload.size, index++);\n\nfor (var i = 0; i < msg.payload.size; ++i) {\n    buf.writeUInt8(msg.payload.data[i], index++);\n}\n\nvar checksumIndex = index;\nbuf[index++] = \"0\".charCodeAt();\nbuf[index++] = \")\".charCodeAt();\n\nbuf[checksumIndex] = checksum(buf) + 0x30;\n\n//node.warn(buf);\nnode.warn(\"cmd='\" + msg.payload.cmd + \"'\");\n\nreturn { payload : buf };",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 550,
+        "x": 710,
         "y": 440,
         "wires": [
             [
                 "bae3f7c54c109dc6"
-            ]
-        ]
-    },
-    {
-        "id": "a3cb5015c46a1627",
-        "type": "inject",
-        "z": "ae504a8ef127642b",
-        "name": "Send Color Off Msg",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "{\"adr\":0,\"cmd\":\"C\",\"hue\":60,\"sat\":7,\"val\":0,\"par1\":0,\"par2\":0}",
-        "payloadType": "json",
-        "x": 170,
-        "y": 260,
-        "wires": [
-            [
-                "59a5d73d4167b001"
             ]
         ]
     },
@@ -425,7 +338,7 @@
             "d295f401330fd8bd",
             "59a5d73d4167b001"
         ],
-        "x": 315,
+        "x": 555,
         "y": 440,
         "wires": [
             [
@@ -442,8 +355,8 @@
         "links": [
             "8e733fa53b82fd33"
         ],
-        "x": 415,
-        "y": 320,
+        "x": 615,
+        "y": 200,
         "wires": []
     },
     {
@@ -451,8 +364,8 @@
         "type": "shutdown",
         "z": "ae504a8ef127642b",
         "name": "",
-        "x": 360,
-        "y": 760,
+        "x": 320,
+        "y": 820,
         "wires": []
     },
     {
@@ -475,8 +388,8 @@
         "payloadType": "date",
         "topic": "topic",
         "topicType": "msg",
-        "x": 140,
-        "y": 820,
+        "x": 100,
+        "y": 880,
         "wires": [
             [
                 "6671d25a8f9b59c9"
@@ -488,8 +401,8 @@
         "type": "restart",
         "z": "ae504a8ef127642b",
         "name": "",
-        "x": 350,
-        "y": 820,
+        "x": 310,
+        "y": 880,
         "wires": []
     },
     {
@@ -512,8 +425,8 @@
         "payloadType": "date",
         "topic": "topic",
         "topicType": "msg",
-        "x": 150,
-        "y": 760,
+        "x": 110,
+        "y": 820,
         "wires": [
             [
                 "6b3dfa5f81fe6002"
@@ -540,8 +453,8 @@
         "payloadType": "str",
         "topic": "topic",
         "topicType": "msg",
-        "x": 130,
-        "y": 580,
+        "x": 90,
+        "y": 700,
         "wires": [
             [
                 "ffe8f51e22baefd9"
@@ -557,8 +470,8 @@
         "links": [
             "5e68170bc315b36a"
         ],
-        "x": 375,
-        "y": 580,
+        "x": 335,
+        "y": 700,
         "wires": []
     },
     {
@@ -574,8 +487,8 @@
         "format": "{{msg.payload}}",
         "layout": "row-spread",
         "className": "",
-        "x": 660,
-        "y": 580,
+        "x": 620,
+        "y": 720,
         "wires": []
     },
     {
@@ -591,8 +504,8 @@
         "format": "{{msg.payload}}",
         "layout": "row-spread",
         "className": "",
-        "x": 690,
-        "y": 760,
+        "x": 650,
+        "y": 820,
         "wires": []
     },
     {
@@ -615,8 +528,8 @@
         "payloadType": "str",
         "topic": "topic",
         "topicType": "msg",
-        "x": 130,
-        "y": 540,
+        "x": 90,
+        "y": 660,
         "wires": [
             [
                 "ffe8f51e22baefd9"
@@ -643,11 +556,261 @@
         "payloadType": "str",
         "topic": "topic",
         "topicType": "msg",
-        "x": 150,
-        "y": 620,
+        "x": 110,
+        "y": 740,
         "wires": [
             [
                 "ffe8f51e22baefd9"
+            ]
+        ]
+    },
+    {
+        "id": "f216c318626bd817",
+        "type": "inject",
+        "z": "ae504a8ef127642b",
+        "name": "Send ConstantColor Msg",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"adr\":0,\"cmd\":\"C\",\"size\":5,\"data\":[240,224,64,0,0]}",
+        "payloadType": "json",
+        "x": 170,
+        "y": 320,
+        "wires": [
+            [
+                "59a5d73d4167b001"
+            ]
+        ]
+    },
+    {
+        "id": "75966ffbb9e14ee5",
+        "type": "inject",
+        "z": "ae504a8ef127642b",
+        "name": "Send Color Off Msg",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"adr\":0,\"cmd\":\"C\",\"size\":5,\"data\":[60,7,0,0,0]}",
+        "payloadType": "json",
+        "x": 150,
+        "y": 280,
+        "wires": [
+            [
+                "59a5d73d4167b001"
+            ]
+        ]
+    },
+    {
+        "id": "45b0bd1f8f25fc92",
+        "type": "inject",
+        "z": "ae504a8ef127642b",
+        "name": "Send Executable",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 200,
+        "wires": [
+            [
+                "5d77bb2801589b37"
+            ]
+        ]
+    },
+    {
+        "id": "5d77bb2801589b37",
+        "type": "function",
+        "z": "ae504a8ef127642b",
+        "name": "Build Executable Msg",
+        "func": "var fs = global.get('fs')\n\nfunction sendMsg(name)\n{\n    var buf = fs.readFileSync(name);\n    var p = {\n        \"adr\": 0,\n        \"cmd\": \"X\",\n        \"size\": buf.length,\n        \"data\": buf\n    }\n    node.warn(\"*** Sending '\" + name + \"'\");\n    node.send({ payload : p });\n}\n\nfunction sendFinished()\n{\n    var p = {\n        \"adr\": 0,\n        \"cmd\": \"C\",\n        \"size\": 5,\n        \"data\": [\n            200,\n            255,\n            255,\n            4,\n            2\n        ]\n    }\n    node.warn(\"*** Sending Executable Finished\");\n    node.send({ payload : p });\n}\n\nfor (var i = 0; i < 16; ++i) {\n    var num = (\"000\" + i).slice(-2);\n    var name = \"/Users/cmarrin/PostLightEffects\" + num + \".arlx\";\n\n    if (!fs.existsSync(name)) {\n        // Turn on lights to indicate done\n        setTimeout(sendFinished, i * 20000 + 100);\n        break;\n    }\n    \n    setTimeout(sendMsg.bind(undefined, name), i * 20000 + 100);\n}\n\n\n\nreturn null;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 200,
+        "wires": [
+            [
+                "59a5d73d4167b001"
+            ]
+        ]
+    },
+    {
+        "id": "20a3b01b40c22c86",
+        "type": "inject",
+        "z": "ae504a8ef127642b",
+        "name": "Send Interp ConstantColor Msg",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"adr\":0,\"cmd\":\"c\",\"size\":3,\"data\":[100,224,64]}",
+        "payloadType": "json",
+        "x": 190,
+        "y": 560,
+        "wires": [
+            [
+                "59a5d73d4167b001"
+            ]
+        ]
+    },
+    {
+        "id": "9a2801c53a116ac5",
+        "type": "inject",
+        "z": "ae504a8ef127642b",
+        "name": "Send Interp Flicker Msg",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"adr\":0,\"cmd\":\"f\",\"size\":4,\"data\":[20,224,200,0]}",
+        "payloadType": "json",
+        "x": 160,
+        "y": 400,
+        "wires": [
+            [
+                "59a5d73d4167b001"
+            ]
+        ]
+    },
+    {
+        "id": "0dfce1bb9a3208bc",
+        "type": "inject",
+        "z": "ae504a8ef127642b",
+        "name": "Send Interp Pulse Msg",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"adr\":0,\"cmd\":\"p\",\"size\":5,\"data\":[50,224,200,6,7]}",
+        "payloadType": "json",
+        "x": 160,
+        "y": 440,
+        "wires": [
+            [
+                "59a5d73d4167b001"
+            ]
+        ]
+    },
+    {
+        "id": "f98264a050f26a43",
+        "type": "inject",
+        "z": "ae504a8ef127642b",
+        "name": "Send Interp Rainbow Msg",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"adr\":0,\"cmd\":\"r\",\"size\":6,\"data\":[0,224,150,7,3,0]}",
+        "payloadType": "json",
+        "x": 170,
+        "y": 520,
+        "wires": [
+            [
+                "59a5d73d4167b001"
+            ]
+        ]
+    },
+    {
+        "id": "792e652b510131f1",
+        "type": "inject",
+        "z": "ae504a8ef127642b",
+        "name": "Send Interp Multicolor Msg",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"adr\":0,\"cmd\":\"m\",\"size\":13,\"data\":[0,255,255,96,255,240,170,255,255,38,255,255,5]}",
+        "payloadType": "json",
+        "x": 170,
+        "y": 480,
+        "wires": [
+            [
+                "59a5d73d4167b001"
             ]
         ]
     },
