@@ -19,7 +19,7 @@
         "id": "39f99e4a62f373c8",
         "type": "serial-port",
         "serialport": "/dev/serial0",
-        "serialbaud": "300",
+        "serialbaud": "1200",
         "databits": "8",
         "parity": "none",
         "stopbits": "1",
@@ -152,17 +152,6 @@
         "className": ""
     },
     {
-        "id": "68116819f71e2f5a",
-        "type": "ui_group",
-        "name": "",
-        "tab": "",
-        "order": 1,
-        "disp": true,
-        "width": "6",
-        "collapse": false,
-        "className": ""
-    },
-    {
         "id": "cb99c239e3a46cec",
         "type": "ui_group",
         "name": "State",
@@ -174,55 +163,6 @@
         "className": ""
     },
     {
-        "id": "6b421e0612d98b46",
-        "type": "ui_spacer",
-        "z": "ae504a8ef127642b",
-        "name": "spacer",
-        "group": "b8db7c4fd954a85d",
-        "order": 4,
-        "width": 3,
-        "height": 1
-    },
-    {
-        "id": "a7a675d72c43bbef",
-        "type": "ui_spacer",
-        "z": "ae504a8ef127642b",
-        "name": "spacer",
-        "group": "b8db7c4fd954a85d",
-        "order": 5,
-        "width": 3,
-        "height": 1
-    },
-    {
-        "id": "2ba920d95a269d02",
-        "type": "ui_spacer",
-        "z": "ae504a8ef127642b",
-        "name": "spacer",
-        "group": "b8db7c4fd954a85d",
-        "order": 6,
-        "width": 3,
-        "height": 1
-    },
-    {
-        "id": "89684e45ee98076b",
-        "type": "ui_spacer",
-        "z": "ae504a8ef127642b",
-        "name": "spacer",
-        "group": "b8db7c4fd954a85d",
-        "order": 7,
-        "width": 3,
-        "height": 1
-    },
-    {
-        "id": "6481acdb8cb17527",
-        "type": "ui_group",
-        "name": "Group 1",
-        "tab": "",
-        "order": 1,
-        "disp": true,
-        "width": 6
-    },
-    {
         "id": "b15d7d7cabf89c55",
         "type": "ui_group",
         "name": "Raspberry Pi Control",
@@ -230,6 +170,17 @@
         "order": 2,
         "disp": true,
         "width": "3",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "e1a99b43f32fdc20",
+        "type": "ui_group",
+        "name": "Lights",
+        "tab": "a2477e05a35a266b",
+        "order": 4,
+        "disp": true,
+        "width": "6",
         "collapse": false,
         "className": ""
     },
@@ -475,40 +426,6 @@
         "wires": []
     },
     {
-        "id": "8a5d8c9cd4c52561",
-        "type": "ui_text",
-        "z": "ae504a8ef127642b",
-        "group": "cb99c239e3a46cec",
-        "order": 1,
-        "width": 0,
-        "height": 0,
-        "name": "",
-        "label": "Skimmer Valve",
-        "format": "{{msg.payload}}",
-        "layout": "row-spread",
-        "className": "",
-        "x": 620,
-        "y": 720,
-        "wires": []
-    },
-    {
-        "id": "b6a180c721b67f53",
-        "type": "ui_text",
-        "z": "ae504a8ef127642b",
-        "group": "cb99c239e3a46cec",
-        "order": 2,
-        "width": 0,
-        "height": 0,
-        "name": "",
-        "label": "Raspberry Pi Status",
-        "format": "{{msg.payload}}",
-        "layout": "row-spread",
-        "className": "",
-        "x": 650,
-        "y": 820,
-        "wires": []
-    },
-    {
         "id": "3073b80593562073",
         "type": "ui_button",
         "z": "ae504a8ef127642b",
@@ -583,7 +500,7 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "{\"adr\":0,\"cmd\":\"C\",\"size\":5,\"data\":[240,224,64,0,0]}",
+        "payload": "{\"adr\":0,\"cmd\":\"C\",\"size\":5,\"data\":[20,255,64,0,0]}",
         "payloadType": "json",
         "x": 170,
         "y": 320,
@@ -815,6 +732,52 @@
         ]
     },
     {
+        "id": "370b25c97306c0c1",
+        "type": "ui_dropdown",
+        "z": "ae504a8ef127642b",
+        "name": "",
+        "label": "Effect",
+        "tooltip": "",
+        "place": "Off",
+        "group": "e1a99b43f32fdc20",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "multiple": false,
+        "options": [
+            {
+                "label": "Off",
+                "value": "Off",
+                "type": "str"
+            },
+            {
+                "label": "Color",
+                "value": "Color",
+                "type": "str"
+            },
+            {
+                "label": "Flicker",
+                "value": "Flicker",
+                "type": "str"
+            },
+            {
+                "label": "Rainbow",
+                "value": "Rainbow",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "className": "",
+        "x": 90,
+        "y": 960,
+        "wires": [
+            []
+        ]
+    },
+    {
         "id": "55c9def2f8dba5d7",
         "type": "rpi-automation-hat in",
         "z": "9e626f8b528b7958",
@@ -914,8 +877,8 @@
         "type": "function",
         "z": "9e626f8b528b7958",
         "name": "Manage Valve",
-        "func": "// This function receives messages to \"open\", \"close\"\n// and \"stop\" the valve motor\n\nfunction makeRelayMsg(enable, id)\n{\n    return { \"topic\" : \"relay.\" + id, \"payload\" : enable };\n}\n\n// Make a message to send multiple outputs. The first sends\n// 2 messages, one to each relay. The second sends a\n// message to trigger the timer that keeps the valve\n// motor running long enough to let it open or close.\n// The third sends a message to trigger the timer that\n// tells the valve when to reopen. All params are bool.\n// Since the timers trigger on any message \"msg\" is \n// sent when startMotor or startDelay are true and\n// \"null\" when false.\nfunction makeMsg(relay1, relay2, startMotor, startDelay, stopDelay)\n{\n    var delayPayload = null;\n    if (startDelay) {\n        delayPayload = msg;\n    } else if (stopDelay) {\n        delayPayload = { \"payload\" : \"stop\" };\n    }\n    \n    return [\n        [\n            makeRelayMsg(relay1, \"one\"),\n            makeRelayMsg(relay2, \"two\")\n        ],\n        delayPayload,\n        startMotor ? msg : null\n    ];\n}\n\nif (msg.payload == \"close\") {\n    return makeMsg(false, true, true, false, true);\n}\n\nif (msg.payload == \"timedclose\") {\n    return makeMsg(false, true, true, true, false);\n}\n\nif (msg.payload == \"open\") {\n    return makeMsg(true, false, true, false, true);\n}\n\nif (msg.payload == \"stop\") {\n    return makeMsg(false, false, false, false, true);\n}\n\nif (msg.payload == \"runmotordone\") {\n    return makeMsg(false, false, false, false, false);\n}\n\nreturn null;\n",
-        "outputs": 3,
+        "func": "// This function receives messages to \"open\", \"close\"\n// and \"stop\" the valve motor\nfunction makeRelayMsg(enable, id)\n{\n    return { \"topic\" : \"relay.\" + id, \"payload\" : enable };\n}\n\n// Make a message to send multiple outputs. The first sends\n// 2 messages, one to each relay. The second sends a\n// message to trigger the timer that keeps the valve\n// motor running long enough to let it open or close.\n// The third sends a message to trigger the timer that\n// tells the valve when to reopen. All params are bool.\n// Since the timers trigger on any message \"msg\" is \n// sent when startMotor or startDelay are true and\n// \"null\" when false.\nfunction makeMsg(relay1, relay2, startMotor, startDelay, stopDelay, status)\n{\n    var delayPayload = null;\n    if (startDelay) {\n        delayPayload = msg;\n    } else if (stopDelay) {\n        delayPayload = { \"payload\" : \"stop\" };\n    }\n    \n    return [\n        [\n            makeRelayMsg(relay1, \"one\"),\n            makeRelayMsg(relay2, \"two\")\n        ],\n        delayPayload,\n        startMotor ? msg : null,\n        { \"payload\" : status }\n    ];\n}\n\nif (msg.payload == \"close\") {\n    finalStatus = \"closed\";\n    return makeMsg(false, true, true, false, true, \"closing...\");\n}\n\nif (msg.payload == \"timedclose\") {\n    finalStatus = \"timed closed\";\n    return makeMsg(false, true, true, true, false, \"timed closing...\");\n}\n\nif (msg.payload == \"open\") {\n    finalStatus = \"open\";\n    return makeMsg(true, false, true, false, true, \"opening...\");\n}\n\nif (msg.payload == \"stop\") {\n    finalStatus = \"stopped\";\n    return makeMsg(false, false, false, false, true, \"stopped\");\n}\n\nif (msg.payload == \"runmotordone\") {\n    return makeMsg(false, false, false, false, false, finalStatus);\n}\n\nreturn null;\n",
+        "outputs": 4,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
@@ -931,6 +894,9 @@
             ],
             [
                 "b118e96062651eda"
+            ],
+            [
+                "9d50e37f252b4975"
             ]
         ]
     },
@@ -1083,5 +1049,22 @@
                 "45c785554f526de0"
             ]
         ]
+    },
+    {
+        "id": "9d50e37f252b4975",
+        "type": "ui_text",
+        "z": "9e626f8b528b7958",
+        "group": "cb99c239e3a46cec",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Skimmer Valve",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 860,
+        "y": 520,
+        "wires": []
     }
 ]
