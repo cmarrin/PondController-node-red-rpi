@@ -16,6 +16,14 @@
         "env": []
     },
     {
+        "id": "83b262e887c512b6",
+        "type": "tab",
+        "label": "Control Lights",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "39f99e4a62f373c8",
         "type": "serial-port",
         "serialport": "/dev/serial0",
@@ -205,8 +213,8 @@
         "topic": "light.power",
         "payload": "enable",
         "payloadType": "str",
-        "x": 130,
-        "y": 40,
+        "x": 150,
+        "y": 1060,
         "wires": [
             [
                 "756bc5ace9c187c4"
@@ -234,8 +242,8 @@
         "topic": "light.power",
         "payload": "disable",
         "payloadType": "str",
-        "x": 130,
-        "y": 120,
+        "x": 150,
+        "y": 1140,
         "wires": [
             [
                 "756bc5ace9c187c4"
@@ -247,67 +255,21 @@
         "type": "rpi-automation-hat out",
         "z": "ae504a8ef127642b",
         "name": "",
-        "x": 460,
-        "y": 80,
+        "x": 480,
+        "y": 1100,
         "wires": []
-    },
-    {
-        "id": "bae3f7c54c109dc6",
-        "type": "serial out",
-        "z": "ae504a8ef127642b",
-        "name": "",
-        "serial": "39f99e4a62f373c8",
-        "x": 930,
-        "y": 440,
-        "wires": []
-    },
-    {
-        "id": "e70b3fddd692f003",
-        "type": "function",
-        "z": "ae504a8ef127642b",
-        "name": "Make Light Event",
-        "func": "\nfunction checksum(buf) \n{\n    var sum = 0;\n\n    for (var i = 0; i < buf.length; i++) {\n        sum += buf.readUInt8(i);\n    }\n    return sum & 0x3f;\n}\n\nfunction toChar(i)\n{\n    return String.fromCharCode(0x30 + i);\n}\n\nfunction toCharCode(i)\n{\n    return 0x30 + i;\n}\n\nnode.warn(\"Enter Send Event\");\n\nvar buf = Buffer.alloc(6 + msg.payload.size);\nvar index = 0;\nbuf[index++] = \"(\".charCodeAt();\nbuf[index++] = toCharCode(msg.payload.adr);\nbuf[index++] = msg.payload.cmd.charCodeAt(0);\n\nbuf.writeUInt8(msg.payload.size, index++);\n\nfor (var i = 0; i < msg.payload.size; ++i) {\n    buf.writeUInt8(msg.payload.data[i], index++);\n}\n\nvar checksumIndex = index;\nbuf[index++] = \"0\".charCodeAt();\nbuf[index++] = \")\".charCodeAt();\n\nbuf[checksumIndex] = checksum(buf) + 0x30;\n\n//node.warn(buf);\nnode.warn(\"cmd='\" + msg.payload.cmd + \"'\");\n\nreturn { payload : buf };",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 710,
-        "y": 440,
-        "wires": [
-            [
-                "bae3f7c54c109dc6"
-            ]
-        ]
-    },
-    {
-        "id": "8e733fa53b82fd33",
-        "type": "link in",
-        "z": "ae504a8ef127642b",
-        "name": "",
-        "links": [
-            "d295f401330fd8bd",
-            "59a5d73d4167b001"
-        ],
-        "x": 555,
-        "y": 440,
-        "wires": [
-            [
-                "e70b3fddd692f003"
-            ]
-        ]
     },
     {
         "id": "59a5d73d4167b001",
         "type": "link out",
         "z": "ae504a8ef127642b",
-        "name": "",
+        "name": "Send Light Effect",
         "mode": "link",
         "links": [
-            "8e733fa53b82fd33"
+            "195a8aa010b30d0c"
         ],
-        "x": 615,
-        "y": 200,
+        "x": 415,
+        "y": 180,
         "wires": []
     },
     {
@@ -315,8 +277,8 @@
         "type": "shutdown",
         "z": "ae504a8ef127642b",
         "name": "",
-        "x": 320,
-        "y": 820,
+        "x": 460,
+        "y": 540,
         "wires": []
     },
     {
@@ -340,7 +302,7 @@
         "topic": "topic",
         "topicType": "msg",
         "x": 100,
-        "y": 880,
+        "y": 580,
         "wires": [
             [
                 "6671d25a8f9b59c9"
@@ -352,8 +314,8 @@
         "type": "restart",
         "z": "ae504a8ef127642b",
         "name": "",
-        "x": 310,
-        "y": 880,
+        "x": 450,
+        "y": 580,
         "wires": []
     },
     {
@@ -377,7 +339,7 @@
         "topic": "topic",
         "topicType": "msg",
         "x": 110,
-        "y": 820,
+        "y": 540,
         "wires": [
             [
                 "6b3dfa5f81fe6002"
@@ -385,107 +347,10 @@
         ]
     },
     {
-        "id": "d7cd9379e5fc7217",
-        "type": "ui_button",
-        "z": "ae504a8ef127642b",
-        "name": "",
-        "group": "b8db7c4fd954a85d",
-        "order": 1,
-        "width": 0,
-        "height": 0,
-        "passthru": false,
-        "label": "Close",
-        "tooltip": "Close the skimmer valve",
-        "color": "",
-        "bgcolor": "",
-        "className": "",
-        "icon": "",
-        "payload": "close",
-        "payloadType": "str",
-        "topic": "topic",
-        "topicType": "msg",
-        "x": 90,
-        "y": 700,
-        "wires": [
-            [
-                "ffe8f51e22baefd9"
-            ]
-        ]
-    },
-    {
-        "id": "ffe8f51e22baefd9",
-        "type": "link out",
-        "z": "ae504a8ef127642b",
-        "name": "Send Ctl Msg",
-        "mode": "link",
-        "links": [
-            "5e68170bc315b36a"
-        ],
-        "x": 335,
-        "y": 700,
-        "wires": []
-    },
-    {
-        "id": "3073b80593562073",
-        "type": "ui_button",
-        "z": "ae504a8ef127642b",
-        "name": "",
-        "group": "b8db7c4fd954a85d",
-        "order": 2,
-        "width": 0,
-        "height": 0,
-        "passthru": false,
-        "label": "Open",
-        "tooltip": "Open the skimmer valve",
-        "color": "",
-        "bgcolor": "",
-        "className": "",
-        "icon": "",
-        "payload": "open",
-        "payloadType": "str",
-        "topic": "topic",
-        "topicType": "msg",
-        "x": 90,
-        "y": 660,
-        "wires": [
-            [
-                "ffe8f51e22baefd9"
-            ]
-        ]
-    },
-    {
-        "id": "28e6e17712b48428",
-        "type": "ui_button",
-        "z": "ae504a8ef127642b",
-        "name": "",
-        "group": "b8db7c4fd954a85d",
-        "order": 3,
-        "width": "0",
-        "height": "0",
-        "passthru": false,
-        "label": "Timed Close",
-        "tooltip": "Close the skimmer valve for 15 minutes",
-        "color": "",
-        "bgcolor": "",
-        "className": "",
-        "icon": "",
-        "payload": "timedclose",
-        "payloadType": "str",
-        "topic": "topic",
-        "topicType": "msg",
-        "x": 110,
-        "y": 740,
-        "wires": [
-            [
-                "ffe8f51e22baefd9"
-            ]
-        ]
-    },
-    {
         "id": "f216c318626bd817",
         "type": "inject",
         "z": "ae504a8ef127642b",
-        "name": "Send ConstantColor Msg",
+        "name": "Send Color Msg",
         "props": [
             {
                 "p": "payload"
@@ -500,10 +365,10 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "{\"adr\":0,\"cmd\":\"C\",\"size\":5,\"data\":[20,255,64,0,0]}",
-        "payloadType": "json",
-        "x": 170,
-        "y": 320,
+        "payload": "LightColor",
+        "payloadType": "str",
+        "x": 140,
+        "y": 120,
         "wires": [
             [
                 "59a5d73d4167b001"
@@ -529,8 +394,95 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "{\"adr\":0,\"cmd\":\"C\",\"size\":5,\"data\":[60,7,0,0,0]}",
-        "payloadType": "json",
+        "payload": "LightOff",
+        "payloadType": "str",
+        "x": 150,
+        "y": 80,
+        "wires": [
+            [
+                "59a5d73d4167b001"
+            ]
+        ]
+    },
+    {
+        "id": "9a2801c53a116ac5",
+        "type": "inject",
+        "z": "ae504a8ef127642b",
+        "name": "Send Flicker Msg",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "LightFlicker",
+        "payloadType": "str",
+        "x": 140,
+        "y": 160,
+        "wires": [
+            [
+                "59a5d73d4167b001"
+            ]
+        ]
+    },
+    {
+        "id": "0dfce1bb9a3208bc",
+        "type": "inject",
+        "z": "ae504a8ef127642b",
+        "name": "Send Pulse Msg",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "LightPulse",
+        "payloadType": "str",
+        "x": 140,
+        "y": 200,
+        "wires": [
+            [
+                "59a5d73d4167b001"
+            ]
+        ]
+    },
+    {
+        "id": "f98264a050f26a43",
+        "type": "inject",
+        "z": "ae504a8ef127642b",
+        "name": "Send Rainbow Msg",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "LightRainbow",
+        "payloadType": "str",
         "x": 150,
         "y": 280,
         "wires": [
@@ -540,7 +492,186 @@
         ]
     },
     {
-        "id": "45b0bd1f8f25fc92",
+        "id": "792e652b510131f1",
+        "type": "inject",
+        "z": "ae504a8ef127642b",
+        "name": "Send Multicolor Msg",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "LightMulti",
+        "payloadType": "str",
+        "x": 150,
+        "y": 240,
+        "wires": [
+            [
+                "59a5d73d4167b001"
+            ]
+        ]
+    },
+    {
+        "id": "3a34fe6112910421",
+        "type": "inject",
+        "z": "ae504a8ef127642b",
+        "name": "Open Skimmer",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "open",
+        "payloadType": "str",
+        "x": 140,
+        "y": 340,
+        "wires": [
+            [
+                "3e38fe48749d1e5e"
+            ]
+        ]
+    },
+    {
+        "id": "13b3611a1f462579",
+        "type": "inject",
+        "z": "ae504a8ef127642b",
+        "name": "Timer Close Skimmer",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "timedclose",
+        "payloadType": "str",
+        "x": 160,
+        "y": 420,
+        "wires": [
+            [
+                "3e38fe48749d1e5e"
+            ]
+        ]
+    },
+    {
+        "id": "361fd9acd2539e62",
+        "type": "inject",
+        "z": "ae504a8ef127642b",
+        "name": "Close Skimmer",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "close",
+        "payloadType": "str",
+        "x": 140,
+        "y": 380,
+        "wires": [
+            [
+                "3e38fe48749d1e5e"
+            ]
+        ]
+    },
+    {
+        "id": "3e38fe48749d1e5e",
+        "type": "link out",
+        "z": "ae504a8ef127642b",
+        "name": "",
+        "mode": "link",
+        "links": [
+            "5e68170bc315b36a"
+        ],
+        "x": 415,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "69f9196271c3007b",
+        "type": "rpi-automation-hat in",
+        "z": "ae504a8ef127642b",
+        "name": "Buttons",
+        "input": false,
+        "analog": true,
+        "threshold": "0.5",
+        "adc4_threshold": "0.5",
+        "x": 90,
+        "y": 480,
+        "wires": [
+            [
+                "e04a1c57b514626e"
+            ]
+        ]
+    },
+    {
+        "id": "e04a1c57b514626e",
+        "type": "function",
+        "z": "ae504a8ef127642b",
+        "name": "Handle Buttons",
+        "func": "if (msg.payload > 1.2 && msg.payload < 2.7) {\n    // Close valve button\n    return { \"payload\" : \"TimedCloseButton\" };\n}\n\nif (msg.payload < 4) {\n    // upper right button\n    return { \"payload\" : \"UpperRightButton\" };\n}\n\nif (msg.payload < 6) {\n    // lower right button\n    return { \"payload\" : \"LowerRightButton\" };\n}\n\nif (msg.payload < 9.2) {\n    // center button\n    return { \"payload\" : \"CenterButton\" };\n}\n\nif (msg.payload < 10.8) {\n    // lower left button\n    return { \"payload\" : \"LowerLeftButton\" };\n}\n\nif (msg.payload < 11.8) {\n    // upper left button\n    return { \"payload\" : \"UpperLeftButton\" };\n}\n\nreturn null;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 260,
+        "y": 480,
+        "wires": [
+            [
+                "a6a72b3a8cdf7d86"
+            ]
+        ]
+    },
+    {
+        "id": "a6a72b3a8cdf7d86",
+        "type": "link out",
+        "z": "ae504a8ef127642b",
+        "name": "",
+        "mode": "link",
+        "links": [
+            "195a8aa010b30d0c",
+            "5e68170bc315b36a"
+        ],
+        "x": 415,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "09632f4cec925bfc",
         "type": "inject",
         "z": "ae504a8ef127642b",
         "name": "Send Executable",
@@ -560,15 +691,15 @@
         "topic": "",
         "payloadType": "date",
         "x": 140,
-        "y": 200,
+        "y": 20,
         "wires": [
             [
-                "5d77bb2801589b37"
+                "b290bf771100676d"
             ]
         ]
     },
     {
-        "id": "5d77bb2801589b37",
+        "id": "b290bf771100676d",
         "type": "function",
         "z": "ae504a8ef127642b",
         "name": "Build Executable Msg",
@@ -579,239 +710,25 @@
         "finalize": "",
         "libs": [],
         "x": 380,
-        "y": 200,
+        "y": 20,
         "wires": [
             [
-                "59a5d73d4167b001"
+                "1a80e8d709cc8728"
             ]
         ]
     },
     {
-        "id": "20a3b01b40c22c86",
-        "type": "inject",
-        "z": "ae504a8ef127642b",
-        "name": "Send Interp ConstantColor Msg",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "{\"adr\":0,\"cmd\":\"c\",\"size\":3,\"data\":[100,224,64]}",
-        "payloadType": "json",
-        "x": 190,
-        "y": 560,
-        "wires": [
-            [
-                "59a5d73d4167b001"
-            ]
-        ]
-    },
-    {
-        "id": "9a2801c53a116ac5",
-        "type": "inject",
-        "z": "ae504a8ef127642b",
-        "name": "Send Interp Flicker Msg",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "{\"adr\":0,\"cmd\":\"f\",\"size\":4,\"data\":[20,224,200,0]}",
-        "payloadType": "json",
-        "x": 160,
-        "y": 400,
-        "wires": [
-            [
-                "59a5d73d4167b001"
-            ]
-        ]
-    },
-    {
-        "id": "0dfce1bb9a3208bc",
-        "type": "inject",
-        "z": "ae504a8ef127642b",
-        "name": "Send Interp Pulse Msg",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "{\"adr\":0,\"cmd\":\"p\",\"size\":5,\"data\":[50,224,200,6,7]}",
-        "payloadType": "json",
-        "x": 160,
-        "y": 440,
-        "wires": [
-            [
-                "59a5d73d4167b001"
-            ]
-        ]
-    },
-    {
-        "id": "f98264a050f26a43",
-        "type": "inject",
-        "z": "ae504a8ef127642b",
-        "name": "Send Interp Rainbow Msg",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "{\"adr\":0,\"cmd\":\"r\",\"size\":6,\"data\":[0,224,150,7,3,0]}",
-        "payloadType": "json",
-        "x": 170,
-        "y": 520,
-        "wires": [
-            [
-                "59a5d73d4167b001"
-            ]
-        ]
-    },
-    {
-        "id": "792e652b510131f1",
-        "type": "inject",
-        "z": "ae504a8ef127642b",
-        "name": "Send Interp Multicolor Msg",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "{\"adr\":0,\"cmd\":\"m\",\"size\":13,\"data\":[0,255,255,96,255,240,170,255,255,38,255,255,5]}",
-        "payloadType": "json",
-        "x": 170,
-        "y": 480,
-        "wires": [
-            [
-                "59a5d73d4167b001"
-            ]
-        ]
-    },
-    {
-        "id": "370b25c97306c0c1",
-        "type": "ui_dropdown",
+        "id": "1a80e8d709cc8728",
+        "type": "link out",
         "z": "ae504a8ef127642b",
         "name": "",
-        "label": "Effect",
-        "tooltip": "",
-        "place": "Off",
-        "group": "e1a99b43f32fdc20",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "passthru": true,
-        "multiple": false,
-        "options": [
-            {
-                "label": "Off",
-                "value": "Off",
-                "type": "str"
-            },
-            {
-                "label": "Color",
-                "value": "Color",
-                "type": "str"
-            },
-            {
-                "label": "Flicker",
-                "value": "Flicker",
-                "type": "str"
-            },
-            {
-                "label": "Rainbow",
-                "value": "Rainbow",
-                "type": "str"
-            }
+        "mode": "link",
+        "links": [
+            "0ef97f1a6bf8e745"
         ],
-        "payload": "",
-        "topic": "topic",
-        "topicType": "msg",
-        "className": "",
-        "x": 90,
-        "y": 960,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "55c9def2f8dba5d7",
-        "type": "rpi-automation-hat in",
-        "z": "9e626f8b528b7958",
-        "name": "Buttons",
-        "input": false,
-        "analog": true,
-        "threshold": "0.5",
-        "adc4_threshold": "0.5",
-        "x": 110,
-        "y": 200,
-        "wires": [
-            [
-                "e3fa1b794f2f6918"
-            ]
-        ]
-    },
-    {
-        "id": "e3fa1b794f2f6918",
-        "type": "function",
-        "z": "9e626f8b528b7958",
-        "name": "Handle Buttons",
-        "func": "if (msg.payload > 1.2 && msg.payload < 2.7) {\n    // Close valve button\n    return { \"payload\" : \"timedclose\" };\n}\n\nif (msg.payload < 4) {\n    // upper right button\n    return { \"payload\" : \"UpperRight\" };\n}\n\nif (msg.payload < 6) {\n    // lower right button\n    return { \"payload\" : \"LowerRight\" };\n}\n\nif (msg.payload < 9.2) {\n    // center button\n    return { \"payload\" : \"Center\" };\n}\n\nif (msg.payload < 10.8) {\n    // lower left button\n    return { \"payload\" : \"LowerLeft\" };\n}\n\nif (msg.payload < 11.8) {\n    // upper left button\n    return { \"payload\" : \"UpperLeft\" };\n}\n\nreturn null;\n",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 200,
-        "y": 280,
-        "wires": [
-            [
-                "f96a7c0a0992d4cb"
-            ]
-        ]
+        "x": 535,
+        "y": 20,
+        "wires": []
     },
     {
         "id": "b118e96062651eda",
@@ -830,8 +747,8 @@
         "bytopic": "all",
         "topic": "topic",
         "outputs": 1,
-        "x": 580,
-        "y": 520,
+        "x": 340,
+        "y": 500,
         "wires": [
             [
                 "45c785554f526de0"
@@ -843,8 +760,8 @@
         "type": "rpi-automation-hat out",
         "z": "9e626f8b528b7958",
         "name": "",
-        "x": 840,
-        "y": 300,
+        "x": 600,
+        "y": 280,
         "wires": []
     },
     {
@@ -864,8 +781,8 @@
         "bytopic": "all",
         "topic": "topic",
         "outputs": 1,
-        "x": 840,
-        "y": 400,
+        "x": 600,
+        "y": 380,
         "wires": [
             [
                 "45c785554f526de0"
@@ -877,14 +794,14 @@
         "type": "function",
         "z": "9e626f8b528b7958",
         "name": "Manage Valve",
-        "func": "// This function receives messages to \"open\", \"close\"\n// and \"stop\" the valve motor\nfunction makeRelayMsg(enable, id)\n{\n    return { \"topic\" : \"relay.\" + id, \"payload\" : enable };\n}\n\n// Make a message to send multiple outputs. The first sends\n// 2 messages, one to each relay. The second sends a\n// message to trigger the timer that keeps the valve\n// motor running long enough to let it open or close.\n// The third sends a message to trigger the timer that\n// tells the valve when to reopen. All params are bool.\n// Since the timers trigger on any message \"msg\" is \n// sent when startMotor or startDelay are true and\n// \"null\" when false.\nfunction makeMsg(relay1, relay2, startMotor, startDelay, stopDelay, status)\n{\n    var delayPayload = null;\n    if (startDelay) {\n        delayPayload = msg;\n    } else if (stopDelay) {\n        delayPayload = { \"payload\" : \"stop\" };\n    }\n    \n    return [\n        [\n            makeRelayMsg(relay1, \"one\"),\n            makeRelayMsg(relay2, \"two\")\n        ],\n        delayPayload,\n        startMotor ? msg : null,\n        { \"payload\" : status }\n    ];\n}\n\nif (msg.payload == \"close\") {\n    finalStatus = \"closed\";\n    return makeMsg(false, true, true, false, true, \"closing...\");\n}\n\nif (msg.payload == \"timedclose\") {\n    finalStatus = \"timed closed\";\n    return makeMsg(false, true, true, true, false, \"timed closing...\");\n}\n\nif (msg.payload == \"open\") {\n    finalStatus = \"open\";\n    return makeMsg(true, false, true, false, true, \"opening...\");\n}\n\nif (msg.payload == \"stop\") {\n    finalStatus = \"stopped\";\n    return makeMsg(false, false, false, false, true, \"stopped\");\n}\n\nif (msg.payload == \"runmotordone\") {\n    return makeMsg(false, false, false, false, false, finalStatus);\n}\n\nreturn null;\n",
+        "func": "// This function receives messages to \"open\", \"close\"\n// and \"stop\" the valve motor\nfunction makeRelayMsg(enable, id)\n{\n    return { \"topic\" : \"relay.\" + id, \"payload\" : enable };\n}\n\n// Make a message to send multiple outputs. The first sends\n// 2 messages, one to each relay. The second sends a\n// message to trigger the timer that keeps the valve\n// motor running long enough to let it open or close.\n// The third sends a message to trigger the timer that\n// tells the valve when to reopen. All params are bool.\n// Since the timers trigger on any message \"msg\" is \n// sent when startMotor or startDelay are true and\n// \"null\" when false.\nfunction makeMsg(relay1, relay2, startMotor, startDelay, stopDelay, status)\n{\n    var delayPayload = null;\n    if (startDelay) {\n        delayPayload = msg;\n    } else if (stopDelay) {\n        delayPayload = { \"payload\" : \"stop\" };\n    }\n    \n    return [\n        [\n            makeRelayMsg(relay1, \"one\"),\n            makeRelayMsg(relay2, \"two\")\n        ],\n        delayPayload,\n        startMotor ? msg : null,\n        { \"payload\" : status }\n    ];\n}\n\nif (msg.payload == \"close\") {\n    finalStatus = \"closed\";\n    return makeMsg(false, true, true, false, true, \"closing...\");\n}\n\nif (msg.payload == \"timedclose\" || msg.payload == \"TimedCloseButton\") {\n    finalStatus = \"timed closed\";\n    return makeMsg(false, true, true, true, false, \"timed closing...\");\n}\n\nif (msg.payload == \"open\") {\n    finalStatus = \"open\";\n    return makeMsg(true, false, true, false, true, \"opening...\");\n}\n\nif (msg.payload == \"stop\") {\n    finalStatus = \"stopped\";\n    return makeMsg(false, false, false, false, true, \"stopped\");\n}\n\nif (msg.payload == \"runmotordone\") {\n    return makeMsg(false, false, false, false, false, finalStatus);\n}\n\nreturn null;\n",
         "outputs": 4,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 580,
-        "y": 400,
+        "x": 340,
+        "y": 380,
         "wires": [
             [
                 "3f3ee6b11e05d312"
@@ -901,149 +818,18 @@
         ]
     },
     {
-        "id": "36261f6545949e4c",
-        "type": "function",
-        "z": "9e626f8b528b7958",
-        "name": "Control Lights",
-        "func": "function makeMsg()\n{\n    return {\n        \"topic\" : \"ControlLights\", \n        \"payload\" : payloads[currentPayload]\n    };\n}\n\nif (msg.payload == \"Center\") {\n    // Go to the next command\n    if (++currentPayload >= payloads.length) {\n        currentPayload = 0;\n    }\n} else {\n    return null\n}\n\nreturn makeMsg();\n\n",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "// Setup the payload\n\ncurrentPayload = 0;\n\npayloads = [\n    {\n        \"adr\":  0,\n        \"cmd\":  \"C\",\n        \"hue\":  0,\n        \"sat\":  0,\n        \"val\":  0,\n        \"par1\": 0,\n        \"par2\": 0\n    },\n    {\n        \"adr\":  0,\n        \"cmd\":  \"C\",\n        \"hue\":  60,\n        \"sat\":  56,\n        \"val\":  16,\n        \"par1\": 0,\n        \"par2\": 0\n    },\n    {\n        \"adr\":  0,\n        \"cmd\":  \"F\",\n        \"hue\":  6,\n        \"sat\":  56,\n        \"val\":  32,\n        \"par1\": 0,\n        \"par2\": 0\n    },\n    {\n        \"adr\":  0,\n        \"cmd\":  \"F\",\n        \"hue\":  60,\n        \"sat\":  56,\n        \"val\":  16,\n        \"par1\": 4,\n        \"par2\": 0\n    }\n];\n\n// Array entry for each command. Each entry is\n// an array with the currentParams for that command\n// of the form [ hue, sat, val, speed ]\nvar currentParams = [\n    // \"X\" - all lights off\n    [ 0, 0, 0, 0 ],\n    \n    // \"C\" - constant color\n    [ 60, 56, 16, 0],\n    \n    // \"F\" - flicker\n    [ 6, 56, 32, 0 ],\n    \n    // \"R\" - rainbow\n    [ 0, 0, 0, 0 ]\n];\n\n// Array entry for each command. each entry is\n// an array with the sequence of params to use\n// when the buttons are pressed\nvar paramSequence = [\n    // \"X\" - all lights off\n    [ 0, 0, 0, 0 ],\n    \n    // \"C\" - constant color\n    [ 60, 56, 16, 0],\n    \n    // \"F\" - flicker\n    [ 6, 56, 32, 0 ],\n    \n    // \"R\" - rainbow\n    [ 0, 0, 0, 0 ]\n];\n",
-        "finalize": "",
-        "libs": [],
-        "x": 580,
-        "y": 160,
-        "wires": [
-            [
-                "d295f401330fd8bd"
-            ]
-        ]
-    },
-    {
-        "id": "d295f401330fd8bd",
-        "type": "link out",
-        "z": "9e626f8b528b7958",
-        "name": "",
-        "mode": "link",
-        "links": [
-            "8e733fa53b82fd33"
-        ],
-        "x": 715,
-        "y": 160,
-        "wires": []
-    },
-    {
         "id": "5e68170bc315b36a",
         "type": "link in",
         "z": "9e626f8b528b7958",
-        "name": "Receive Ctl Msg",
+        "name": "Receive Valve Control Msg",
         "links": [
+            "4749fdb571ea280d",
             "f96a7c0a0992d4cb",
-            "ffe8f51e22baefd9"
+            "3e38fe48749d1e5e",
+            "a6a72b3a8cdf7d86"
         ],
-        "x": 435,
-        "y": 280,
-        "wires": [
-            [
-                "36261f6545949e4c",
-                "45c785554f526de0"
-            ]
-        ]
-    },
-    {
-        "id": "f96a7c0a0992d4cb",
-        "type": "link out",
-        "z": "9e626f8b528b7958",
-        "name": "Send Ctl Msg",
-        "mode": "link",
-        "links": [
-            "5e68170bc315b36a"
-        ],
-        "x": 355,
-        "y": 280,
-        "wires": []
-    },
-    {
-        "id": "2000c208b9a7eca7",
-        "type": "inject",
-        "z": "9e626f8b528b7958",
-        "name": "Open Skimmer",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "open",
-        "payloadType": "str",
-        "x": 200,
-        "y": 360,
-        "wires": [
-            [
-                "45c785554f526de0"
-            ]
-        ]
-    },
-    {
-        "id": "e3ded562ba413ddd",
-        "type": "inject",
-        "z": "9e626f8b528b7958",
-        "name": "Timer Close Skimmer",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "timedclose",
-        "payloadType": "str",
-        "x": 220,
-        "y": 480,
-        "wires": [
-            [
-                "45c785554f526de0"
-            ]
-        ]
-    },
-    {
-        "id": "f42d592f18820fad",
-        "type": "inject",
-        "z": "9e626f8b528b7958",
-        "name": "Close Skimmer",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "close",
-        "payloadType": "str",
-        "x": 200,
-        "y": 420,
+        "x": 135,
+        "y": 380,
         "wires": [
             [
                 "45c785554f526de0"
@@ -1063,8 +849,276 @@
         "format": "{{msg.payload}}",
         "layout": "col-center",
         "className": "",
-        "x": 860,
-        "y": 520,
+        "x": 620,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "2d7ad5b90d9bbbed",
+        "type": "ui_button",
+        "z": "9e626f8b528b7958",
+        "name": "",
+        "group": "b8db7c4fd954a85d",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Close",
+        "tooltip": "Close the skimmer valve",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "close",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 110,
+        "y": 100,
+        "wires": [
+            [
+                "4749fdb571ea280d"
+            ]
+        ]
+    },
+    {
+        "id": "4749fdb571ea280d",
+        "type": "link out",
+        "z": "9e626f8b528b7958",
+        "name": "Send Ctl Msg",
+        "mode": "link",
+        "links": [
+            "5e68170bc315b36a"
+        ],
+        "x": 415,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "e4b8d316eb8ba938",
+        "type": "ui_button",
+        "z": "9e626f8b528b7958",
+        "name": "",
+        "group": "b8db7c4fd954a85d",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Open",
+        "tooltip": "Open the skimmer valve",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "open",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 110,
+        "y": 60,
+        "wires": [
+            [
+                "4749fdb571ea280d"
+            ]
+        ]
+    },
+    {
+        "id": "b3afa10b925c2b76",
+        "type": "ui_button",
+        "z": "9e626f8b528b7958",
+        "name": "",
+        "group": "b8db7c4fd954a85d",
+        "order": 3,
+        "width": "0",
+        "height": "0",
+        "passthru": false,
+        "label": "Timed Close",
+        "tooltip": "Close the skimmer valve for 15 minutes",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "timedclose",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 130,
+        "y": 140,
+        "wires": [
+            [
+                "4749fdb571ea280d"
+            ]
+        ]
+    },
+    {
+        "id": "5189ccc827abf99c",
+        "type": "function",
+        "z": "83b262e887c512b6",
+        "name": "String to Light Command",
+        "func": "function makeMsg(adr, cmd, data)\n{\n    return {\n        \"topic\" : \"ControlLights\", \n        \"payload\" : {\n            \"adr\": adr,\n            \"cmd\": cmd,\n            \"size\": data.length,\n            \"data\": data\n        }\n    };\n}\n\nswitch (msg.payload) {\n    case \"CenterButton\":\n    case \"LightOff\":    return makeMsg(0, \"C\", [ 0, 0, 0, 0, 0 ]);\n    case \"UpperLeftButton\":\n    case \"LightColor\":  return makeMsg(0, \"C\", [20, 255, 64, 0, 0]);\n    case \"LowerLeftButton\":\n    case \"LightFlicker\":return makeMsg(0, \"f\", [ 20, 224, 200, 0 ]);\n    case \"LightPulse\":  return makeMsg(0, \"p\", [ 50, 224, 200, 6, 7 ]);\n    case \"LowerRightButton\":\n    case \"LightMulti\":  return makeMsg(0, \"m\", [  0, 255, 255, \n                                                 96, 255, 240,\n                                                170, 255, 255,\n                                                 38, 255, 255, 5 ]);\n    case \"UpperRightButton\":\n    case \"LightRainbow\":return makeMsg(0, \"r\", [ 0, 224, 150, 7, 3, 0 ]);\n    default:            return null;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "// Setup the payload\n\ncurrentPayload = 0;\n\npayloads = [\n    {\n        \"adr\":  0,\n        \"cmd\":  \"C\",\n        \"hue\":  0,\n        \"sat\":  0,\n        \"val\":  0,\n        \"par1\": 0,\n        \"par2\": 0\n    },\n    {\n        \"adr\":  0,\n        \"cmd\":  \"C\",\n        \"hue\":  60,\n        \"sat\":  56,\n        \"val\":  16,\n        \"par1\": 0,\n        \"par2\": 0\n    },\n    {\n        \"adr\":  0,\n        \"cmd\":  \"F\",\n        \"hue\":  6,\n        \"sat\":  56,\n        \"val\":  32,\n        \"par1\": 0,\n        \"par2\": 0\n    },\n    {\n        \"adr\":  0,\n        \"cmd\":  \"F\",\n        \"hue\":  60,\n        \"sat\":  56,\n        \"val\":  16,\n        \"par1\": 4,\n        \"par2\": 0\n    }\n];\n",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 140,
+        "wires": [
+            [
+                "6ade50d9688a761c"
+            ]
+        ]
+    },
+    {
+        "id": "f89025884f3c4982",
+        "type": "serial out",
+        "z": "83b262e887c512b6",
+        "name": "",
+        "serial": "39f99e4a62f373c8",
+        "x": 550,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "ab18ffce2710d4ef",
+        "type": "function",
+        "z": "83b262e887c512b6",
+        "name": "Make Light Event",
+        "func": "\nfunction checksum(buf) \n{\n    var sum = 0;\n\n    for (var i = 0; i < buf.length; i++) {\n        sum += buf.readUInt8(i);\n    }\n    return sum & 0x3f;\n}\n\nfunction toChar(i)\n{\n    return String.fromCharCode(0x30 + i);\n}\n\nfunction toCharCode(i)\n{\n    return 0x30 + i;\n}\n\nvar buf = Buffer.alloc(6 + msg.payload.size);\nvar index = 0;\nbuf[index++] = \"(\".charCodeAt();\nbuf[index++] = toCharCode(msg.payload.adr);\nbuf[index++] = msg.payload.cmd.charCodeAt(0);\n\nbuf.writeUInt8(msg.payload.size, index++);\n\nfor (var i = 0; i < msg.payload.size; ++i) {\n    buf.writeUInt8(msg.payload.data[i], index++);\n}\n\nvar checksumIndex = index;\nbuf[index++] = \"0\".charCodeAt();\nbuf[index++] = \")\".charCodeAt();\n\nbuf[checksumIndex] = checksum(buf) + 0x30;\n\n//node.warn(buf);\nnode.warn(\"Send Light Event:cmd='\" + msg.payload.cmd + \n        \"', data=[\" + msg.payload.data + \"]\");\n\nreturn { payload : buf };",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 400,
+        "wires": [
+            [
+                "f89025884f3c4982"
+            ]
+        ]
+    },
+    {
+        "id": "0ef97f1a6bf8e745",
+        "type": "link in",
+        "z": "83b262e887c512b6",
+        "name": "Receive Light Effect",
+        "links": [
+            "d295f401330fd8bd",
+            "6ade50d9688a761c",
+            "1a80e8d709cc8728"
+        ],
+        "x": 175,
+        "y": 400,
+        "wires": [
+            [
+                "ab18ffce2710d4ef"
+            ]
+        ]
+    },
+    {
+        "id": "0e2d3091deb1c749",
+        "type": "ui_dropdown",
+        "z": "83b262e887c512b6",
+        "name": "",
+        "label": "Effect",
+        "tooltip": "",
+        "place": "Off",
+        "group": "e1a99b43f32fdc20",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "multiple": false,
+        "options": [
+            {
+                "label": "Off",
+                "value": "LightOff",
+                "type": "str"
+            },
+            {
+                "label": "Color",
+                "value": "LightColor",
+                "type": "str"
+            },
+            {
+                "label": "Flicker",
+                "value": "LightFlicker",
+                "type": "str"
+            },
+            {
+                "label": "Rainbow",
+                "value": "LightRainbow",
+                "type": "str"
+            },
+            {
+                "label": "Multicolor",
+                "value": "LightMulti",
+                "type": "str"
+            },
+            {
+                "label": "Pulse",
+                "value": "LightPulse",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "className": "",
+        "x": 70,
+        "y": 140,
+        "wires": [
+            [
+                "5189ccc827abf99c",
+                "f843d1a0c023b356"
+            ]
+        ]
+    },
+    {
+        "id": "6ade50d9688a761c",
+        "type": "link out",
+        "z": "83b262e887c512b6",
+        "name": "",
+        "mode": "link",
+        "links": [
+            "0ef97f1a6bf8e745"
+        ],
+        "x": 575,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "195a8aa010b30d0c",
+        "type": "link in",
+        "z": "83b262e887c512b6",
+        "name": "StringToLightCommandIn",
+        "links": [
+            "a6a72b3a8cdf7d86",
+            "59a5d73d4167b001"
+        ],
+        "x": 135,
+        "y": 220,
+        "wires": [
+            [
+                "5189ccc827abf99c"
+            ]
+        ]
+    },
+    {
+        "id": "f843d1a0c023b356",
+        "type": "debug",
+        "z": "83b262e887c512b6",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 260,
+        "y": 80,
         "wires": []
     }
 ]
