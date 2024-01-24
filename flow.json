@@ -213,8 +213,8 @@
         "topic": "light.power",
         "payload": "enable",
         "payloadType": "str",
-        "x": 150,
-        "y": 1060,
+        "x": 170,
+        "y": 1220,
         "wires": [
             [
                 "756bc5ace9c187c4"
@@ -242,8 +242,8 @@
         "topic": "light.power",
         "payload": "disable",
         "payloadType": "str",
-        "x": 150,
-        "y": 1140,
+        "x": 170,
+        "y": 1300,
         "wires": [
             [
                 "756bc5ace9c187c4"
@@ -255,8 +255,8 @@
         "type": "rpi-automation-hat out",
         "z": "ae504a8ef127642b",
         "name": "",
-        "x": 480,
-        "y": 1100,
+        "x": 500,
+        "y": 1260,
         "wires": []
     },
     {
@@ -268,8 +268,8 @@
         "links": [
             "195a8aa010b30d0c"
         ],
-        "x": 415,
-        "y": 180,
+        "x": 435,
+        "y": 340,
         "wires": []
     },
     {
@@ -277,8 +277,8 @@
         "type": "shutdown",
         "z": "ae504a8ef127642b",
         "name": "",
-        "x": 460,
-        "y": 540,
+        "x": 480,
+        "y": 700,
         "wires": []
     },
     {
@@ -301,8 +301,8 @@
         "payloadType": "date",
         "topic": "topic",
         "topicType": "msg",
-        "x": 100,
-        "y": 580,
+        "x": 120,
+        "y": 740,
         "wires": [
             [
                 "6671d25a8f9b59c9"
@@ -314,8 +314,8 @@
         "type": "restart",
         "z": "ae504a8ef127642b",
         "name": "",
-        "x": 450,
-        "y": 580,
+        "x": 470,
+        "y": 740,
         "wires": []
     },
     {
@@ -338,8 +338,8 @@
         "payloadType": "date",
         "topic": "topic",
         "topicType": "msg",
-        "x": 110,
-        "y": 540,
+        "x": 130,
+        "y": 700,
         "wires": [
             [
                 "6b3dfa5f81fe6002"
@@ -367,8 +367,8 @@
         "topic": "",
         "payload": "LightColor",
         "payloadType": "str",
-        "x": 140,
-        "y": 120,
+        "x": 160,
+        "y": 280,
         "wires": [
             [
                 "59a5d73d4167b001"
@@ -396,8 +396,8 @@
         "topic": "",
         "payload": "LightOff",
         "payloadType": "str",
-        "x": 150,
-        "y": 80,
+        "x": 170,
+        "y": 240,
         "wires": [
             [
                 "59a5d73d4167b001"
@@ -425,8 +425,8 @@
         "topic": "",
         "payload": "LightFlicker",
         "payloadType": "str",
-        "x": 140,
-        "y": 160,
+        "x": 160,
+        "y": 320,
         "wires": [
             [
                 "59a5d73d4167b001"
@@ -454,8 +454,8 @@
         "topic": "",
         "payload": "LightPulse",
         "payloadType": "str",
-        "x": 140,
-        "y": 200,
+        "x": 160,
+        "y": 360,
         "wires": [
             [
                 "59a5d73d4167b001"
@@ -483,8 +483,8 @@
         "topic": "",
         "payload": "LightRainbow",
         "payloadType": "str",
-        "x": 150,
-        "y": 280,
+        "x": 170,
+        "y": 440,
         "wires": [
             [
                 "59a5d73d4167b001"
@@ -512,8 +512,8 @@
         "topic": "",
         "payload": "LightMulti",
         "payloadType": "str",
-        "x": 150,
-        "y": 240,
+        "x": 170,
+        "y": 400,
         "wires": [
             [
                 "59a5d73d4167b001"
@@ -541,8 +541,8 @@
         "topic": "",
         "payload": "open",
         "payloadType": "str",
-        "x": 140,
-        "y": 340,
+        "x": 160,
+        "y": 500,
         "wires": [
             [
                 "3e38fe48749d1e5e"
@@ -570,8 +570,8 @@
         "topic": "",
         "payload": "timedclose",
         "payloadType": "str",
-        "x": 160,
-        "y": 420,
+        "x": 180,
+        "y": 580,
         "wires": [
             [
                 "3e38fe48749d1e5e"
@@ -599,8 +599,8 @@
         "topic": "",
         "payload": "close",
         "payloadType": "str",
-        "x": 140,
-        "y": 380,
+        "x": 160,
+        "y": 540,
         "wires": [
             [
                 "3e38fe48749d1e5e"
@@ -616,8 +616,8 @@
         "links": [
             "5e68170bc315b36a"
         ],
-        "x": 415,
-        "y": 380,
+        "x": 435,
+        "y": 540,
         "wires": []
     },
     {
@@ -629,8 +629,8 @@
         "analog": true,
         "threshold": "0.5",
         "adc4_threshold": "0.5",
-        "x": 90,
-        "y": 480,
+        "x": 110,
+        "y": 640,
         "wires": [
             [
                 "e04a1c57b514626e"
@@ -648,8 +648,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 260,
-        "y": 480,
+        "x": 280,
+        "y": 640,
         "wires": [
             [
                 "a6a72b3a8cdf7d86"
@@ -666,15 +666,15 @@
             "195a8aa010b30d0c",
             "5e68170bc315b36a"
         ],
-        "x": 415,
-        "y": 480,
+        "x": 435,
+        "y": 640,
         "wires": []
     },
     {
         "id": "09632f4cec925bfc",
         "type": "inject",
         "z": "ae504a8ef127642b",
-        "name": "Send Executable",
+        "name": "Send Executable 00",
         "props": [
             {
                 "p": "payload"
@@ -689,9 +689,10 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payloadType": "date",
-        "x": 140,
-        "y": 20,
+        "payload": "00",
+        "payloadType": "str",
+        "x": 170,
+        "y": 40,
         "wires": [
             [
                 "b290bf771100676d"
@@ -703,14 +704,14 @@
         "type": "function",
         "z": "ae504a8ef127642b",
         "name": "Build Executable Msg",
-        "func": "var fs = global.get('fs')\n\nfunction sendMsg(name)\n{\n    var buf = fs.readFileSync(name);\n    var p = {\n        \"adr\": 0,\n        \"cmd\": \"X\",\n        \"size\": buf.length,\n        \"data\": buf\n    }\n    node.warn(\"*** Sending '\" + name + \"'\");\n    node.send({ payload : p });\n}\n\nfunction sendFinished()\n{\n    var p = {\n        \"adr\": 0,\n        \"cmd\": \"C\",\n        \"size\": 5,\n        \"data\": [\n            200,\n            255,\n            255,\n            4,\n            2\n        ]\n    }\n    node.warn(\"*** Sending Executable Finished\");\n    node.send({ payload : p });\n}\n\nfor (var i = 0; i < 16; ++i) {\n    var num = (\"000\" + i).slice(-2);\n    var name = \"/Users/cmarrin/PostLightEffects\" + num + \".arlx\";\n\n    if (!fs.existsSync(name)) {\n        // Turn on lights to indicate done\n        setTimeout(sendFinished, i * 20000 + 100);\n        break;\n    }\n    \n    setTimeout(sendMsg.bind(undefined, name), i * 20000 + 100);\n}\n\n\n\nreturn null;",
+        "func": "var fs = global.get('fs')\n\nvar name = \"/Users/cmarrin/PostLightEffects\" + msg.payload + \".arlx\";\n\nif (!fs.existsSync(name)) {\n    node.warn(\"*** Error '\" + name + \"' does not exist\");\n} else {\n    var buf = fs.readFileSync(name);\n    var p = {\n        \"adr\": 0,\n        \"cmd\": \"X\",\n        \"size\": buf.length,\n        \"data\": buf\n    }\n    node.warn(\"*** Sending '\" + name + \"'\");\n    node.send({ payload : p });\n}\n\nreturn null;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 380,
-        "y": 20,
+        "x": 460,
+        "y": 100,
         "wires": [
             [
                 "1a80e8d709cc8728"
@@ -726,9 +727,96 @@
         "links": [
             "0ef97f1a6bf8e745"
         ],
-        "x": 535,
-        "y": 20,
+        "x": 635,
+        "y": 100,
         "wires": []
+    },
+    {
+        "id": "2618c94fa8a21d8c",
+        "type": "inject",
+        "z": "ae504a8ef127642b",
+        "name": "Send Executable 01",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "01",
+        "payloadType": "str",
+        "x": 170,
+        "y": 80,
+        "wires": [
+            [
+                "b290bf771100676d"
+            ]
+        ]
+    },
+    {
+        "id": "408a7cf3f7d3a343",
+        "type": "inject",
+        "z": "ae504a8ef127642b",
+        "name": "Send Executable 02",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "02",
+        "payloadType": "str",
+        "x": 170,
+        "y": 120,
+        "wires": [
+            [
+                "b290bf771100676d"
+            ]
+        ]
+    },
+    {
+        "id": "4c88c9bf1b16e110",
+        "type": "inject",
+        "z": "ae504a8ef127642b",
+        "name": "Send Executable 03",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "03",
+        "payloadType": "str",
+        "x": 170,
+        "y": 160,
+        "wires": [
+            [
+                "b290bf771100676d"
+            ]
+        ]
     },
     {
         "id": "b118e96062651eda",
