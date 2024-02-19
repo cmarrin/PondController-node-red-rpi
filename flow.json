@@ -193,6 +193,12 @@
         "className": ""
     },
     {
+        "id": "2380de9671d7f576",
+        "type": "hb-conf",
+        "username": "412-02-322",
+        "macAddress": ""
+    },
+    {
         "id": "361eed69e3ea83fd",
         "type": "inject",
         "z": "ae504a8ef127642b",
@@ -644,6 +650,7 @@
         "name": "Handle Buttons",
         "func": "if (msg.payload > 1.2 && msg.payload < 2.7) {\n    // Close valve button\n    return { \"payload\" : \"TimedCloseButton\" };\n}\n\nif (msg.payload < 4) {\n    // upper right button\n    return { \"payload\" : \"UpperRightButton\" };\n}\n\nif (msg.payload < 6) {\n    // lower right button\n    return { \"payload\" : \"LowerRightButton\" };\n}\n\nif (msg.payload < 9.2) {\n    // center button\n    return { \"payload\" : \"CenterButton\" };\n}\n\nif (msg.payload < 10.8) {\n    // lower left button\n    return { \"payload\" : \"LowerLeftButton\" };\n}\n\nif (msg.payload < 11.8) {\n    // upper left button\n    return { \"payload\" : \"UpperLeftButton\" };\n}\n\nreturn null;\n",
         "outputs": 1,
+        "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
@@ -1049,7 +1056,7 @@
         "initialize": "// Setup the payload\n\ncurrentPayload = 0;\n\npayloads = [\n    {\n        \"adr\":  0,\n        \"cmd\":  \"C\",\n        \"hue\":  0,\n        \"sat\":  0,\n        \"val\":  0,\n        \"par1\": 0,\n        \"par2\": 0\n    },\n    {\n        \"adr\":  0,\n        \"cmd\":  \"C\",\n        \"hue\":  60,\n        \"sat\":  56,\n        \"val\":  16,\n        \"par1\": 0,\n        \"par2\": 0\n    },\n    {\n        \"adr\":  0,\n        \"cmd\":  \"F\",\n        \"hue\":  6,\n        \"sat\":  56,\n        \"val\":  32,\n        \"par1\": 0,\n        \"par2\": 0\n    },\n    {\n        \"adr\":  0,\n        \"cmd\":  \"F\",\n        \"hue\":  60,\n        \"sat\":  56,\n        \"val\":  16,\n        \"par1\": 4,\n        \"par2\": 0\n    }\n];\n",
         "finalize": "",
         "libs": [],
-        "x": 370,
+        "x": 650,
         "y": 140,
         "wires": [
             [
@@ -1063,8 +1070,8 @@
         "z": "83b262e887c512b6",
         "name": "",
         "serial": "39f99e4a62f373c8",
-        "x": 550,
-        "y": 400,
+        "x": 510,
+        "y": 460,
         "wires": []
     },
     {
@@ -1078,8 +1085,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 350,
-        "y": 400,
+        "x": 310,
+        "y": 460,
         "wires": [
             [
                 "f89025884f3c4982"
@@ -1096,8 +1103,8 @@
             "6ade50d9688a761c",
             "1a80e8d709cc8728"
         ],
-        "x": 175,
-        "y": 400,
+        "x": 135,
+        "y": 460,
         "wires": [
             [
                 "ab18ffce2710d4ef"
@@ -1172,7 +1179,7 @@
         "links": [
             "0ef97f1a6bf8e745"
         ],
-        "x": 575,
+        "x": 825,
         "y": 140,
         "wires": []
     },
@@ -1208,5 +1215,83 @@
         "x": 260,
         "y": 80,
         "wires": []
+    },
+    {
+        "id": "9c7feb1496a700c1",
+        "type": "hb-event",
+        "z": "83b262e887c512b6",
+        "name": "Flicker",
+        "Homebridge": "homebridge",
+        "Manufacturer": "Homebridge",
+        "Service": "Switch",
+        "device": "homebridge0E:AD:47:4A:2B:77HomebridgeFlicker00000049",
+        "conf": "2380de9671d7f576",
+        "sendInitialState": false,
+        "x": 70,
+        "y": 300,
+        "wires": [
+            [
+                "7a447a952fba3070"
+            ]
+        ]
+    },
+    {
+        "id": "7a447a952fba3070",
+        "type": "function",
+        "z": "83b262e887c512b6",
+        "name": "Homebridge Flicker",
+        "func": "if (msg.payload.On == 1) {\n    return { \"payload\": \"LightFlicker\" };\n}\nreturn null;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 310,
+        "y": 300,
+        "wires": [
+            [
+                "5189ccc827abf99c"
+            ]
+        ]
+    },
+    {
+        "id": "edb8dbd176bf13e1",
+        "type": "hb-event",
+        "z": "83b262e887c512b6",
+        "name": "Post Lights Off",
+        "Homebridge": "homebridge",
+        "Manufacturer": "Homebridge",
+        "Service": "Switch",
+        "device": "homebridge0E:AD:47:4A:2B:77HomebridgePost Lights Off00000049",
+        "conf": "2380de9671d7f576",
+        "sendInitialState": false,
+        "x": 100,
+        "y": 360,
+        "wires": [
+            [
+                "139141666827c756"
+            ]
+        ]
+    },
+    {
+        "id": "139141666827c756",
+        "type": "function",
+        "z": "83b262e887c512b6",
+        "name": "Homebridge Post Lights Off",
+        "func": "if (msg.payload.On == 1) {\n    return { \"payload\": \"LightOff\" };\n}\nreturn null;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 360,
+        "wires": [
+            [
+                "5189ccc827abf99c"
+            ]
+        ]
     }
 ]
