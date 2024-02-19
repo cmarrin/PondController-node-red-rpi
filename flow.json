@@ -272,10 +272,10 @@
         "name": "Send Light Effect",
         "mode": "link",
         "links": [
-            "195a8aa010b30d0c"
+            "61f09d71b3284325"
         ],
-        "x": 435,
-        "y": 340,
+        "x": 455,
+        "y": 380,
         "wires": []
     },
     {
@@ -284,7 +284,7 @@
         "z": "ae504a8ef127642b",
         "name": "",
         "x": 480,
-        "y": 700,
+        "y": 740,
         "wires": []
     },
     {
@@ -308,7 +308,7 @@
         "topic": "topic",
         "topicType": "msg",
         "x": 120,
-        "y": 740,
+        "y": 780,
         "wires": [
             [
                 "6671d25a8f9b59c9"
@@ -321,7 +321,7 @@
         "z": "ae504a8ef127642b",
         "name": "",
         "x": 470,
-        "y": 740,
+        "y": 780,
         "wires": []
     },
     {
@@ -345,7 +345,7 @@
         "topic": "topic",
         "topicType": "msg",
         "x": 130,
-        "y": 700,
+        "y": 740,
         "wires": [
             [
                 "6b3dfa5f81fe6002"
@@ -374,7 +374,7 @@
         "payload": "LightColor",
         "payloadType": "str",
         "x": 160,
-        "y": 280,
+        "y": 320,
         "wires": [
             [
                 "59a5d73d4167b001"
@@ -385,7 +385,7 @@
         "id": "75966ffbb9e14ee5",
         "type": "inject",
         "z": "ae504a8ef127642b",
-        "name": "Send Color Off Msg",
+        "name": "Turn Post Lights Off",
         "props": [
             {
                 "p": "payload"
@@ -403,10 +403,10 @@
         "payload": "LightOff",
         "payloadType": "str",
         "x": 170,
-        "y": 240,
+        "y": 220,
         "wires": [
             [
-                "59a5d73d4167b001"
+                "9b574ec0e8a790da"
             ]
         ]
     },
@@ -432,7 +432,7 @@
         "payload": "LightFlicker",
         "payloadType": "str",
         "x": 160,
-        "y": 320,
+        "y": 360,
         "wires": [
             [
                 "59a5d73d4167b001"
@@ -461,7 +461,7 @@
         "payload": "LightPulse",
         "payloadType": "str",
         "x": 160,
-        "y": 360,
+        "y": 400,
         "wires": [
             [
                 "59a5d73d4167b001"
@@ -490,7 +490,7 @@
         "payload": "LightRainbow",
         "payloadType": "str",
         "x": 170,
-        "y": 440,
+        "y": 480,
         "wires": [
             [
                 "59a5d73d4167b001"
@@ -519,7 +519,7 @@
         "payload": "LightMulti",
         "payloadType": "str",
         "x": 170,
-        "y": 400,
+        "y": 440,
         "wires": [
             [
                 "59a5d73d4167b001"
@@ -548,7 +548,7 @@
         "payload": "open",
         "payloadType": "str",
         "x": 160,
-        "y": 500,
+        "y": 540,
         "wires": [
             [
                 "3e38fe48749d1e5e"
@@ -577,7 +577,7 @@
         "payload": "timedclose",
         "payloadType": "str",
         "x": 180,
-        "y": 580,
+        "y": 620,
         "wires": [
             [
                 "3e38fe48749d1e5e"
@@ -606,7 +606,7 @@
         "payload": "close",
         "payloadType": "str",
         "x": 160,
-        "y": 540,
+        "y": 580,
         "wires": [
             [
                 "3e38fe48749d1e5e"
@@ -623,7 +623,7 @@
             "5e68170bc315b36a"
         ],
         "x": 435,
-        "y": 540,
+        "y": 580,
         "wires": []
     },
     {
@@ -636,7 +636,7 @@
         "threshold": "0.5",
         "adc4_threshold": "0.5",
         "x": 110,
-        "y": 640,
+        "y": 680,
         "wires": [
             [
                 "e04a1c57b514626e"
@@ -656,7 +656,7 @@
         "finalize": "",
         "libs": [],
         "x": 280,
-        "y": 640,
+        "y": 680,
         "wires": [
             [
                 "a6a72b3a8cdf7d86"
@@ -674,7 +674,7 @@
             "5e68170bc315b36a"
         ],
         "x": 435,
-        "y": 640,
+        "y": 680,
         "wires": []
     },
     {
@@ -713,6 +713,7 @@
         "name": "Build Executable Msg",
         "func": "var fs = global.get('fs')\n\nvar name = \"/Users/cmarrin/PostLightEffects\" + msg.payload + \".arlx\";\n\nif (!fs.existsSync(name)) {\n    node.warn(\"*** Error '\" + name + \"' does not exist\");\n} else {\n    var buf = fs.readFileSync(name);\n    var p = {\n        \"adr\": 0,\n        \"cmd\": \"X\",\n        \"size\": buf.length,\n        \"data\": buf\n    }\n    node.warn(\"*** Sending '\" + name + \"'\");\n    node.send({ payload : p });\n}\n\nreturn null;",
         "outputs": 1,
+        "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
@@ -826,6 +827,49 @@
         ]
     },
     {
+        "id": "9b574ec0e8a790da",
+        "type": "link out",
+        "z": "ae504a8ef127642b",
+        "name": "StringToLightCommandOut",
+        "mode": "link",
+        "links": [
+            "195a8aa010b30d0c",
+            "9d35d3feb31faabe"
+        ],
+        "x": 455,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "366bd38441f25fc7",
+        "type": "inject",
+        "z": "ae504a8ef127642b",
+        "name": "Turn Post Lights On",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "LightOn",
+        "payloadType": "str",
+        "x": 170,
+        "y": 260,
+        "wires": [
+            [
+                "9b574ec0e8a790da"
+            ]
+        ]
+    },
+    {
         "id": "b118e96062651eda",
         "type": "trigger",
         "z": "9e626f8b528b7958",
@@ -889,10 +933,11 @@
         "type": "function",
         "z": "9e626f8b528b7958",
         "name": "Manage Valve",
-        "func": "// This function receives messages to \"open\", \"close\"\n// and \"stop\" the valve motor\nfunction makeRelayMsg(enable, id)\n{\n    return { \"topic\" : \"relay.\" + id, \"payload\" : enable };\n}\n\n// Make a message to send multiple outputs. The first sends\n// 2 messages, one to each relay. The second sends a\n// message to trigger the timer that keeps the valve\n// motor running long enough to let it open or close.\n// The third sends a message to trigger the timer that\n// tells the valve when to reopen. All params are bool.\n// Since the timers trigger on any message \"msg\" is \n// sent when startMotor or startDelay are true and\n// \"null\" when false.\nfunction makeMsg(relay1, relay2, startMotor, startDelay, stopDelay, status)\n{\n    var delayPayload = null;\n    if (startDelay) {\n        delayPayload = msg;\n    } else if (stopDelay) {\n        delayPayload = { \"payload\" : \"stop\" };\n    }\n    \n    return [\n        [\n            makeRelayMsg(relay1, \"one\"),\n            makeRelayMsg(relay2, \"two\")\n        ],\n        delayPayload,\n        startMotor ? msg : null,\n        { \"payload\" : status }\n    ];\n}\n\nif (msg.payload == \"close\") {\n    finalStatus = \"closed\";\n    return makeMsg(false, true, true, false, true, \"closing...\");\n}\n\nif (msg.payload == \"timedclose\" || msg.payload == \"TimedCloseButton\") {\n    finalStatus = \"timed closed\";\n    return makeMsg(false, true, true, true, false, \"timed closing...\");\n}\n\nif (msg.payload == \"open\") {\n    finalStatus = \"open\";\n    return makeMsg(true, false, true, false, true, \"opening...\");\n}\n\nif (msg.payload == \"stop\") {\n    finalStatus = \"stopped\";\n    return makeMsg(false, false, false, false, true, \"stopped\");\n}\n\nif (msg.payload == \"runmotordone\") {\n    return makeMsg(false, false, false, false, false, finalStatus);\n}\n\nreturn null;\n",
+        "func": "// This function receives messages to \"open\", \"close\"\n// and \"stop\" the valve motor\nfunction makeRelayMsg(enable, id)\n{\n    return { \"topic\" : \"relay.\" + id, \"payload\" : enable };\n}\n\n// Make a message to send multiple outputs. The first sends\n// 2 messages, one to each relay. The second sends a\n// message to trigger the timer that keeps the valve\n// motor running long enough to let it open or close.\n// The third sends a message to trigger the timer that\n// tells the valve when to reopen. All params are bool.\n// Since the timers trigger on any message \"msg\" is \n// sent when startMotor or startDelay are true and\n// \"null\" when false.\nfunction makeMsg(relay1, relay2, startMotor, startDelay, stopDelay, status)\n{\n    var delayPayload = null;\n    if (startDelay) {\n        delayPayload = msg;\n    } else if (stopDelay) {\n        delayPayload = { \"payload\" : \"stop\" };\n    }\n    \n    return [\n        [\n            makeRelayMsg(relay1, \"one\"),\n            makeRelayMsg(relay2, \"two\")\n        ],\n        delayPayload,\n        startMotor ? msg : null,\n        { \"payload\" : status }\n    ];\n}\n\nvar finalStatus = \"\";\n\nif (msg.payload == \"close\") {\n    finalStatus = \"closed\";\n    return makeMsg(false, true, true, false, true, \"closing...\");\n}\n\nif (msg.payload == \"timedclose\" || msg.payload == \"TimedCloseButton\") {\n    finalStatus = \"timed closed\";\n    return makeMsg(false, true, true, true, false, \"timed closing...\");\n}\n\nif (msg.payload == \"open\") {\n    finalStatus = \"open\";\n    return makeMsg(true, false, true, false, true, \"opening...\");\n}\n\nif (msg.payload == \"stop\") {\n    finalStatus = \"stopped\";\n    return makeMsg(false, false, false, false, true, \"stopped\");\n}\n\nif (msg.payload == \"runmotordone\") {\n    return makeMsg(false, false, false, false, false, finalStatus);\n}\n\nreturn null;\n",
         "outputs": 4,
+        "timeout": "",
         "noerr": 0,
-        "initialize": "",
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\nfinalStatus = \"\";",
         "finalize": "",
         "libs": [],
         "x": 340,
@@ -1050,14 +1095,15 @@
         "type": "function",
         "z": "83b262e887c512b6",
         "name": "String to Light Command",
-        "func": "function makeMsg(adr, cmd, data)\n{\n    return {\n        \"topic\" : \"ControlLights\", \n        \"payload\" : {\n            \"adr\": adr,\n            \"cmd\": cmd,\n            \"size\": data.length,\n            \"data\": data\n        }\n    };\n}\n\nswitch (msg.payload) {\n    case \"CenterButton\":\n    case \"LightOff\":    return makeMsg(0, \"C\", [ 0, 0, 0, 0, 0 ]);\n    case \"UpperLeftButton\":\n    case \"LightColor\":  return makeMsg(0, \"C\", [20, 255, 64, 0, 0]);\n    case \"LowerLeftButton\":\n    case \"LightFlicker\":return makeMsg(0, \"f\", [ 20, 224, 200, 0 ]);\n    case \"LightPulse\":  return makeMsg(0, \"p\", [ 50, 224, 200, 6, 7 ]);\n    case \"LowerRightButton\":\n    case \"LightMulti\":  return makeMsg(0, \"m\", [  0, 255, 255, \n                                                 96, 255, 240,\n                                                170, 255, 255,\n                                                 38, 255, 255, 5 ]);\n    case \"UpperRightButton\":\n    case \"LightRainbow\":return makeMsg(0, \"r\", [ 0, 224, 150, 7, 3, 0 ]);\n    default:            return null;\n}\n",
+        "func": "function makeMsg(adr, cmd, data)\n{\n    return {\n        \"topic\" : \"ControlLights\", \n        \"payload\" : {\n            \"adr\": adr,\n            \"cmd\": cmd,\n            \"size\": data.length,\n            \"data\": data\n        }\n    };\n}\n\nvar effect = msg.payload;\n\nif (msg.payload == \"LightOn\") {\n    effect = global.get(\"LightEffect\");\n}\n\nswitch (effect) {\n    case \"CenterButton\":\n    case \"LightOff\":    return makeMsg(0, \"C\", [ 0, 0, 0, 0, 0 ]);\n    case \"UpperLeftButton\":\n    case \"LightColor\":  return makeMsg(0, \"C\", [20, 255, 64, 0, 0]);\n    case \"LowerLeftButton\":\n    case \"LightFlicker\":return makeMsg(0, \"f\", [ 20, 224, 200, 0 ]);\n    case \"LightPulse\":  return makeMsg(0, \"p\", [ 50, 224, 200, 6, 7 ]);\n    case \"LowerRightButton\":\n    case \"LightMulti\":  return makeMsg(0, \"m\", [  0, 255, 255, \n                                                 96, 255, 240,\n                                                170, 255, 255,\n                                                 38, 255, 255, 5 ]);\n    case \"UpperRightButton\":\n    case \"LightRainbow\":return makeMsg(0, \"r\", [ 0, 224, 150, 7, 3, 0 ]);\n    default:            return null;\n}\n",
         "outputs": 1,
+        "timeout": "",
         "noerr": 0,
         "initialize": "// Setup the payload\n\ncurrentPayload = 0;\n\npayloads = [\n    {\n        \"adr\":  0,\n        \"cmd\":  \"C\",\n        \"hue\":  0,\n        \"sat\":  0,\n        \"val\":  0,\n        \"par1\": 0,\n        \"par2\": 0\n    },\n    {\n        \"adr\":  0,\n        \"cmd\":  \"C\",\n        \"hue\":  60,\n        \"sat\":  56,\n        \"val\":  16,\n        \"par1\": 0,\n        \"par2\": 0\n    },\n    {\n        \"adr\":  0,\n        \"cmd\":  \"F\",\n        \"hue\":  6,\n        \"sat\":  56,\n        \"val\":  32,\n        \"par1\": 0,\n        \"par2\": 0\n    },\n    {\n        \"adr\":  0,\n        \"cmd\":  \"F\",\n        \"hue\":  60,\n        \"sat\":  56,\n        \"val\":  16,\n        \"par1\": 4,\n        \"par2\": 0\n    }\n];\n",
         "finalize": "",
         "libs": [],
-        "x": 650,
-        "y": 140,
+        "x": 750,
+        "y": 300,
         "wires": [
             [
                 "6ade50d9688a761c"
@@ -1118,7 +1164,7 @@
         "name": "",
         "label": "Effect",
         "tooltip": "",
-        "place": "Off",
+        "place": "Color",
         "group": "e1a99b43f32fdc20",
         "order": 0,
         "width": 0,
@@ -1126,11 +1172,6 @@
         "passthru": true,
         "multiple": false,
         "options": [
-            {
-                "label": "Off",
-                "value": "LightOff",
-                "type": "str"
-            },
             {
                 "label": "Color",
                 "value": "LightColor",
@@ -1161,12 +1202,11 @@
         "topic": "topic",
         "topicType": "msg",
         "className": "",
-        "x": 70,
-        "y": 140,
+        "x": 250,
+        "y": 80,
         "wires": [
             [
-                "5189ccc827abf99c",
-                "f843d1a0c023b356"
+                "1637cd383e19b35d"
             ]
         ]
     },
@@ -1179,41 +1219,8 @@
         "links": [
             "0ef97f1a6bf8e745"
         ],
-        "x": 825,
-        "y": 140,
-        "wires": []
-    },
-    {
-        "id": "195a8aa010b30d0c",
-        "type": "link in",
-        "z": "83b262e887c512b6",
-        "name": "StringToLightCommandIn",
-        "links": [
-            "a6a72b3a8cdf7d86",
-            "59a5d73d4167b001"
-        ],
-        "x": 135,
-        "y": 220,
-        "wires": [
-            [
-                "5189ccc827abf99c"
-            ]
-        ]
-    },
-    {
-        "id": "f843d1a0c023b356",
-        "type": "debug",
-        "z": "83b262e887c512b6",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 260,
-        "y": 80,
+        "x": 945,
+        "y": 300,
         "wires": []
     },
     {
@@ -1293,5 +1300,176 @@
                 "5189ccc827abf99c"
             ]
         ]
+    },
+    {
+        "id": "1637cd383e19b35d",
+        "type": "change",
+        "z": "83b262e887c512b6",
+        "name": "LightEffect",
+        "rules": [
+            {
+                "t": "set",
+                "p": "LightEffect",
+                "pt": "global",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "LightEffect",
+                "tot": "global"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 490,
+        "y": 80,
+        "wires": [
+            [
+                "9e52f6473491b0bd"
+            ]
+        ]
+    },
+    {
+        "id": "61f09d71b3284325",
+        "type": "link in",
+        "z": "83b262e887c512b6",
+        "name": "Set Global Light Effect",
+        "links": [
+            "59a5d73d4167b001"
+        ],
+        "x": 155,
+        "y": 80,
+        "wires": [
+            [
+                "0e2d3091deb1c749"
+            ]
+        ]
+    },
+    {
+        "id": "2e42f0ef7971df0d",
+        "type": "ui_switch",
+        "z": "83b262e887c512b6",
+        "name": "",
+        "label": "Post Lights On",
+        "tooltip": "",
+        "group": "e1a99b43f32fdc20",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "LightOn",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "LightOff",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 300,
+        "y": 160,
+        "wires": [
+            [
+                "67f60b3b525552dc",
+                "0c8807daf3b6ef83"
+            ]
+        ]
+    },
+    {
+        "id": "9d35d3feb31faabe",
+        "type": "link in",
+        "z": "83b262e887c512b6",
+        "name": "Light On Off",
+        "links": [
+            "9b574ec0e8a790da"
+        ],
+        "x": 155,
+        "y": 160,
+        "wires": [
+            [
+                "2e42f0ef7971df0d"
+            ]
+        ]
+    },
+    {
+        "id": "67f60b3b525552dc",
+        "type": "change",
+        "z": "83b262e887c512b6",
+        "name": "LightsOn",
+        "rules": [
+            {
+                "t": "set",
+                "p": "LightsOn",
+                "pt": "global",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "LightsOn",
+                "tot": "global"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 480,
+        "y": 160,
+        "wires": [
+            [
+                "9e52f6473491b0bd"
+            ]
+        ]
+    },
+    {
+        "id": "9e52f6473491b0bd",
+        "type": "function",
+        "z": "83b262e887c512b6",
+        "name": "LightEffectLightOnHandler",
+        "func": "if (msg.payload == \"LightOff\"){\n    // LightOff goes out no matter what\n    return msg;\n} else if (msg.payload == \"LightOn\") {\n    // Transform message to the current effect\n    return { \"payload\": global.get(\"LightEffect\") };\n} else {\n    // This is an effect change. Only send it if light is on\n    if (global.get(\"LightsOn\") == \"LightOn\") {\n        return { \"payload\": global.get(\"LightEffect\") };\n    }\n}\n\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 780,
+        "y": 120,
+        "wires": [
+            [
+                "5189ccc827abf99c"
+            ]
+        ]
+    },
+    {
+        "id": "0c8807daf3b6ef83",
+        "type": "debug",
+        "z": "83b262e887c512b6",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 520,
+        "y": 220,
+        "wires": []
     }
 ]
