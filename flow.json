@@ -1102,7 +1102,7 @@
         "initialize": "// Setup the payload\n\ncurrentPayload = 0;\n\npayloads = [\n    {\n        \"adr\":  0,\n        \"cmd\":  \"C\",\n        \"hue\":  0,\n        \"sat\":  0,\n        \"val\":  0,\n        \"par1\": 0,\n        \"par2\": 0\n    },\n    {\n        \"adr\":  0,\n        \"cmd\":  \"C\",\n        \"hue\":  60,\n        \"sat\":  56,\n        \"val\":  16,\n        \"par1\": 0,\n        \"par2\": 0\n    },\n    {\n        \"adr\":  0,\n        \"cmd\":  \"F\",\n        \"hue\":  6,\n        \"sat\":  56,\n        \"val\":  32,\n        \"par1\": 0,\n        \"par2\": 0\n    },\n    {\n        \"adr\":  0,\n        \"cmd\":  \"F\",\n        \"hue\":  60,\n        \"sat\":  56,\n        \"val\":  16,\n        \"par1\": 4,\n        \"par2\": 0\n    }\n];\n",
         "finalize": "",
         "libs": [],
-        "x": 750,
+        "x": 710,
         "y": 300,
         "wires": [
             [
@@ -1224,80 +1224,22 @@
         "wires": []
     },
     {
-        "id": "9c7feb1496a700c1",
-        "type": "hb-event",
-        "z": "83b262e887c512b6",
-        "name": "Flicker",
-        "Homebridge": "homebridge",
-        "Manufacturer": "Homebridge",
-        "Service": "Switch",
-        "device": "homebridge0E:AD:47:4A:2B:77HomebridgeFlicker00000049",
-        "conf": "2380de9671d7f576",
-        "sendInitialState": false,
-        "x": 70,
-        "y": 300,
-        "wires": [
-            [
-                "7a447a952fba3070"
-            ]
-        ]
-    },
-    {
-        "id": "7a447a952fba3070",
-        "type": "function",
-        "z": "83b262e887c512b6",
-        "name": "Homebridge Flicker",
-        "func": "if (msg.payload.On == 1) {\n    return { \"payload\": \"LightFlicker\" };\n}\nreturn null;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 310,
-        "y": 300,
-        "wires": [
-            [
-                "5189ccc827abf99c"
-            ]
-        ]
-    },
-    {
-        "id": "edb8dbd176bf13e1",
-        "type": "hb-event",
-        "z": "83b262e887c512b6",
-        "name": "Post Lights Off",
-        "Homebridge": "homebridge",
-        "Manufacturer": "Homebridge",
-        "Service": "Switch",
-        "device": "homebridge0E:AD:47:4A:2B:77HomebridgePost Lights Off00000049",
-        "conf": "2380de9671d7f576",
-        "sendInitialState": false,
-        "x": 100,
-        "y": 360,
-        "wires": [
-            [
-                "139141666827c756"
-            ]
-        ]
-    },
-    {
         "id": "139141666827c756",
         "type": "function",
         "z": "83b262e887c512b6",
-        "name": "Homebridge Post Lights Off",
-        "func": "if (msg.payload.On == 1) {\n    return { \"payload\": \"LightOff\" };\n}\nreturn null;",
+        "name": "Homebridge Post Lights",
+        "func": "return { \"payload\": (msg.payload.On == 1) ? \"LightOn\" : \"LightOff\" };\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 340,
-        "y": 360,
+        "x": 330,
+        "y": 280,
         "wires": [
             [
-                "5189ccc827abf99c"
+                "2e42f0ef7971df0d"
             ]
         ]
     },
@@ -1381,8 +1323,7 @@
         "y": 160,
         "wires": [
             [
-                "67f60b3b525552dc",
-                "0c8807daf3b6ef83"
+                "67f60b3b525552dc"
             ]
         ]
     },
@@ -1457,19 +1398,22 @@
         ]
     },
     {
-        "id": "0c8807daf3b6ef83",
-        "type": "debug",
+        "id": "678ac40f2584bf02",
+        "type": "hb-event",
         "z": "83b262e887c512b6",
-        "name": "debug 1",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 520,
-        "y": 220,
-        "wires": []
+        "name": "Post Lights",
+        "Homebridge": "homebridge",
+        "Manufacturer": "Homebridge",
+        "Service": "Switch",
+        "device": "homebridge0E:AD:47:4A:2B:77HomebridgePost Lights00000049",
+        "conf": "2380de9671d7f576",
+        "sendInitialState": false,
+        "x": 110,
+        "y": 280,
+        "wires": [
+            [
+                "139141666827c756"
+            ]
+        ]
     }
 ]
