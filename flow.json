@@ -870,6 +870,16 @@
         ]
     },
     {
+        "id": "a93cd4b347d94469",
+        "type": "comment",
+        "z": "ae504a8ef127642b",
+        "name": "Button Assignments",
+        "info": "Button box has a red button which\nturns off the skimmer valve for 15\nminutes. There are also 5 buttons in\na square formation, arranged like this:\n\n1       2\n    3\n4       5\n\nFunctions are:\n\n1 - Constant color\n2 - Rainbow\n3 - Lights off\n4 - Flicker\n5 - Multicolor",
+        "x": 590,
+        "y": 680,
+        "wires": []
+    },
+    {
         "id": "b118e96062651eda",
         "type": "trigger",
         "z": "9e626f8b528b7958",
@@ -1095,18 +1105,18 @@
         "type": "function",
         "z": "83b262e887c512b6",
         "name": "String to Light Command",
-        "func": "function makeMsg(adr, cmd, data)\n{\n    return {\n        \"topic\" : \"ControlLights\", \n        \"payload\" : {\n            \"adr\": adr,\n            \"cmd\": cmd,\n            \"size\": data.length,\n            \"data\": data\n        }\n    };\n}\n\nvar effect = msg.payload;\n\nif (msg.payload == \"LightOn\") {\n    effect = global.get(\"LightEffect\");\n}\n\nswitch (effect) {\n    case \"CenterButton\":\n    case \"LightOff\":    return makeMsg(0, \"C\", [ 0, 0, 0, 0, 0 ]);\n    case \"UpperLeftButton\":\n    case \"LightColor\":  return makeMsg(0, \"C\", [20, 255, 64, 0, 0]);\n    case \"LowerLeftButton\":\n    case \"LightFlicker\":return makeMsg(0, \"f\", [ 20, 224, 200, 0 ]);\n    case \"LightPulse\":  return makeMsg(0, \"p\", [ 50, 224, 200, 6, 7 ]);\n    case \"LowerRightButton\":\n    case \"LightMulti\":  return makeMsg(0, \"m\", [  0, 255, 255, \n                                                 96, 255, 240,\n                                                170, 255, 255,\n                                                 38, 255, 255, 5 ]);\n    case \"UpperRightButton\":\n    case \"LightRainbow\":return makeMsg(0, \"r\", [ 0, 224, 150, 7, 3, 0 ]);\n    default:            return null;\n}\n",
+        "func": "function makeMsg(adr, cmd, data)\n{\n    return {\n        \"topic\" : \"ControlLights\", \n        \"payload\" : {\n            \"adr\": adr,\n            \"cmd\": cmd,\n            \"size\": data.length,\n            \"data\": data\n        }\n    };\n}\n\nvar effect = msg.payload;\n\nvar brightness = global.get(\"LightBrightness\")\n\nswitch (effect) {\n    case \"CenterButton\":\n    case \"LightOff\":\n        return makeMsg(0, \"C\", [ 0, 0, 0, 0, 0 ]);\n    case \"UpperLeftButton\":\n    case \"LightColor\":\n        return makeMsg(0, \"C\", [0, 0, brightness, 0, 0]);\n    case \"LowerLeftButton\":\n    case \"LightFlicker\":\n        return makeMsg(0, \"f\", [20, 224, brightness, 2 ]);\n    case \"LightPulse\":\n        return makeMsg(0, \"p\", [50, 224, brightness, 4, 6 ]);\n    case \"LowerRightButton\":\n    case \"LightMulti\":\n        return makeMsg(0, \"m\", [\n              0, 255, brightness, \n             96, 255, brightness,\n            170, 255, brightness,\n             38, 255, brightness, 5 ]);\n    case \"UpperRightButton\":\n    case \"LightRainbow\":\n        return makeMsg(0, \"r\", [0, 224, brightness, 15, 0, 1 ]);\n\n    default:            return null;\n}\n",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
         "initialize": "// Setup the payload\n\ncurrentPayload = 0;\n\npayloads = [\n    {\n        \"adr\":  0,\n        \"cmd\":  \"C\",\n        \"hue\":  0,\n        \"sat\":  0,\n        \"val\":  0,\n        \"par1\": 0,\n        \"par2\": 0\n    },\n    {\n        \"adr\":  0,\n        \"cmd\":  \"C\",\n        \"hue\":  60,\n        \"sat\":  56,\n        \"val\":  16,\n        \"par1\": 0,\n        \"par2\": 0\n    },\n    {\n        \"adr\":  0,\n        \"cmd\":  \"F\",\n        \"hue\":  6,\n        \"sat\":  56,\n        \"val\":  32,\n        \"par1\": 0,\n        \"par2\": 0\n    },\n    {\n        \"adr\":  0,\n        \"cmd\":  \"F\",\n        \"hue\":  60,\n        \"sat\":  56,\n        \"val\":  16,\n        \"par1\": 4,\n        \"par2\": 0\n    }\n];\n",
         "finalize": "",
         "libs": [],
-        "x": 710,
-        "y": 300,
+        "x": 670,
+        "y": 380,
         "wires": [
             [
-                "6ade50d9688a761c"
+                "ab18ffce2710d4ef"
             ]
         ]
     },
@@ -1116,8 +1126,8 @@
         "z": "83b262e887c512b6",
         "name": "",
         "serial": "39f99e4a62f373c8",
-        "x": 510,
-        "y": 460,
+        "x": 530,
+        "y": 480,
         "wires": []
     },
     {
@@ -1131,8 +1141,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 310,
-        "y": 460,
+        "x": 330,
+        "y": 480,
         "wires": [
             [
                 "f89025884f3c4982"
@@ -1149,8 +1159,8 @@
             "6ade50d9688a761c",
             "1a80e8d709cc8728"
         ],
-        "x": 135,
-        "y": 460,
+        "x": 125,
+        "y": 480,
         "wires": [
             [
                 "ab18ffce2710d4ef"
@@ -1202,26 +1212,13 @@
         "topic": "topic",
         "topicType": "msg",
         "className": "",
-        "x": 250,
-        "y": 80,
+        "x": 230,
+        "y": 300,
         "wires": [
             [
                 "1637cd383e19b35d"
             ]
         ]
-    },
-    {
-        "id": "6ade50d9688a761c",
-        "type": "link out",
-        "z": "83b262e887c512b6",
-        "name": "",
-        "mode": "link",
-        "links": [
-            "0ef97f1a6bf8e745"
-        ],
-        "x": 945,
-        "y": 300,
-        "wires": []
     },
     {
         "id": "139141666827c756",
@@ -1235,8 +1232,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 330,
-        "y": 280,
+        "x": 310,
+        "y": 140,
         "wires": [
             [
                 "2e42f0ef7971df0d"
@@ -1269,8 +1266,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 490,
-        "y": 80,
+        "x": 430,
+        "y": 300,
         "wires": [
             [
                 "9e52f6473491b0bd"
@@ -1285,8 +1282,8 @@
         "links": [
             "59a5d73d4167b001"
         ],
-        "x": 155,
-        "y": 80,
+        "x": 115,
+        "y": 300,
         "wires": [
             [
                 "0e2d3091deb1c749"
@@ -1319,8 +1316,8 @@
         "offcolor": "",
         "animate": false,
         "className": "",
-        "x": 300,
-        "y": 160,
+        "x": 260,
+        "y": 220,
         "wires": [
             [
                 "67f60b3b525552dc"
@@ -1335,8 +1332,8 @@
         "links": [
             "9b574ec0e8a790da"
         ],
-        "x": 155,
-        "y": 160,
+        "x": 115,
+        "y": 220,
         "wires": [
             [
                 "2e42f0ef7971df0d"
@@ -1369,8 +1366,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 480,
-        "y": 160,
+        "x": 420,
+        "y": 220,
         "wires": [
             [
                 "9e52f6473491b0bd"
@@ -1382,15 +1379,15 @@
         "type": "function",
         "z": "83b262e887c512b6",
         "name": "LightEffectLightOnHandler",
-        "func": "if (msg.payload == \"LightOff\"){\n    // LightOff goes out no matter what\n    return msg;\n} else if (msg.payload == \"LightOn\") {\n    // Transform message to the current effect\n    return { \"payload\": global.get(\"LightEffect\") };\n} else {\n    // This is an effect change. Only send it if light is on\n    if (global.get(\"LightsOn\") == \"LightOn\") {\n        return { \"payload\": global.get(\"LightEffect\") };\n    }\n}\n\nreturn null;\n",
+        "func": "node.warn(\"*** LightEffectLightOnHandler incoming='\" + msg.payload + \"'\");\n\n\nif (msg.payload == \"LightOff\"){\n    // LightOff goes out no matter what\n    return msg;\n} else if (msg.payload == \"LightOn\") {\n    // Transform message to the current effect\n    return { \"payload\": global.get(\"LightEffect\") };\n} else {\n    // This is an effect change. Only send it if light is on\n    if (global.get(\"LightsOn\") == \"LightOn\") {\n        return { \"payload\": global.get(\"LightEffect\") };\n    }\n}\n\nreturn null;\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 780,
-        "y": 120,
+        "x": 700,
+        "y": 260,
         "wires": [
             [
                 "5189ccc827abf99c"
@@ -1408,12 +1405,103 @@
         "device": "homebridge0E:AD:47:4A:2B:77HomebridgePost Lights00000049",
         "conf": "2380de9671d7f576",
         "sendInitialState": false,
-        "x": 110,
-        "y": 280,
+        "x": 90,
+        "y": 140,
         "wires": [
             [
                 "139141666827c756"
             ]
         ]
+    },
+    {
+        "id": "760cef2ce3f4e4e5",
+        "type": "ui_slider",
+        "z": "83b262e887c512b6",
+        "name": "",
+        "label": "Brightness",
+        "tooltip": "",
+        "group": "e1a99b43f32fdc20",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "outs": "end",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": "30",
+        "max": "255",
+        "step": 1,
+        "className": "",
+        "x": 130,
+        "y": 80,
+        "wires": [
+            [
+                "f7ed9c2d2cadf7e2"
+            ]
+        ]
+    },
+    {
+        "id": "f7ed9c2d2cadf7e2",
+        "type": "change",
+        "z": "83b262e887c512b6",
+        "name": "Light Brightness",
+        "rules": [
+            {
+                "t": "set",
+                "p": "LightBrightness",
+                "pt": "global",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "LightBrightness",
+                "tot": "global"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 340,
+        "y": 80,
+        "wires": [
+            [
+                "134b50e89aa44adc"
+            ]
+        ]
+    },
+    {
+        "id": "134b50e89aa44adc",
+        "type": "function",
+        "z": "83b262e887c512b6",
+        "name": "Brightness Handler",
+        "func": "if (global.get(\"LightsOn\") == \"LightOn\") {\n    return { \"payload\": global.get(\"LightOn\") };\n}\nreturn null;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 80,
+        "wires": [
+            [
+                "9e52f6473491b0bd"
+            ]
+        ]
+    },
+    {
+        "id": "8d617affe0399396",
+        "type": "comment",
+        "z": "83b262e887c512b6",
+        "name": "Effect Parameters",
+        "info": "Current effects:\n\nColor(h, s, v, n, d)\n\nSet a constant color (h, s, v). Flash n\ntimes with a duration of d ms per flash.\nIf n == 0, leave lights on.\n\n\nFlicker(h, s, v, speed)\n\nFlicker light with color (h, s, v) at\nthe passed speed.\n\n\nRainbow(h, s, v, speed, range, mode)\n\nChange colors starting at (h, s, v) at a rate\nof speed from 0 (very slow) to 15 (very fast). \nRange is how far from the initial color to \ngo, from 0 (little change) to 7 (full range). \nIf mode is 0 colors bounce back and forth\nbetween start color through range. If it \nis 1 colors cycle the full color spectrum \nand range is ignored.\n\n\nMulticolor( h1, s1, v1, \n            h2, s2, v2,\n            h3, s3, v3,\n            h4, s4, v4,\n            duration)\n\nCross fade between the four passed colors.\nPassed duration is number of seconds between\ncolor changes.\n\n\nPulse(h, s, v, speed, depth)\n\nPulse color (h, s, v) from the brightness in\nv down according to the value of depth where\na value of 0 is very slight and 7 is very\ndeep. Speed is now fast to pulse from 0\n(slow) to 7 (fast)",
+        "x": 750,
+        "y": 480,
+        "wires": []
     }
 ]
