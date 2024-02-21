@@ -1105,15 +1105,15 @@
         "type": "function",
         "z": "83b262e887c512b6",
         "name": "String to Light Command",
-        "func": "function makeMsg(adr, cmd, data)\n{\n    return {\n        \"topic\" : \"ControlLights\", \n        \"payload\" : {\n            \"adr\": adr,\n            \"cmd\": cmd,\n            \"size\": data.length,\n            \"data\": data\n        }\n    };\n}\n\nvar effect = msg.payload;\n\nvar brightness = global.get(\"LightBrightness\")\n\nswitch (effect) {\n    case \"CenterButton\":\n    case \"LightOff\":\n        return makeMsg(0, \"C\", [ 0, 0, 0, 0, 0 ]);\n    case \"UpperLeftButton\":\n    case \"LightColor\":\n        return makeMsg(0, \"C\", [0, 0, brightness, 0, 0]);\n    case \"LowerLeftButton\":\n    case \"LightFlicker\":\n        return makeMsg(0, \"f\", [20, 224, brightness, 2 ]);\n    case \"LightPulse\":\n        return makeMsg(0, \"p\", [50, 224, brightness, 4, 6 ]);\n    case \"LowerRightButton\":\n    case \"LightMulti\":\n        return makeMsg(0, \"m\", [\n              0, 255, brightness, \n             96, 255, brightness,\n            170, 255, brightness,\n             38, 255, brightness, 5 ]);\n    case \"UpperRightButton\":\n    case \"LightRainbow\":\n        return makeMsg(0, \"r\", [0, 224, brightness, 15, 0, 1 ]);\n\n    default:            return null;\n}\n",
+        "func": "function makeMsg(adr, cmd, data)\n{\n    return {\n        \"topic\" : \"ControlLights\", \n        \"payload\" : {\n            \"adr\": adr,\n            \"cmd\": cmd,\n            \"size\": data.length,\n            \"data\": data\n        }\n    };\n}\n\nvar effect = msg.payload;\n\nvar brightness = global.get(\"LightBrightnesses\")[global.get(\"LightEffect\")];\nif (brightness == undefined) {\n    brightness = 255;\n}\n\nvar color = global.get(\"LightColors\")[global.get(\"LightEffect\")];\nif (color == undefined) {\n    color = { h : 0, s : 0 };\n}\nvar hue = Math.round(color.h / 355 * 255);\nvar sat = Math.round(color.s * 255);\n\n//node.warn(\"*** hue=\" + hue + \", sat=\" + sat + \", brightness=\" + brightness)\n\nswitch (effect) {\n    case \"CenterButton\":\n    case \"LightOff\":\n        return makeMsg(0, \"C\", [ 0, 0, 0, 0, 0 ]);\n    case \"UpperLeftButton\":\n    case \"LightColor\":\n        return makeMsg(0, \"C\", [hue, sat, brightness, 0, 0]);\n    case \"LowerLeftButton\":\n    case \"LightFlicker\":\n        return makeMsg(0, \"f\", [hue, sat, brightness, 2 ]);\n    case \"LightPulse\":\n        return makeMsg(0, \"p\", [hue, sat, brightness, 5, 5 ]);\n    case \"LowerRightButton\":\n    case \"LightMulti\":\n        return makeMsg(0, \"m\", [\n              0, 255, brightness, \n             96, 255, brightness,\n            170, 255, brightness,\n             38, 255, brightness, 5 ]);\n    case \"UpperRightButton\":\n    case \"LightRainbow\":\n        return makeMsg(0, \"r\", [0, 224, brightness, 15, 0, 1 ]);\n\n    default:            return null;\n}\n",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
         "initialize": "// Setup the payload\n\ncurrentPayload = 0;\n\npayloads = [\n    {\n        \"adr\":  0,\n        \"cmd\":  \"C\",\n        \"hue\":  0,\n        \"sat\":  0,\n        \"val\":  0,\n        \"par1\": 0,\n        \"par2\": 0\n    },\n    {\n        \"adr\":  0,\n        \"cmd\":  \"C\",\n        \"hue\":  60,\n        \"sat\":  56,\n        \"val\":  16,\n        \"par1\": 0,\n        \"par2\": 0\n    },\n    {\n        \"adr\":  0,\n        \"cmd\":  \"F\",\n        \"hue\":  6,\n        \"sat\":  56,\n        \"val\":  32,\n        \"par1\": 0,\n        \"par2\": 0\n    },\n    {\n        \"adr\":  0,\n        \"cmd\":  \"F\",\n        \"hue\":  60,\n        \"sat\":  56,\n        \"val\":  16,\n        \"par1\": 4,\n        \"par2\": 0\n    }\n];\n",
         "finalize": "",
         "libs": [],
-        "x": 670,
-        "y": 380,
+        "x": 690,
+        "y": 500,
         "wires": [
             [
                 "ab18ffce2710d4ef"
@@ -1126,8 +1126,8 @@
         "z": "83b262e887c512b6",
         "name": "",
         "serial": "39f99e4a62f373c8",
-        "x": 530,
-        "y": 480,
+        "x": 550,
+        "y": 600,
         "wires": []
     },
     {
@@ -1135,14 +1135,15 @@
         "type": "function",
         "z": "83b262e887c512b6",
         "name": "Make Light Event",
-        "func": "\nfunction checksum(buf) \n{\n    var sum = 0;\n\n    for (var i = 0; i < buf.length; i++) {\n        sum += buf.readUInt8(i);\n    }\n    return sum & 0x3f;\n}\n\nfunction toChar(i)\n{\n    return String.fromCharCode(0x30 + i);\n}\n\nfunction toCharCode(i)\n{\n    return 0x30 + i;\n}\n\nvar buf = Buffer.alloc(6 + msg.payload.size);\nvar index = 0;\nbuf[index++] = \"(\".charCodeAt();\nbuf[index++] = toCharCode(msg.payload.adr);\nbuf[index++] = msg.payload.cmd.charCodeAt(0);\n\nbuf.writeUInt8(msg.payload.size, index++);\n\nfor (var i = 0; i < msg.payload.size; ++i) {\n    buf.writeUInt8(msg.payload.data[i], index++);\n}\n\nvar checksumIndex = index;\nbuf[index++] = \"0\".charCodeAt();\nbuf[index++] = \")\".charCodeAt();\n\nbuf[checksumIndex] = checksum(buf) + 0x30;\n\n//node.warn(buf);\nnode.warn(\"Send Light Event:cmd='\" + msg.payload.cmd + \n        \"', data=[\" + msg.payload.data + \"]\");\n\nreturn { payload : buf };",
+        "func": "\nfunction checksum(buf) \n{\n    var sum = 0;\n\n    for (var i = 0; i < buf.length; i++) {\n        sum += buf.readUInt8(i);\n    }\n    return sum & 0x3f;\n}\n\nfunction toChar(i)\n{\n    return String.fromCharCode(0x30 + i);\n}\n\nfunction toCharCode(i)\n{\n    return 0x30 + i;\n}\n\nvar buf = Buffer.alloc(6 + msg.payload.size);\nvar index = 0;\nbuf[index++] = \"(\".charCodeAt(0);\nbuf[index++] = toCharCode(msg.payload.adr);\nbuf[index++] = msg.payload.cmd.charCodeAt(0);\n\nbuf.writeUInt8(msg.payload.size, index++);\n\nfor (var i = 0; i < msg.payload.size; ++i) {\n    buf.writeUInt8(msg.payload.data[i], index++);\n}\n\nvar checksumIndex = index;\nbuf[index++] = \"0\".charCodeAt(0);\nbuf[index++] = \")\".charCodeAt(0);\n\nbuf[checksumIndex] = checksum(buf) + 0x30;\n\n//node.warn(buf);\n//node.warn(\"Send Light Event:cmd='\" + msg.payload.cmd + \n//        \"', data=[\" + msg.payload.data + \"]\");\n\nreturn { payload : buf };",
         "outputs": 1,
+        "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 330,
-        "y": 480,
+        "x": 350,
+        "y": 600,
         "wires": [
             [
                 "f89025884f3c4982"
@@ -1159,8 +1160,8 @@
             "6ade50d9688a761c",
             "1a80e8d709cc8728"
         ],
-        "x": 125,
-        "y": 480,
+        "x": 145,
+        "y": 600,
         "wires": [
             [
                 "ab18ffce2710d4ef"
@@ -1212,11 +1213,12 @@
         "topic": "topic",
         "topicType": "msg",
         "className": "",
-        "x": 230,
-        "y": 300,
+        "x": 250,
+        "y": 420,
         "wires": [
             [
-                "1637cd383e19b35d"
+                "1637cd383e19b35d",
+                "339cc0af2fba3a55"
             ]
         ]
     },
@@ -1232,8 +1234,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 310,
-        "y": 140,
+        "x": 330,
+        "y": 260,
         "wires": [
             [
                 "2e42f0ef7971df0d"
@@ -1252,13 +1254,6 @@
                 "pt": "global",
                 "to": "payload",
                 "tot": "msg"
-            },
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "LightEffect",
-                "tot": "global"
             }
         ],
         "action": "",
@@ -1266,8 +1261,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 430,
-        "y": 300,
+        "x": 450,
+        "y": 420,
         "wires": [
             [
                 "9e52f6473491b0bd"
@@ -1282,8 +1277,8 @@
         "links": [
             "59a5d73d4167b001"
         ],
-        "x": 115,
-        "y": 300,
+        "x": 135,
+        "y": 420,
         "wires": [
             [
                 "0e2d3091deb1c749"
@@ -1316,8 +1311,8 @@
         "offcolor": "",
         "animate": false,
         "className": "",
-        "x": 260,
-        "y": 220,
+        "x": 280,
+        "y": 340,
         "wires": [
             [
                 "67f60b3b525552dc"
@@ -1332,8 +1327,8 @@
         "links": [
             "9b574ec0e8a790da"
         ],
-        "x": 115,
-        "y": 220,
+        "x": 135,
+        "y": 340,
         "wires": [
             [
                 "2e42f0ef7971df0d"
@@ -1352,13 +1347,6 @@
                 "pt": "global",
                 "to": "payload",
                 "tot": "msg"
-            },
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "LightsOn",
-                "tot": "global"
             }
         ],
         "action": "",
@@ -1366,8 +1354,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 420,
-        "y": 220,
+        "x": 440,
+        "y": 340,
         "wires": [
             [
                 "9e52f6473491b0bd"
@@ -1379,15 +1367,15 @@
         "type": "function",
         "z": "83b262e887c512b6",
         "name": "LightEffectLightOnHandler",
-        "func": "node.warn(\"*** LightEffectLightOnHandler incoming='\" + msg.payload + \"'\");\n\n\nif (msg.payload == \"LightOff\"){\n    // LightOff goes out no matter what\n    return msg;\n} else if (msg.payload == \"LightOn\") {\n    // Transform message to the current effect\n    return { \"payload\": global.get(\"LightEffect\") };\n} else {\n    // This is an effect change. Only send it if light is on\n    if (global.get(\"LightsOn\") == \"LightOn\") {\n        return { \"payload\": global.get(\"LightEffect\") };\n    }\n}\n\nreturn null;\n",
+        "func": "if (msg.payload == \"LightOff\"){\n    // LightOff goes out no matter what\n    return msg;\n} else if (msg.payload == \"LightOn\") {\n    // Transform message to the current effect\n    return { \"payload\": global.get(\"LightEffect\") };\n} else {\n    // This is an effect change. Only send it if light is on\n    if (global.get(\"LightsOn\") == \"LightOn\") {\n        return { \"payload\": global.get(\"LightEffect\") };\n    }\n}\n\nreturn null;\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 700,
-        "y": 260,
+        "x": 720,
+        "y": 380,
         "wires": [
             [
                 "5189ccc827abf99c"
@@ -1405,8 +1393,8 @@
         "device": "homebridge0E:AD:47:4A:2B:77HomebridgePost Lights00000049",
         "conf": "2380de9671d7f576",
         "sendInitialState": false,
-        "x": 90,
-        "y": 140,
+        "x": 110,
+        "y": 260,
         "wires": [
             [
                 "139141666827c756"
@@ -1424,7 +1412,7 @@
         "order": 2,
         "width": 0,
         "height": 0,
-        "passthru": true,
+        "passthru": false,
         "outs": "end",
         "topic": "topic",
         "topicType": "msg",
@@ -1432,42 +1420,8 @@
         "max": "255",
         "step": 1,
         "className": "",
-        "x": 130,
-        "y": 80,
-        "wires": [
-            [
-                "f7ed9c2d2cadf7e2"
-            ]
-        ]
-    },
-    {
-        "id": "f7ed9c2d2cadf7e2",
-        "type": "change",
-        "z": "83b262e887c512b6",
-        "name": "Light Brightness",
-        "rules": [
-            {
-                "t": "set",
-                "p": "LightBrightness",
-                "pt": "global",
-                "to": "payload",
-                "tot": "msg"
-            },
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "LightBrightness",
-                "tot": "global"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 340,
-        "y": 80,
+        "x": 150,
+        "y": 180,
         "wires": [
             [
                 "134b50e89aa44adc"
@@ -1479,15 +1433,15 @@
         "type": "function",
         "z": "83b262e887c512b6",
         "name": "Brightness Handler",
-        "func": "if (global.get(\"LightsOn\") == \"LightOn\") {\n    return { \"payload\": global.get(\"LightOn\") };\n}\nreturn null;",
+        "func": "// Incoming message is a brightness value (0-255) which we \n// want to put in the global store per-effect.\nif (global.get(\"LightBrightnesses\") == null) {\n    global.set(\"LightBrightnesses\", {});\n}\n\nglobal.get(\"LightBrightnesses\")[global.get(\"LightEffect\")] = msg.payload;\n\nif (global.get(\"LightsOn\") == \"LightOn\") {\n    return { \"payload\": \"LightOn\" };\n}\nreturn null;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 650,
-        "y": 80,
+        "x": 410,
+        "y": 180,
         "wires": [
             [
                 "9e52f6473491b0bd"
@@ -1500,8 +1454,83 @@
         "z": "83b262e887c512b6",
         "name": "Effect Parameters",
         "info": "Current effects:\n\nColor(h, s, v, n, d)\n\nSet a constant color (h, s, v). Flash n\ntimes with a duration of d ms per flash.\nIf n == 0, leave lights on.\n\n\nFlicker(h, s, v, speed)\n\nFlicker light with color (h, s, v) at\nthe passed speed.\n\n\nRainbow(h, s, v, speed, range, mode)\n\nChange colors starting at (h, s, v) at a rate\nof speed from 0 (very slow) to 15 (very fast). \nRange is how far from the initial color to \ngo, from 0 (little change) to 7 (full range). \nIf mode is 0 colors bounce back and forth\nbetween start color through range. If it \nis 1 colors cycle the full color spectrum \nand range is ignored.\n\n\nMulticolor( h1, s1, v1, \n            h2, s2, v2,\n            h3, s3, v3,\n            h4, s4, v4,\n            duration)\n\nCross fade between the four passed colors.\nPassed duration is number of seconds between\ncolor changes.\n\n\nPulse(h, s, v, speed, depth)\n\nPulse color (h, s, v) from the brightness in\nv down according to the value of depth where\na value of 0 is very slight and 7 is very\ndeep. Speed is now fast to pulse from 0\n(slow) to 7 (fast)",
-        "x": 750,
-        "y": 480,
+        "x": 770,
+        "y": 600,
         "wires": []
+    },
+    {
+        "id": "b1cdcf75bc9e5ed3",
+        "type": "ui_colour_picker",
+        "z": "83b262e887c512b6",
+        "name": "",
+        "label": "Color",
+        "group": "e1a99b43f32fdc20",
+        "format": "hsl",
+        "outformat": "object",
+        "showSwatch": true,
+        "showPicker": false,
+        "showValue": true,
+        "showHue": false,
+        "showAlpha": false,
+        "showLightness": true,
+        "square": "false",
+        "dynOutput": "false",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "topic": "topic",
+        "topicType": "msg",
+        "className": "",
+        "x": 130,
+        "y": 100,
+        "wires": [
+            [
+                "7d06e11eeba97614"
+            ]
+        ]
+    },
+    {
+        "id": "7d06e11eeba97614",
+        "type": "function",
+        "z": "83b262e887c512b6",
+        "name": "Color Handler",
+        "func": "// Incoming message is a color object which we want to put\n// in the global store per-effect.\nif (global.get(\"LightColors\") == null) {\n    global.set(\"LightColors\", { });\n}\n\nglobal.get(\"LightColors\")[global.get(\"LightEffect\")] = msg.payload;\n\nif (global.get(\"LightsOn\") == \"LightOn\") {\n    return { \"payload\": \"LightOn\" };\n}\nreturn null;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 100,
+        "wires": [
+            [
+                "9e52f6473491b0bd"
+            ]
+        ]
+    },
+    {
+        "id": "339cc0af2fba3a55",
+        "type": "function",
+        "z": "83b262e887c512b6",
+        "name": "Update Light Controls",
+        "func": "var brightness = global.get(\"LightBrightnesses\")[global.get(\"LightEffect\")];\nif (brightness == undefined) {\n    brightness = 255;\n}\n\nvar color = global.get(\"LightColors\")[global.get(\"LightEffect\")];\nif (color == undefined) {\n    color = { h: 0, s: 0 };\n}\n\nreturn [ { \"payload\" : color }, { \"payload\" : brightness } ];",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 500,
+        "wires": [
+            [
+                "b1cdcf75bc9e5ed3"
+            ],
+            [
+                "760cef2ce3f4e4e5"
+            ]
+        ]
     }
 ]
