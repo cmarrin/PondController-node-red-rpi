@@ -711,7 +711,7 @@
         "type": "function",
         "z": "ae504a8ef127642b",
         "name": "Build Executable Msg",
-        "func": "var fs = global.get('fs')\n\nvar name = \"/Users/cmarrin/PostLightEffects\" + msg.payload + \".arlx\";\n\nif (!fs.existsSync(name)) {\n    node.warn(\"*** Error '\" + name + \"' does not exist\");\n} else {\n    var buf = fs.readFileSync(name);\n    var p = {\n        \"adr\": 0,\n        \"cmd\": \"X\",\n        \"size\": buf.length,\n        \"data\": buf\n    }\n    node.warn(\"*** Sending '\" + name + \"'\");\n    node.send({ payload : p });\n}\n\nreturn null;",
+        "func": "var fs = global.get('fs')\n\nvar name = \"/home/cmarrin/PostLightEffects\" + msg.payload + \".arlx\";\n\nif (!fs.existsSync(name)) {\n    node.warn(\"*** Error '\" + name + \"' does not exist\");\n} else {\n    var buf = fs.readFileSync(name);\n    var p = {\n        \"adr\": 0,\n        \"cmd\": \"X\",\n        \"size\": buf.length,\n        \"data\": buf\n    }\n    node.warn(\"*** Sending '\" + name + \"'\");\n    node.send({ payload : p });\n}\n\nreturn null;",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -1453,7 +1453,7 @@
         "type": "comment",
         "z": "83b262e887c512b6",
         "name": "Effect Parameters",
-        "info": "Current effects:\n\nColor(h, s, v, n, d)\n\nSet a constant color (h, s, v). Flash n\ntimes with a duration of d ms per flash.\nIf n == 0, leave lights on.\n\n\nFlicker(h, s, v, speed)\n\nFlicker light with color (h, s, v) at\nthe passed speed.\n\n\nRainbow(h, s, v, speed, range, mode)\n\nChange colors starting at (h, s, v) at a rate\nof speed from 0 (very slow) to 15 (very fast). \nRange is how far from the initial color to \ngo, from 0 (little change) to 7 (full range). \nIf mode is 0 colors bounce back and forth\nbetween start color through range. If it \nis 1 colors cycle the full color spectrum \nand range is ignored.\n\n\nMulticolor( h1, s1, v1, \n            h2, s2, v2,\n            h3, s3, v3,\n            h4, s4, v4,\n            duration)\n\nCross fade between the four passed colors.\nPassed duration is number of seconds between\ncolor changes.\n\n\nPulse(h, s, v, speed, depth)\n\nPulse color (h, s, v) from the brightness in\nv down according to the value of depth where\na value of 0 is very slight and 7 is very\ndeep. Speed is now fast to pulse from 0\n(slow) to 7 (fast)",
+        "info": "Current effects:\n\nColor(h, s, v, n, d)\n\nSet a constant color (h, s, v). Flash n\ntimes with a duration of d ms per flash.\nIf n == 0, leave lights on.\n\n\nFlicker(h, s, v, speed)\n\nFlicker light with color (h, s, v) at\nthe passed speed (0-7).\n\n\nRainbow(h, s, v, speed, range, mode)\n\nChange colors starting at (h, s, v) at a rate\nof speed from 0 (very slow) to 15 (very fast). \nRange is how far from the initial color to \ngo, from 0 (little change) to 7 (full range). \nIf mode is 0 colors bounce back and forth\nbetween start color through range. If it \nis 1 colors cycle the full color spectrum \nand range is ignored.\n\n\nMulticolor( h1, s1, v1, \n            h2, s2, v2,\n            h3, s3, v3,\n            h4, s4, v4,\n            duration)\n\nCross fade between the four passed colors.\nPassed duration is number of seconds between\ncolor changes.\n\n\nPulse(h, s, v, speed, depth)\n\nPulse color (h, s, v) from the brightness in\nv down according to the value of depth where\na value of 0 is very slight and 7 is very\ndeep. Speed is now fast to pulse from 0\n(slow) to 7 (fast)",
         "x": 770,
         "y": 600,
         "wires": []
