@@ -16,6 +16,14 @@
         "env": []
     },
     {
+        "id": "83b262e887c512b6",
+        "type": "tab",
+        "label": "Control Lights",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "39f99e4a62f373c8",
         "type": "serial-port",
         "serialport": "/dev/serial0",
@@ -152,17 +160,6 @@
         "className": ""
     },
     {
-        "id": "68116819f71e2f5a",
-        "type": "ui_group",
-        "name": "",
-        "tab": "",
-        "order": 1,
-        "disp": true,
-        "width": "6",
-        "collapse": false,
-        "className": ""
-    },
-    {
         "id": "cb99c239e3a46cec",
         "type": "ui_group",
         "name": "State",
@@ -174,55 +171,6 @@
         "className": ""
     },
     {
-        "id": "6b421e0612d98b46",
-        "type": "ui_spacer",
-        "z": "ae504a8ef127642b",
-        "name": "spacer",
-        "group": "b8db7c4fd954a85d",
-        "order": 4,
-        "width": 3,
-        "height": 1
-    },
-    {
-        "id": "a7a675d72c43bbef",
-        "type": "ui_spacer",
-        "z": "ae504a8ef127642b",
-        "name": "spacer",
-        "group": "b8db7c4fd954a85d",
-        "order": 5,
-        "width": 3,
-        "height": 1
-    },
-    {
-        "id": "2ba920d95a269d02",
-        "type": "ui_spacer",
-        "z": "ae504a8ef127642b",
-        "name": "spacer",
-        "group": "b8db7c4fd954a85d",
-        "order": 6,
-        "width": 3,
-        "height": 1
-    },
-    {
-        "id": "89684e45ee98076b",
-        "type": "ui_spacer",
-        "z": "ae504a8ef127642b",
-        "name": "spacer",
-        "group": "b8db7c4fd954a85d",
-        "order": 7,
-        "width": 3,
-        "height": 1
-    },
-    {
-        "id": "6481acdb8cb17527",
-        "type": "ui_group",
-        "name": "Group 1",
-        "tab": "",
-        "order": 1,
-        "disp": true,
-        "width": 6
-    },
-    {
         "id": "b15d7d7cabf89c55",
         "type": "ui_group",
         "name": "Raspberry Pi Control",
@@ -232,6 +180,23 @@
         "width": "3",
         "collapse": false,
         "className": ""
+    },
+    {
+        "id": "e1a99b43f32fdc20",
+        "type": "ui_group",
+        "name": "Lights",
+        "tab": "a2477e05a35a266b",
+        "order": 4,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "2380de9671d7f576",
+        "type": "hb-conf",
+        "username": "412-02-322",
+        "macAddress": ""
     },
     {
         "id": "361eed69e3ea83fd",
@@ -254,8 +219,8 @@
         "topic": "light.power",
         "payload": "enable",
         "payloadType": "str",
-        "x": 150,
-        "y": 100,
+        "x": 170,
+        "y": 1220,
         "wires": [
             [
                 "756bc5ace9c187c4"
@@ -283,8 +248,8 @@
         "topic": "light.power",
         "payload": "disable",
         "payloadType": "str",
-        "x": 150,
-        "y": 200,
+        "x": 170,
+        "y": 1300,
         "wires": [
             [
                 "756bc5ace9c187c4"
@@ -292,149 +257,34 @@
         ]
     },
     {
-        "id": "bae3f7c54c109dc6",
-        "type": "serial out",
+        "id": "756bc5ace9c187c4",
+        "type": "rpi-automation-hat out",
         "z": "ae504a8ef127642b",
         "name": "",
-        "serial": "39f99e4a62f373c8",
-        "x": 810,
-        "y": 440,
+        "x": 500,
+        "y": 1260,
         "wires": []
-    },
-    {
-        "id": "e709299f438e7fae",
-        "type": "inject",
-        "z": "ae504a8ef127642b",
-        "name": "Send Flicker Msg",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "{\"adr\":0,\"cmd\":\"F\",\"hue\":6,\"sat\":56,\"val\":32,\"par1\":0,\"par2\":0}",
-        "payloadType": "json",
-        "x": 160,
-        "y": 380,
-        "wires": [
-            [
-                "59a5d73d4167b001"
-            ]
-        ]
-    },
-    {
-        "id": "6eee368c7cb136b9",
-        "type": "inject",
-        "z": "ae504a8ef127642b",
-        "name": "Send ConstantColor Msg",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "{\"adr\":0,\"cmd\":\"C\",\"hue\":60,\"sat\":56,\"val\":16,\"par1\":0,\"par2\":0}",
-        "payloadType": "json",
-        "x": 190,
-        "y": 320,
-        "wires": [
-            [
-                "59a5d73d4167b001"
-            ]
-        ]
-    },
-    {
-        "id": "e70b3fddd692f003",
-        "type": "function",
-        "z": "ae504a8ef127642b",
-        "name": "Make Light Event",
-        "func": "\nfunction checksum(str) \n{\n    var sum = 0;\n\n    for (var i = 0; i < str.length; i++) {\n        sum += str.charCodeAt(i);\n    }\n    return sum & 0x3f;\n}\n\nfunction toChar(i)\n{\n    return String.fromCharCode(0x30 + i);\n}\n\n// Construct string for computing checksum\nvar str =   \"(\" +\n            toChar(msg.payload.adr) + \n            msg.payload.cmd +\n            toChar(msg.payload.hue) +\n            toChar(msg.payload.sat) +\n            toChar(msg.payload.val) +\n            toChar(msg.payload.par1) +\n            toChar(msg.payload.par2) +\n            \"0\" +\n            \")\";\n            \nvar sum = checksum(str);\n\n// replace CRC char\nstr = str.substring(0, 8) + toChar(sum) + str.substring(9);\n\nnode.warn(\"**** str=\" + str);\n\nreturn { payload : str };",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 550,
-        "y": 440,
-        "wires": [
-            [
-                "bae3f7c54c109dc6"
-            ]
-        ]
-    },
-    {
-        "id": "a3cb5015c46a1627",
-        "type": "inject",
-        "z": "ae504a8ef127642b",
-        "name": "Send Color Off Msg",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "{\"adr\":0,\"cmd\":\"C\",\"hue\":60,\"sat\":7,\"val\":0,\"par1\":0,\"par2\":0}",
-        "payloadType": "json",
-        "x": 170,
-        "y": 260,
-        "wires": [
-            [
-                "59a5d73d4167b001"
-            ]
-        ]
-    },
-    {
-        "id": "8e733fa53b82fd33",
-        "type": "link in",
-        "z": "ae504a8ef127642b",
-        "name": "",
-        "links": [
-            "d295f401330fd8bd",
-            "59a5d73d4167b001"
-        ],
-        "x": 315,
-        "y": 440,
-        "wires": [
-            [
-                "e70b3fddd692f003"
-            ]
-        ]
     },
     {
         "id": "59a5d73d4167b001",
         "type": "link out",
         "z": "ae504a8ef127642b",
-        "name": "",
+        "name": "Send Light Effect",
         "mode": "link",
         "links": [
-            "8e733fa53b82fd33"
+            "61f09d71b3284325"
         ],
-        "x": 415,
-        "y": 320,
+        "x": 455,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "6b3dfa5f81fe6002",
+        "type": "shutdown",
+        "z": "ae504a8ef127642b",
+        "name": "",
+        "x": 480,
+        "y": 740,
         "wires": []
     },
     {
@@ -457,13 +307,22 @@
         "payloadType": "date",
         "topic": "topic",
         "topicType": "msg",
-        "x": 140,
-        "y": 820,
+        "x": 120,
+        "y": 780,
         "wires": [
             [
                 "6671d25a8f9b59c9"
             ]
         ]
+    },
+    {
+        "id": "6671d25a8f9b59c9",
+        "type": "restart",
+        "z": "ae504a8ef127642b",
+        "name": "",
+        "x": 470,
+        "y": 780,
+        "wires": []
     },
     {
         "id": "97cc52f896f50d2e",
@@ -485,8 +344,8 @@
         "payloadType": "date",
         "topic": "topic",
         "topicType": "msg",
-        "x": 150,
-        "y": 760,
+        "x": 130,
+        "y": 740,
         "wires": [
             [
                 "6b3dfa5f81fe6002"
@@ -494,172 +353,531 @@
         ]
     },
     {
-        "id": "d7cd9379e5fc7217",
-        "type": "ui_button",
+        "id": "f216c318626bd817",
+        "type": "inject",
         "z": "ae504a8ef127642b",
-        "name": "",
-        "group": "b8db7c4fd954a85d",
-        "order": 1,
-        "width": 0,
-        "height": 0,
-        "passthru": false,
-        "label": "Close",
-        "tooltip": "Close the skimmer valve",
-        "color": "",
-        "bgcolor": "",
-        "className": "",
-        "icon": "",
-        "payload": "close",
+        "name": "Send Color Msg",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "LightColor",
         "payloadType": "str",
-        "topic": "topic",
-        "topicType": "msg",
-        "x": 130,
-        "y": 580,
+        "x": 160,
+        "y": 320,
         "wires": [
             [
-                "ffe8f51e22baefd9"
+                "59a5d73d4167b001"
             ]
         ]
     },
     {
-        "id": "ffe8f51e22baefd9",
+        "id": "75966ffbb9e14ee5",
+        "type": "inject",
+        "z": "ae504a8ef127642b",
+        "name": "Turn Post Lights Off",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "LightOff",
+        "payloadType": "str",
+        "x": 170,
+        "y": 220,
+        "wires": [
+            [
+                "9b574ec0e8a790da"
+            ]
+        ]
+    },
+    {
+        "id": "9a2801c53a116ac5",
+        "type": "inject",
+        "z": "ae504a8ef127642b",
+        "name": "Send Flicker Msg",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "LightFlicker",
+        "payloadType": "str",
+        "x": 160,
+        "y": 360,
+        "wires": [
+            [
+                "59a5d73d4167b001"
+            ]
+        ]
+    },
+    {
+        "id": "0dfce1bb9a3208bc",
+        "type": "inject",
+        "z": "ae504a8ef127642b",
+        "name": "Send Pulse Msg",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "LightPulse",
+        "payloadType": "str",
+        "x": 160,
+        "y": 400,
+        "wires": [
+            [
+                "59a5d73d4167b001"
+            ]
+        ]
+    },
+    {
+        "id": "f98264a050f26a43",
+        "type": "inject",
+        "z": "ae504a8ef127642b",
+        "name": "Send Rainbow Msg",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "LightRainbow",
+        "payloadType": "str",
+        "x": 170,
+        "y": 480,
+        "wires": [
+            [
+                "59a5d73d4167b001"
+            ]
+        ]
+    },
+    {
+        "id": "792e652b510131f1",
+        "type": "inject",
+        "z": "ae504a8ef127642b",
+        "name": "Send Multicolor Msg",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "LightMulti",
+        "payloadType": "str",
+        "x": 170,
+        "y": 440,
+        "wires": [
+            [
+                "59a5d73d4167b001"
+            ]
+        ]
+    },
+    {
+        "id": "3a34fe6112910421",
+        "type": "inject",
+        "z": "ae504a8ef127642b",
+        "name": "Open Skimmer",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "open",
+        "payloadType": "str",
+        "x": 160,
+        "y": 540,
+        "wires": [
+            [
+                "3e38fe48749d1e5e"
+            ]
+        ]
+    },
+    {
+        "id": "13b3611a1f462579",
+        "type": "inject",
+        "z": "ae504a8ef127642b",
+        "name": "Timer Close Skimmer",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "timedclose",
+        "payloadType": "str",
+        "x": 180,
+        "y": 620,
+        "wires": [
+            [
+                "3e38fe48749d1e5e"
+            ]
+        ]
+    },
+    {
+        "id": "361fd9acd2539e62",
+        "type": "inject",
+        "z": "ae504a8ef127642b",
+        "name": "Close Skimmer",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "close",
+        "payloadType": "str",
+        "x": 160,
+        "y": 580,
+        "wires": [
+            [
+                "3e38fe48749d1e5e"
+            ]
+        ]
+    },
+    {
+        "id": "3e38fe48749d1e5e",
         "type": "link out",
         "z": "ae504a8ef127642b",
-        "name": "Send Ctl Msg",
+        "name": "",
         "mode": "link",
         "links": [
             "5e68170bc315b36a"
         ],
-        "x": 375,
+        "x": 435,
         "y": 580,
         "wires": []
     },
     {
-        "id": "8a5d8c9cd4c52561",
-        "type": "ui_text",
+        "id": "69f9196271c3007b",
+        "type": "rpi-automation-hat in",
         "z": "ae504a8ef127642b",
-        "group": "cb99c239e3a46cec",
-        "order": 1,
-        "width": 0,
-        "height": 0,
-        "name": "",
-        "label": "Skimmer Valve",
-        "format": "{{msg.payload}}",
-        "layout": "row-spread",
-        "className": "",
-        "x": 660,
-        "y": 580,
-        "wires": []
-    },
-    {
-        "id": "b6a180c721b67f53",
-        "type": "ui_text",
-        "z": "ae504a8ef127642b",
-        "group": "cb99c239e3a46cec",
-        "order": 2,
-        "width": 0,
-        "height": 0,
-        "name": "",
-        "label": "Raspberry Pi Status",
-        "format": "{{msg.payload}}",
-        "layout": "row-spread",
-        "className": "",
-        "x": 690,
-        "y": 760,
-        "wires": []
-    },
-    {
-        "id": "3073b80593562073",
-        "type": "ui_button",
-        "z": "ae504a8ef127642b",
-        "name": "",
-        "group": "b8db7c4fd954a85d",
-        "order": 2,
-        "width": 0,
-        "height": 0,
-        "passthru": false,
-        "label": "Open",
-        "tooltip": "Open the skimmer valve",
-        "color": "",
-        "bgcolor": "",
-        "className": "",
-        "icon": "",
-        "payload": "open",
-        "payloadType": "str",
-        "topic": "topic",
-        "topicType": "msg",
-        "x": 130,
-        "y": 540,
+        "name": "Buttons",
+        "input": false,
+        "analog": true,
+        "threshold": "0.5",
+        "adc4_threshold": "0.5",
+        "x": 110,
+        "y": 680,
         "wires": [
             [
-                "ffe8f51e22baefd9"
+                "e04a1c57b514626e"
             ]
         ]
     },
     {
-        "id": "28e6e17712b48428",
-        "type": "ui_button",
-        "z": "ae504a8ef127642b",
-        "name": "",
-        "group": "b8db7c4fd954a85d",
-        "order": 3,
-        "width": "0",
-        "height": "0",
-        "passthru": false,
-        "label": "Timed Close",
-        "tooltip": "Close the skimmer valve for 15 minutes",
-        "color": "",
-        "bgcolor": "",
-        "className": "",
-        "icon": "",
-        "payload": "timedclose",
-        "payloadType": "str",
-        "topic": "topic",
-        "topicType": "msg",
-        "x": 150,
-        "y": 620,
-        "wires": [
-            [
-                "ffe8f51e22baefd9"
-            ]
-        ]
-    },
-    {
-        "id": "6b3dfa5f81fe6002",
-        "type": "shutdown",
-        "z": "ae504a8ef127642b",
-        "name": "",
-        "x": 360,
-        "y": 760,
-        "wires": []
-    },
-    {
-        "id": "6671d25a8f9b59c9",
-        "type": "restart",
-        "z": "ae504a8ef127642b",
-        "name": "",
-        "x": 350,
-        "y": 820,
-        "wires": []
-    },
-    {
-        "id": "e3fa1b794f2f6918",
+        "id": "e04a1c57b514626e",
         "type": "function",
-        "z": "9e626f8b528b7958",
+        "z": "ae504a8ef127642b",
         "name": "Handle Buttons",
-        "func": "if (msg.payload > 1.2 && msg.payload < 2.7) {\n    // Close valve button\n    return { \"payload\" : \"timedclose\" };\n}\n\nif (msg.payload < 4) {\n    // upper right button\n    return { \"payload\" : \"UpperRight\" };\n}\n\nif (msg.payload < 6) {\n    // lower right button\n    return { \"payload\" : \"LowerRight\" };\n}\n\nif (msg.payload < 9.2) {\n    // center button\n    return { \"payload\" : \"Center\" };\n}\n\nif (msg.payload < 10.8) {\n    // lower left button\n    return { \"payload\" : \"LowerLeft\" };\n}\n\nif (msg.payload < 11.8) {\n    // upper left button\n    return { \"payload\" : \"UpperLeft\" };\n}\n\nreturn null;\n",
+        "func": "if (msg.payload > 1.2 && msg.payload < 2.7) {\n    // Close valve button\n    return { \"payload\" : \"TimedCloseButton\" };\n}\n\nif (msg.payload < 4) {\n    // upper right button\n    return { \"payload\" : \"UpperRightButton\" };\n}\n\nif (msg.payload < 6) {\n    // lower right button\n    return { \"payload\" : \"LowerRightButton\" };\n}\n\nif (msg.payload < 9.2) {\n    // center button\n    return { \"payload\" : \"CenterButton\" };\n}\n\nif (msg.payload < 10.8) {\n    // lower left button\n    return { \"payload\" : \"LowerLeftButton\" };\n}\n\nif (msg.payload < 11.8) {\n    // upper left button\n    return { \"payload\" : \"UpperLeftButton\" };\n}\n\nreturn null;\n",
         "outputs": 1,
+        "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 200,
-        "y": 280,
+        "x": 280,
+        "y": 680,
         "wires": [
             [
-                "f96a7c0a0992d4cb"
+                "a6a72b3a8cdf7d86"
             ]
         ]
+    },
+    {
+        "id": "a6a72b3a8cdf7d86",
+        "type": "link out",
+        "z": "ae504a8ef127642b",
+        "name": "",
+        "mode": "link",
+        "links": [
+            "195a8aa010b30d0c",
+            "5e68170bc315b36a"
+        ],
+        "x": 435,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "09632f4cec925bfc",
+        "type": "inject",
+        "z": "ae504a8ef127642b",
+        "name": "Send Executable 00",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "00",
+        "payloadType": "str",
+        "x": 170,
+        "y": 40,
+        "wires": [
+            [
+                "b290bf771100676d"
+            ]
+        ]
+    },
+    {
+        "id": "b290bf771100676d",
+        "type": "function",
+        "z": "ae504a8ef127642b",
+        "name": "Build Executable Msg",
+        "func": "var fs = global.get('fs')\n\nvar name = \"/home/cmarrin/PostLightEffects\" + msg.payload + \".arlx\";\n\nif (!fs.existsSync(name)) {\n    node.warn(\"*** Error '\" + name + \"' does not exist\");\n} else {\n    var buf = fs.readFileSync(name);\n    var p = {\n        \"adr\": 0,\n        \"cmd\": \"X\",\n        \"size\": buf.length,\n        \"data\": buf\n    }\n    node.warn(\"*** Sending '\" + name + \"'\");\n    node.send({ payload : p });\n}\n\nreturn null;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 100,
+        "wires": [
+            [
+                "1a80e8d709cc8728"
+            ]
+        ]
+    },
+    {
+        "id": "1a80e8d709cc8728",
+        "type": "link out",
+        "z": "ae504a8ef127642b",
+        "name": "",
+        "mode": "link",
+        "links": [
+            "0ef97f1a6bf8e745"
+        ],
+        "x": 635,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "2618c94fa8a21d8c",
+        "type": "inject",
+        "z": "ae504a8ef127642b",
+        "name": "Send Executable 01",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "01",
+        "payloadType": "str",
+        "x": 170,
+        "y": 80,
+        "wires": [
+            [
+                "b290bf771100676d"
+            ]
+        ]
+    },
+    {
+        "id": "408a7cf3f7d3a343",
+        "type": "inject",
+        "z": "ae504a8ef127642b",
+        "name": "Send Executable 02",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "02",
+        "payloadType": "str",
+        "x": 170,
+        "y": 120,
+        "wires": [
+            [
+                "b290bf771100676d"
+            ]
+        ]
+    },
+    {
+        "id": "4c88c9bf1b16e110",
+        "type": "inject",
+        "z": "ae504a8ef127642b",
+        "name": "Send Executable 03",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "03",
+        "payloadType": "str",
+        "x": 170,
+        "y": 160,
+        "wires": [
+            [
+                "b290bf771100676d"
+            ]
+        ]
+    },
+    {
+        "id": "9b574ec0e8a790da",
+        "type": "link out",
+        "z": "ae504a8ef127642b",
+        "name": "StringToLightCommandOut",
+        "mode": "link",
+        "links": [
+            "195a8aa010b30d0c",
+            "9d35d3feb31faabe"
+        ],
+        "x": 455,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "366bd38441f25fc7",
+        "type": "inject",
+        "z": "ae504a8ef127642b",
+        "name": "Turn Post Lights On",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "LightOn",
+        "payloadType": "str",
+        "x": 170,
+        "y": 260,
+        "wires": [
+            [
+                "9b574ec0e8a790da"
+            ]
+        ]
+    },
+    {
+        "id": "a93cd4b347d94469",
+        "type": "comment",
+        "z": "ae504a8ef127642b",
+        "name": "Button Assignments",
+        "info": "Button box has a red button which\nturns off the skimmer valve for 15\nminutes. There are also 5 buttons in\na square formation, arranged like this:\n\n1       2\n    3\n4       5\n\nFunctions are:\n\n1 - Constant color\n2 - Rainbow\n3 - Lights off\n4 - Flicker\n5 - Multicolor",
+        "x": 590,
+        "y": 680,
+        "wires": []
     },
     {
         "id": "b118e96062651eda",
@@ -678,13 +896,22 @@
         "bytopic": "all",
         "topic": "topic",
         "outputs": 1,
-        "x": 580,
-        "y": 520,
+        "x": 340,
+        "y": 500,
         "wires": [
             [
                 "45c785554f526de0"
             ]
         ]
+    },
+    {
+        "id": "3f3ee6b11e05d312",
+        "type": "rpi-automation-hat out",
+        "z": "9e626f8b528b7958",
+        "name": "",
+        "x": 600,
+        "y": 280,
+        "wires": []
     },
     {
         "id": "3ebc7f2e926afbb4",
@@ -703,8 +930,8 @@
         "bytopic": "all",
         "topic": "topic",
         "outputs": 1,
-        "x": 840,
-        "y": 400,
+        "x": 600,
+        "y": 380,
         "wires": [
             [
                 "45c785554f526de0"
@@ -716,14 +943,15 @@
         "type": "function",
         "z": "9e626f8b528b7958",
         "name": "Manage Valve",
-        "func": "// This function receives messages to \"open\", \"close\"\n// and \"stop\" the valve motor\n\nfunction makeRelayMsg(enable, id)\n{\n    return { \"topic\" : \"relay.\" + id, \"payload\" : enable };\n}\n\n// Make a message to send multiple outputs. The first sends\n// 2 messages, one to each relay. The second sends a\n// message to trigger the timer that keeps the valve\n// motor running long enough to let it open or close.\n// The third sends a message to trigger the timer that\n// tells the valve when to reopen. All params are bool.\n// Since the timers trigger on any message \"msg\" is \n// sent when startMotor or startDelay are true and\n// \"null\" when false.\nfunction makeMsg(relay1, relay2, startMotor, startDelay, stopDelay)\n{\n    var delayPayload = null;\n    if (startDelay) {\n        delayPayload = msg;\n    } else if (stopDelay) {\n        delayPayload = { \"payload\" : \"stop\" };\n    }\n    \n    return [\n        [\n            makeRelayMsg(relay1, \"one\"),\n            makeRelayMsg(relay2, \"two\")\n        ],\n        delayPayload,\n        startMotor ? msg : null\n    ];\n}\n\nif (msg.payload == \"close\") {\n    return makeMsg(false, true, true, false, true);\n}\n\nif (msg.payload == \"timedclose\") {\n    return makeMsg(false, true, true, true, false);\n}\n\nif (msg.payload == \"open\") {\n    return makeMsg(true, false, true, false, true);\n}\n\nif (msg.payload == \"stop\") {\n    return makeMsg(false, false, false, false, true);\n}\n\nif (msg.payload == \"runmotordone\") {\n    return makeMsg(false, false, false, false, false);\n}\n\nreturn null;\n",
-        "outputs": 3,
+        "func": "// This function receives messages to \"open\", \"close\"\n// and \"stop\" the valve motor\nfunction makeRelayMsg(enable, id)\n{\n    return { \"topic\" : \"relay.\" + id, \"payload\" : enable };\n}\n\n// Make a message to send multiple outputs. The first sends\n// 2 messages, one to each relay. The second sends a\n// message to trigger the timer that keeps the valve\n// motor running long enough to let it open or close.\n// The third sends a message to trigger the timer that\n// tells the valve when to reopen. All params are bool.\n// Since the timers trigger on any message \"msg\" is \n// sent when startMotor or startDelay are true and\n// \"null\" when false.\nfunction makeMsg(relay1, relay2, startMotor, startDelay, stopDelay, status)\n{\n    var delayPayload = null;\n    if (startDelay) {\n        delayPayload = msg;\n    } else if (stopDelay) {\n        delayPayload = { \"payload\" : \"stop\" };\n    }\n    \n    return [\n        [\n            makeRelayMsg(relay1, \"one\"),\n            makeRelayMsg(relay2, \"two\")\n        ],\n        delayPayload,\n        startMotor ? msg : null,\n        { \"payload\" : status }\n    ];\n}\n\nvar finalStatus = \"\";\n\nif (msg.payload == \"close\") {\n    finalStatus = \"closed\";\n    return makeMsg(false, true, true, false, true, \"closing...\");\n}\n\nif (msg.payload == \"timedclose\" || msg.payload == \"TimedCloseButton\") {\n    finalStatus = \"timed closed\";\n    return makeMsg(false, true, true, true, false, \"timed closing...\");\n}\n\nif (msg.payload == \"open\") {\n    finalStatus = \"open\";\n    return makeMsg(true, false, true, false, true, \"opening...\");\n}\n\nif (msg.payload == \"stop\") {\n    finalStatus = \"stopped\";\n    return makeMsg(false, false, false, false, true, \"stopped\");\n}\n\nif (msg.payload == \"runmotordone\") {\n    return makeMsg(false, false, false, false, false, finalStatus);\n}\n\nreturn null;\n",
+        "outputs": 4,
+        "timeout": "",
         "noerr": 0,
-        "initialize": "",
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\nfinalStatus = \"\";",
         "finalize": "",
         "libs": [],
-        "x": 580,
-        "y": 400,
+        "x": 340,
+        "y": 380,
         "wires": [
             [
                 "3f3ee6b11e05d312"
@@ -733,61 +961,78 @@
             ],
             [
                 "b118e96062651eda"
-            ]
-        ]
-    },
-    {
-        "id": "36261f6545949e4c",
-        "type": "function",
-        "z": "9e626f8b528b7958",
-        "name": "Control Lights",
-        "func": "function makeMsg()\n{\n    return {\n        \"topic\" : \"ControlLights\", \n        \"payload\" : payloads[currentPayload]\n    };\n}\n\nif (msg.payload == \"Center\") {\n    // Go to the next command\n    if (++currentPayload >= payloads.length) {\n        currentPayload = 0;\n    }\n} else {\n    return null\n}\n\nreturn makeMsg();\n\n",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "// Setup the payload\n\ncurrentPayload = 0;\n\npayloads = [\n    {\n        \"adr\":  0,\n        \"cmd\":  \"C\",\n        \"hue\":  0,\n        \"sat\":  0,\n        \"val\":  0,\n        \"par1\": 0,\n        \"par2\": 0\n    },\n    {\n        \"adr\":  0,\n        \"cmd\":  \"C\",\n        \"hue\":  60,\n        \"sat\":  56,\n        \"val\":  16,\n        \"par1\": 0,\n        \"par2\": 0\n    },\n    {\n        \"adr\":  0,\n        \"cmd\":  \"F\",\n        \"hue\":  6,\n        \"sat\":  56,\n        \"val\":  32,\n        \"par1\": 0,\n        \"par2\": 0\n    },\n    {\n        \"adr\":  0,\n        \"cmd\":  \"F\",\n        \"hue\":  60,\n        \"sat\":  56,\n        \"val\":  16,\n        \"par1\": 4,\n        \"par2\": 0\n    }\n];\n\n// Array entry for each command. Each entry is\n// an array with the currentParams for that command\n// of the form [ hue, sat, val, speed ]\nvar currentParams = [\n    // \"X\" - all lights off\n    [ 0, 0, 0, 0 ],\n    \n    // \"C\" - constant color\n    [ 60, 56, 16, 0],\n    \n    // \"F\" - flicker\n    [ 6, 56, 32, 0 ],\n    \n    // \"R\" - rainbow\n    [ 0, 0, 0, 0 ]\n];\n\n// Array entry for each command. each entry is\n// an array with the sequence of params to use\n// when the buttons are pressed\nvar paramSequence = [\n    // \"X\" - all lights off\n    [ 0, 0, 0, 0 ],\n    \n    // \"C\" - constant color\n    [ 60, 56, 16, 0],\n    \n    // \"F\" - flicker\n    [ 6, 56, 32, 0 ],\n    \n    // \"R\" - rainbow\n    [ 0, 0, 0, 0 ]\n];\n",
-        "finalize": "",
-        "libs": [],
-        "x": 580,
-        "y": 160,
-        "wires": [
+            ],
             [
-                "d295f401330fd8bd"
+                "9d50e37f252b4975"
             ]
         ]
-    },
-    {
-        "id": "d295f401330fd8bd",
-        "type": "link out",
-        "z": "9e626f8b528b7958",
-        "name": "",
-        "mode": "link",
-        "links": [
-            "8e733fa53b82fd33"
-        ],
-        "x": 715,
-        "y": 160,
-        "wires": []
     },
     {
         "id": "5e68170bc315b36a",
         "type": "link in",
         "z": "9e626f8b528b7958",
-        "name": "Receive Ctl Msg",
+        "name": "Receive Valve Control Msg",
         "links": [
+            "4749fdb571ea280d",
             "f96a7c0a0992d4cb",
-            "ffe8f51e22baefd9"
+            "3e38fe48749d1e5e",
+            "a6a72b3a8cdf7d86"
         ],
-        "x": 435,
-        "y": 280,
+        "x": 135,
+        "y": 380,
         "wires": [
             [
-                "36261f6545949e4c",
                 "45c785554f526de0"
             ]
         ]
     },
     {
-        "id": "f96a7c0a0992d4cb",
+        "id": "9d50e37f252b4975",
+        "type": "ui_text",
+        "z": "9e626f8b528b7958",
+        "group": "cb99c239e3a46cec",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Skimmer Valve",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 620,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "2d7ad5b90d9bbbed",
+        "type": "ui_button",
+        "z": "9e626f8b528b7958",
+        "name": "",
+        "group": "b8db7c4fd954a85d",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Close",
+        "tooltip": "Close the skimmer valve",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "close",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 110,
+        "y": 100,
+        "wires": [
+            [
+                "4749fdb571ea280d"
+            ]
+        ]
+    },
+    {
+        "id": "4749fdb571ea280d",
         "type": "link out",
         "z": "9e626f8b528b7958",
         "name": "Send Ctl Msg",
@@ -795,130 +1040,497 @@
         "links": [
             "5e68170bc315b36a"
         ],
-        "x": 355,
-        "y": 280,
+        "x": 415,
+        "y": 100,
         "wires": []
     },
     {
-        "id": "2000c208b9a7eca7",
-        "type": "inject",
+        "id": "e4b8d316eb8ba938",
+        "type": "ui_button",
         "z": "9e626f8b528b7958",
-        "name": "Open Skimmer",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
+        "name": "",
+        "group": "b8db7c4fd954a85d",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Open",
+        "tooltip": "Open the skimmer valve",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
         "payload": "open",
         "payloadType": "str",
-        "x": 200,
-        "y": 360,
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 110,
+        "y": 60,
         "wires": [
             [
-                "45c785554f526de0"
+                "4749fdb571ea280d"
             ]
         ]
     },
     {
-        "id": "e3ded562ba413ddd",
-        "type": "inject",
+        "id": "b3afa10b925c2b76",
+        "type": "ui_button",
         "z": "9e626f8b528b7958",
-        "name": "Timer Close Skimmer",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
+        "name": "",
+        "group": "b8db7c4fd954a85d",
+        "order": 3,
+        "width": "0",
+        "height": "0",
+        "passthru": false,
+        "label": "Timed Close",
+        "tooltip": "Close the skimmer valve for 15 minutes",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
         "payload": "timedclose",
         "payloadType": "str",
-        "x": 220,
-        "y": 480,
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 130,
+        "y": 140,
         "wires": [
             [
-                "45c785554f526de0"
+                "4749fdb571ea280d"
             ]
         ]
     },
     {
-        "id": "f42d592f18820fad",
-        "type": "inject",
-        "z": "9e626f8b528b7958",
-        "name": "Close Skimmer",
-        "props": [
+        "id": "5189ccc827abf99c",
+        "type": "function",
+        "z": "83b262e887c512b6",
+        "name": "String to Light Command",
+        "func": "function makeMsg(adr, cmd, data)\n{\n    return {\n        \"topic\" : \"ControlLights\", \n        \"payload\" : {\n            \"adr\": adr,\n            \"cmd\": cmd,\n            \"size\": data.length,\n            \"data\": data\n        }\n    };\n}\n\nvar effect = msg.payload;\n\nvar brightness = global.get(\"LightBrightnesses\")[global.get(\"LightEffect\")];\nif (brightness == undefined) {\n    brightness = 255;\n}\n\nvar color = global.get(\"LightColors\")[global.get(\"LightEffect\")];\nif (color == undefined) {\n    color = { h : 0, s : 0 };\n}\nvar hue = Math.round(color.h / 355 * 255);\nvar sat = Math.round(color.s * 255);\n\n//node.warn(\"*** hue=\" + hue + \", sat=\" + sat + \", brightness=\" + brightness)\n\nswitch (effect) {\n    case \"CenterButton\":\n    case \"LightOff\":\n        return makeMsg(0, \"C\", [ 0, 0, 0, 0, 0 ]);\n    case \"UpperLeftButton\":\n    case \"LightColor\":\n        return makeMsg(0, \"C\", [hue, sat, brightness, 0, 0]);\n    case \"LowerLeftButton\":\n    case \"LightFlicker\":\n        return makeMsg(0, \"f\", [hue, sat, brightness, 2 ]);\n    case \"LightPulse\":\n        return makeMsg(0, \"p\", [hue, sat, brightness, 5, 5 ]);\n    case \"LowerRightButton\":\n    case \"LightMulti\":\n        return makeMsg(0, \"m\", [\n              0, 255, brightness, \n             96, 255, brightness,\n            170, 255, brightness,\n             38, 255, brightness, 5 ]);\n    case \"UpperRightButton\":\n    case \"LightRainbow\":\n        return makeMsg(0, \"r\", [0, 224, brightness, 15, 0, 1 ]);\n\n    default:            return null;\n}\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "// Setup the payload\n\ncurrentPayload = 0;\n\npayloads = [\n    {\n        \"adr\":  0,\n        \"cmd\":  \"C\",\n        \"hue\":  0,\n        \"sat\":  0,\n        \"val\":  0,\n        \"par1\": 0,\n        \"par2\": 0\n    },\n    {\n        \"adr\":  0,\n        \"cmd\":  \"C\",\n        \"hue\":  60,\n        \"sat\":  56,\n        \"val\":  16,\n        \"par1\": 0,\n        \"par2\": 0\n    },\n    {\n        \"adr\":  0,\n        \"cmd\":  \"F\",\n        \"hue\":  6,\n        \"sat\":  56,\n        \"val\":  32,\n        \"par1\": 0,\n        \"par2\": 0\n    },\n    {\n        \"adr\":  0,\n        \"cmd\":  \"F\",\n        \"hue\":  60,\n        \"sat\":  56,\n        \"val\":  16,\n        \"par1\": 4,\n        \"par2\": 0\n    }\n];\n",
+        "finalize": "",
+        "libs": [],
+        "x": 690,
+        "y": 500,
+        "wires": [
+            [
+                "ab18ffce2710d4ef"
+            ]
+        ]
+    },
+    {
+        "id": "f89025884f3c4982",
+        "type": "serial out",
+        "z": "83b262e887c512b6",
+        "name": "",
+        "serial": "39f99e4a62f373c8",
+        "x": 550,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "ab18ffce2710d4ef",
+        "type": "function",
+        "z": "83b262e887c512b6",
+        "name": "Make Light Event",
+        "func": "\nfunction checksum(buf) \n{\n    var sum = 0;\n\n    for (var i = 0; i < buf.length; i++) {\n        sum += buf.readUInt8(i);\n    }\n    return sum & 0x3f;\n}\n\nfunction toChar(i)\n{\n    return String.fromCharCode(0x30 + i);\n}\n\nfunction toCharCode(i)\n{\n    return 0x30 + i;\n}\n\nvar buf = Buffer.alloc(6 + msg.payload.size);\nvar index = 0;\nbuf[index++] = \"(\".charCodeAt(0);\nbuf[index++] = toCharCode(msg.payload.adr);\nbuf[index++] = msg.payload.cmd.charCodeAt(0);\n\nbuf.writeUInt8(msg.payload.size, index++);\n\nfor (var i = 0; i < msg.payload.size; ++i) {\n    buf.writeUInt8(msg.payload.data[i], index++);\n}\n\nvar checksumIndex = index;\nbuf[index++] = \"0\".charCodeAt(0);\nbuf[index++] = \")\".charCodeAt(0);\n\nbuf[checksumIndex] = checksum(buf) + 0x30;\n\n//node.warn(buf);\n//node.warn(\"Send Light Event:cmd='\" + msg.payload.cmd + \n//        \"', data=[\" + msg.payload.data + \"]\");\n\nreturn { payload : buf };",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 600,
+        "wires": [
+            [
+                "f89025884f3c4982"
+            ]
+        ]
+    },
+    {
+        "id": "0ef97f1a6bf8e745",
+        "type": "link in",
+        "z": "83b262e887c512b6",
+        "name": "Receive Light Effect",
+        "links": [
+            "d295f401330fd8bd",
+            "6ade50d9688a761c",
+            "1a80e8d709cc8728"
+        ],
+        "x": 145,
+        "y": 600,
+        "wires": [
+            [
+                "ab18ffce2710d4ef"
+            ]
+        ]
+    },
+    {
+        "id": "0e2d3091deb1c749",
+        "type": "ui_dropdown",
+        "z": "83b262e887c512b6",
+        "name": "",
+        "label": "Effect",
+        "tooltip": "",
+        "place": "Color",
+        "group": "e1a99b43f32fdc20",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "multiple": false,
+        "options": [
             {
-                "p": "payload"
+                "label": "Color",
+                "value": "LightColor",
+                "type": "str"
             },
             {
-                "p": "topic",
-                "vt": "str"
+                "label": "Flicker",
+                "value": "LightFlicker",
+                "type": "str"
+            },
+            {
+                "label": "Rainbow",
+                "value": "LightRainbow",
+                "type": "str"
+            },
+            {
+                "label": "Multicolor",
+                "value": "LightMulti",
+                "type": "str"
+            },
+            {
+                "label": "Pulse",
+                "value": "LightPulse",
+                "type": "str"
             }
         ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "close",
-        "payloadType": "str",
-        "x": 200,
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "className": "",
+        "x": 250,
         "y": 420,
         "wires": [
             [
-                "45c785554f526de0"
+                "1637cd383e19b35d",
+                "339cc0af2fba3a55"
             ]
         ]
     },
     {
-        "id": "55c9def2f8dba5d7",
-        "type": "rpi-automation-hat in",
-        "z": "9e626f8b528b7958",
-        "name": "Buttons",
-        "input": false,
-        "analog": true,
-        "threshold": "0.5",
-        "adc4_threshold": "0.5",
-        "x": 110,
-        "y": 200,
+        "id": "139141666827c756",
+        "type": "function",
+        "z": "83b262e887c512b6",
+        "name": "Homebridge Post Lights",
+        "func": "return { \"payload\": (msg.payload.On == 1) ? \"LightOn\" : \"LightOff\" };\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 260,
         "wires": [
             [
-                "e3fa1b794f2f6918"
+                "2e42f0ef7971df0d"
             ]
         ]
     },
     {
-        "id": "756bc5ace9c187c4",
-        "type": "rpi-automation-hat out",
-        "z": "9e626f8b528b7958",
+        "id": "1637cd383e19b35d",
+        "type": "change",
+        "z": "83b262e887c512b6",
+        "name": "LightEffect",
+        "rules": [
+            {
+                "t": "set",
+                "p": "LightEffect",
+                "pt": "global",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 450,
+        "y": 420,
+        "wires": [
+            [
+                "9e52f6473491b0bd"
+            ]
+        ]
+    },
+    {
+        "id": "61f09d71b3284325",
+        "type": "link in",
+        "z": "83b262e887c512b6",
+        "name": "Set Global Light Effect",
+        "links": [
+            "59a5d73d4167b001"
+        ],
+        "x": 135,
+        "y": 420,
+        "wires": [
+            [
+                "0e2d3091deb1c749"
+            ]
+        ]
+    },
+    {
+        "id": "2e42f0ef7971df0d",
+        "type": "ui_switch",
+        "z": "83b262e887c512b6",
         "name": "",
-        "x": 660,
-        "y": 80,
+        "label": "Post Lights On",
+        "tooltip": "",
+        "group": "e1a99b43f32fdc20",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "LightOn",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "LightOff",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 280,
+        "y": 340,
+        "wires": [
+            [
+                "67f60b3b525552dc"
+            ]
+        ]
+    },
+    {
+        "id": "9d35d3feb31faabe",
+        "type": "link in",
+        "z": "83b262e887c512b6",
+        "name": "Light On Off",
+        "links": [
+            "9b574ec0e8a790da"
+        ],
+        "x": 135,
+        "y": 340,
+        "wires": [
+            [
+                "2e42f0ef7971df0d"
+            ]
+        ]
+    },
+    {
+        "id": "67f60b3b525552dc",
+        "type": "change",
+        "z": "83b262e887c512b6",
+        "name": "LightsOn",
+        "rules": [
+            {
+                "t": "set",
+                "p": "LightsOn",
+                "pt": "global",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 440,
+        "y": 340,
+        "wires": [
+            [
+                "9e52f6473491b0bd"
+            ]
+        ]
+    },
+    {
+        "id": "9e52f6473491b0bd",
+        "type": "function",
+        "z": "83b262e887c512b6",
+        "name": "LightEffectLightOnHandler",
+        "func": "if (msg.payload == \"LightOff\"){\n    // LightOff goes out no matter what\n    return msg;\n} else if (msg.payload == \"LightOn\") {\n    // Transform message to the current effect\n    return { \"payload\": global.get(\"LightEffect\") };\n} else {\n    // This is an effect change. Only send it if light is on\n    if (global.get(\"LightsOn\") == \"LightOn\") {\n        return { \"payload\": global.get(\"LightEffect\") };\n    }\n}\n\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 720,
+        "y": 380,
+        "wires": [
+            [
+                "5189ccc827abf99c"
+            ]
+        ]
+    },
+    {
+        "id": "678ac40f2584bf02",
+        "type": "hb-event",
+        "z": "83b262e887c512b6",
+        "name": "Post Lights",
+        "Homebridge": "homebridge",
+        "Manufacturer": "Homebridge",
+        "Service": "Switch",
+        "device": "homebridge0E:AD:47:4A:2B:77HomebridgePost Lights00000049",
+        "conf": "2380de9671d7f576",
+        "sendInitialState": false,
+        "x": 110,
+        "y": 260,
+        "wires": [
+            [
+                "139141666827c756"
+            ]
+        ]
+    },
+    {
+        "id": "760cef2ce3f4e4e5",
+        "type": "ui_slider",
+        "z": "83b262e887c512b6",
+        "name": "",
+        "label": "Brightness",
+        "tooltip": "",
+        "group": "e1a99b43f32fdc20",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "outs": "end",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": "30",
+        "max": "255",
+        "step": 1,
+        "className": "",
+        "x": 150,
+        "y": 180,
+        "wires": [
+            [
+                "134b50e89aa44adc"
+            ]
+        ]
+    },
+    {
+        "id": "134b50e89aa44adc",
+        "type": "function",
+        "z": "83b262e887c512b6",
+        "name": "Brightness Handler",
+        "func": "// Incoming message is a brightness value (0-255) which we \n// want to put in the global store per-effect.\nif (global.get(\"LightBrightnesses\") == null) {\n    global.set(\"LightBrightnesses\", {});\n}\n\nglobal.get(\"LightBrightnesses\")[global.get(\"LightEffect\")] = msg.payload;\n\nif (global.get(\"LightsOn\") == \"LightOn\") {\n    return { \"payload\": \"LightOn\" };\n}\nreturn null;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 180,
+        "wires": [
+            [
+                "9e52f6473491b0bd"
+            ]
+        ]
+    },
+    {
+        "id": "8d617affe0399396",
+        "type": "comment",
+        "z": "83b262e887c512b6",
+        "name": "Effect Parameters",
+        "info": "Current effects:\n\nColor(h, s, v, n, d)\n\nSet a constant color (h, s, v). Flash n\ntimes with a duration of d ms per flash.\nIf n == 0, leave lights on.\n\n\nFlicker(h, s, v, speed)\n\nFlicker light with color (h, s, v) at\nthe passed speed (0-7).\n\n\nRainbow(h, s, v, speed, range, mode)\n\nChange colors starting at (h, s, v) at a rate\nof speed from 0 (very slow) to 15 (very fast). \nRange is how far from the initial color to \ngo, from 0 (little change) to 7 (full range). \nIf mode is 0 colors bounce back and forth\nbetween start color through range. If it \nis 1 colors cycle the full color spectrum \nand range is ignored.\n\n\nMulticolor( h1, s1, v1, \n            h2, s2, v2,\n            h3, s3, v3,\n            h4, s4, v4,\n            duration)\n\nCross fade between the four passed colors.\nPassed duration is number of seconds between\ncolor changes.\n\n\nPulse(h, s, v, speed, depth)\n\nPulse color (h, s, v) from the brightness in\nv down according to the value of depth where\na value of 0 is very slight and 7 is very\ndeep. Speed is now fast to pulse from 0\n(slow) to 7 (fast)",
+        "x": 770,
+        "y": 600,
         "wires": []
     },
     {
-        "id": "3f3ee6b11e05d312",
-        "type": "rpi-automation-hat out",
-        "z": "9e626f8b528b7958",
+        "id": "b1cdcf75bc9e5ed3",
+        "type": "ui_colour_picker",
+        "z": "83b262e887c512b6",
         "name": "",
-        "x": 840,
-        "y": 300,
-        "wires": []
+        "label": "Color",
+        "group": "e1a99b43f32fdc20",
+        "format": "hsl",
+        "outformat": "object",
+        "showSwatch": true,
+        "showPicker": false,
+        "showValue": true,
+        "showHue": false,
+        "showAlpha": false,
+        "showLightness": true,
+        "square": "false",
+        "dynOutput": "false",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "topic": "topic",
+        "topicType": "msg",
+        "className": "",
+        "x": 130,
+        "y": 100,
+        "wires": [
+            [
+                "7d06e11eeba97614"
+            ]
+        ]
+    },
+    {
+        "id": "7d06e11eeba97614",
+        "type": "function",
+        "z": "83b262e887c512b6",
+        "name": "Color Handler",
+        "func": "// Incoming message is a color object which we want to put\n// in the global store per-effect.\nif (global.get(\"LightColors\") == null) {\n    global.set(\"LightColors\", { });\n}\n\nglobal.get(\"LightColors\")[global.get(\"LightEffect\")] = msg.payload;\n\nif (global.get(\"LightsOn\") == \"LightOn\") {\n    return { \"payload\": \"LightOn\" };\n}\nreturn null;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 100,
+        "wires": [
+            [
+                "9e52f6473491b0bd"
+            ]
+        ]
+    },
+    {
+        "id": "339cc0af2fba3a55",
+        "type": "function",
+        "z": "83b262e887c512b6",
+        "name": "Update Light Controls",
+        "func": "var brightness = global.get(\"LightBrightnesses\")[global.get(\"LightEffect\")];\nif (brightness == undefined) {\n    brightness = 255;\n}\n\nvar color = global.get(\"LightColors\")[global.get(\"LightEffect\")];\nif (color == undefined) {\n    color = { h: 0, s: 0 };\n}\n\nreturn [ { \"payload\" : color }, { \"payload\" : brightness } ];",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 500,
+        "wires": [
+            [
+                "b1cdcf75bc9e5ed3"
+            ],
+            [
+                "760cef2ce3f4e4e5"
+            ]
+        ]
     }
 ]
