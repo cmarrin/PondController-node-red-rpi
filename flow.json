@@ -292,15 +292,6 @@
         ]
     },
     {
-        "id": "756bc5ace9c187c4",
-        "type": "rpi-automation-hat out",
-        "z": "ae504a8ef127642b",
-        "name": "",
-        "x": 480,
-        "y": 160,
-        "wires": []
-    },
-    {
         "id": "bae3f7c54c109dc6",
         "type": "serial out",
         "z": "ae504a8ef127642b",
@@ -447,15 +438,6 @@
         "wires": []
     },
     {
-        "id": "6b3dfa5f81fe6002",
-        "type": "shutdown",
-        "z": "ae504a8ef127642b",
-        "name": "",
-        "x": 360,
-        "y": 760,
-        "wires": []
-    },
-    {
         "id": "4355d1422029c636",
         "type": "ui_button",
         "z": "ae504a8ef127642b",
@@ -482,15 +464,6 @@
                 "6671d25a8f9b59c9"
             ]
         ]
-    },
-    {
-        "id": "6671d25a8f9b59c9",
-        "type": "restart",
-        "z": "ae504a8ef127642b",
-        "name": "",
-        "x": 350,
-        "y": 820,
-        "wires": []
     },
     {
         "id": "97cc52f896f50d2e",
@@ -652,21 +625,22 @@
         ]
     },
     {
-        "id": "55c9def2f8dba5d7",
-        "type": "rpi-automation-hat in",
-        "z": "9e626f8b528b7958",
-        "name": "Buttons",
-        "input": false,
-        "analog": true,
-        "threshold": "0.5",
-        "adc4_threshold": "0.5",
-        "x": 110,
-        "y": 200,
-        "wires": [
-            [
-                "e3fa1b794f2f6918"
-            ]
-        ]
+        "id": "6b3dfa5f81fe6002",
+        "type": "shutdown",
+        "z": "ae504a8ef127642b",
+        "name": "",
+        "x": 360,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "6671d25a8f9b59c9",
+        "type": "restart",
+        "z": "ae504a8ef127642b",
+        "name": "",
+        "x": 350,
+        "y": 820,
+        "wires": []
     },
     {
         "id": "e3fa1b794f2f6918",
@@ -711,15 +685,6 @@
                 "45c785554f526de0"
             ]
         ]
-    },
-    {
-        "id": "3f3ee6b11e05d312",
-        "type": "rpi-automation-hat out",
-        "z": "9e626f8b528b7958",
-        "name": "",
-        "x": 840,
-        "y": 300,
-        "wires": []
     },
     {
         "id": "3ebc7f2e926afbb4",
@@ -920,5 +885,40 @@
                 "45c785554f526de0"
             ]
         ]
+    },
+    {
+        "id": "55c9def2f8dba5d7",
+        "type": "rpi-automation-hat in",
+        "z": "9e626f8b528b7958",
+        "name": "Buttons",
+        "input": false,
+        "analog": true,
+        "threshold": "0.5",
+        "adc4_threshold": "0.5",
+        "x": 110,
+        "y": 200,
+        "wires": [
+            [
+                "e3fa1b794f2f6918"
+            ]
+        ]
+    },
+    {
+        "id": "756bc5ace9c187c4",
+        "type": "rpi-automation-hat out",
+        "z": "9e626f8b528b7958",
+        "name": "",
+        "x": 660,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "3f3ee6b11e05d312",
+        "type": "rpi-automation-hat out",
+        "z": "9e626f8b528b7958",
+        "name": "",
+        "x": 840,
+        "y": 300,
+        "wires": []
     }
 ]
