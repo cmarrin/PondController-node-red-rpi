@@ -193,10 +193,35 @@
         "className": ""
     },
     {
-        "id": "2380de9671d7f576",
-        "type": "hb-conf",
-        "username": "412-02-322",
-        "macAddress": ""
+        "id": "51bb695804608b82",
+        "type": "global-config",
+        "env": []
+    },
+    {
+        "id": "fcbbba1626153ba8",
+        "type": "homekit-bridge",
+        "bridgeName": "PondController-Bridge",
+        "pinCode": "4556-7686",
+        "port": "",
+        "advertiser": "bonjour-hap",
+        "allowInsecureRequest": false,
+        "manufacturer": "MarrinTech",
+        "model": "1.7.3",
+        "serialNo": "Default Serial Number",
+        "firmwareRev": "1.7.3",
+        "hardwareRev": "1.7.3",
+        "softwareRev": "1.7.3",
+        "bind": "",
+        "bindType": "str",
+        "customMdnsConfig": false,
+        "mdnsMulticast": true,
+        "mdnsInterface": "",
+        "mdnsPort": "",
+        "mdnsIp": "",
+        "mdnsTtl": "",
+        "mdnsLoopback": true,
+        "mdnsReuseAddr": true,
+        "allowMessagePassthrough": true
     },
     {
         "id": "361eed69e3ea83fd",
@@ -219,8 +244,8 @@
         "topic": "light.power",
         "payload": "enable",
         "payloadType": "str",
-        "x": 170,
-        "y": 1220,
+        "x": 130,
+        "y": 860,
         "wires": [
             [
                 "756bc5ace9c187c4"
@@ -248,8 +273,8 @@
         "topic": "light.power",
         "payload": "disable",
         "payloadType": "str",
-        "x": 170,
-        "y": 1300,
+        "x": 130,
+        "y": 940,
         "wires": [
             [
                 "756bc5ace9c187c4"
@@ -261,8 +286,8 @@
         "type": "rpi-automation-hat out",
         "z": "ae504a8ef127642b",
         "name": "",
-        "x": 500,
-        "y": 1260,
+        "x": 400,
+        "y": 900,
         "wires": []
     },
     {
@@ -681,7 +706,7 @@
         "id": "09632f4cec925bfc",
         "type": "inject",
         "z": "ae504a8ef127642b",
-        "name": "Send Executable 00",
+        "name": "Send Executable",
         "props": [
             {
                 "p": "payload"
@@ -698,8 +723,8 @@
         "topic": "",
         "payload": "00",
         "payloadType": "str",
-        "x": 170,
-        "y": 40,
+        "x": 160,
+        "y": 100,
         "wires": [
             [
                 "b290bf771100676d"
@@ -711,7 +736,7 @@
         "type": "function",
         "z": "ae504a8ef127642b",
         "name": "Build Executable Msg",
-        "func": "var fs = global.get('fs')\n\nvar name = \"/home/cmarrin/PostLightEffects\" + msg.payload + \".arlx\";\n\nif (!fs.existsSync(name)) {\n    node.warn(\"*** Error '\" + name + \"' does not exist\");\n} else {\n    var buf = fs.readFileSync(name);\n    var p = {\n        \"adr\": 0,\n        \"cmd\": \"X\",\n        \"size\": buf.length,\n        \"data\": buf\n    }\n    node.warn(\"*** Sending '\" + name + \"'\");\n    node.send({ payload : p });\n}\n\nreturn null;",
+        "func": "var fs = global.get('fs')\n\nvar name = \"/home/cmarrin/PostLightEffects.lcdx\";\n\nif (!fs.existsSync(name)) {\n    node.warn(\"*** Error '\" + name + \"' does not exist\");\n} else {\n    var buf = fs.readFileSync(name);\n    var p = {\n        \"adr\": 0,\n        \"cmd\": \"X\",\n        \"size\": buf.length,\n        \"data\": buf\n    }\n    node.warn(\"*** Sending '\" + name + \"'\");\n    node.send({ payload : p });\n}\n\nreturn null;",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -738,93 +763,6 @@
         "x": 635,
         "y": 100,
         "wires": []
-    },
-    {
-        "id": "2618c94fa8a21d8c",
-        "type": "inject",
-        "z": "ae504a8ef127642b",
-        "name": "Send Executable 01",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "01",
-        "payloadType": "str",
-        "x": 170,
-        "y": 80,
-        "wires": [
-            [
-                "b290bf771100676d"
-            ]
-        ]
-    },
-    {
-        "id": "408a7cf3f7d3a343",
-        "type": "inject",
-        "z": "ae504a8ef127642b",
-        "name": "Send Executable 02",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "02",
-        "payloadType": "str",
-        "x": 170,
-        "y": 120,
-        "wires": [
-            [
-                "b290bf771100676d"
-            ]
-        ]
-    },
-    {
-        "id": "4c88c9bf1b16e110",
-        "type": "inject",
-        "z": "ae504a8ef127642b",
-        "name": "Send Executable 03",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "03",
-        "payloadType": "str",
-        "x": 170,
-        "y": 160,
-        "wires": [
-            [
-                "b290bf771100676d"
-            ]
-        ]
     },
     {
         "id": "9b574ec0e8a790da",
@@ -875,8 +813,50 @@
         "z": "ae504a8ef127642b",
         "name": "Button Assignments",
         "info": "Button box has a red button which\nturns off the skimmer valve for 15\nminutes. There are also 5 buttons in\na square formation, arranged like this:\n\n1       2\n    3\n4       5\n\nFunctions are:\n\n1 - Constant color\n2 - Rainbow\n3 - Lights off\n4 - Flicker\n5 - Multicolor",
-        "x": 590,
-        "y": 680,
+        "x": 610,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "545fd7eb1bdbc8eb",
+        "type": "inject",
+        "z": "ae504a8ef127642b",
+        "name": "Post Executable",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "executable",
+        "payload": "00",
+        "payloadType": "str",
+        "x": 160,
+        "y": 160,
+        "wires": [
+            [
+                "42e4d9b4e324b0d0"
+            ]
+        ]
+    },
+    {
+        "id": "42e4d9b4e324b0d0",
+        "type": "link out",
+        "z": "ae504a8ef127642b",
+        "name": "Post Executable Out",
+        "mode": "link",
+        "links": [
+            "f98591d03909e258"
+        ],
+        "x": 635,
+        "y": 160,
         "wires": []
     },
     {
@@ -888,7 +868,7 @@
         "op2": "runmotordone",
         "op1type": "nul",
         "op2type": "str",
-        "duration": "15",
+        "duration": "10",
         "extend": false,
         "overrideDelay": false,
         "units": "s",
@@ -943,18 +923,19 @@
         "type": "function",
         "z": "9e626f8b528b7958",
         "name": "Manage Valve",
-        "func": "// This function receives messages to \"open\", \"close\"\n// and \"stop\" the valve motor\nfunction makeRelayMsg(enable, id)\n{\n    return { \"topic\" : \"relay.\" + id, \"payload\" : enable };\n}\n\n// Make a message to send multiple outputs. The first sends\n// 2 messages, one to each relay. The second sends a\n// message to trigger the timer that keeps the valve\n// motor running long enough to let it open or close.\n// The third sends a message to trigger the timer that\n// tells the valve when to reopen. All params are bool.\n// Since the timers trigger on any message \"msg\" is \n// sent when startMotor or startDelay are true and\n// \"null\" when false.\nfunction makeMsg(relay1, relay2, startMotor, startDelay, stopDelay, status)\n{\n    var delayPayload = null;\n    if (startDelay) {\n        delayPayload = msg;\n    } else if (stopDelay) {\n        delayPayload = { \"payload\" : \"stop\" };\n    }\n    \n    return [\n        [\n            makeRelayMsg(relay1, \"one\"),\n            makeRelayMsg(relay2, \"two\")\n        ],\n        delayPayload,\n        startMotor ? msg : null,\n        { \"payload\" : status }\n    ];\n}\n\nvar finalStatus = \"\";\n\nif (msg.payload == \"close\") {\n    finalStatus = \"closed\";\n    return makeMsg(false, true, true, false, true, \"closing...\");\n}\n\nif (msg.payload == \"timedclose\" || msg.payload == \"TimedCloseButton\") {\n    finalStatus = \"timed closed\";\n    return makeMsg(false, true, true, true, false, \"timed closing...\");\n}\n\nif (msg.payload == \"open\") {\n    finalStatus = \"open\";\n    return makeMsg(true, false, true, false, true, \"opening...\");\n}\n\nif (msg.payload == \"stop\") {\n    finalStatus = \"stopped\";\n    return makeMsg(false, false, false, false, true, \"stopped\");\n}\n\nif (msg.payload == \"runmotordone\") {\n    return makeMsg(false, false, false, false, false, finalStatus);\n}\n\nreturn null;\n",
+        "func": "// This function receives messages to \"open\", \"close\"\n// and \"stop\" the valve motor\nfunction makeRelayMsg(enable, id)\n{\n    return { \"topic\" : \"relay.\" + id, \"payload\" : enable };\n}\n\n// Make a message to send multiple outputs. The first sends\n// 2 messages, one to each relay. The second sends a\n// message to trigger the timer that keeps the valve\n// motor running long enough to let it open or close.\n// The third sends a message to trigger the timer that\n// tells the valve when to reopen. All params are bool.\n// Since the timers trigger on any message \"msg\" is \n// sent when startMotor or startDelay are true and\n// \"null\" when false.\nfunction makeMsg(relay1, relay2, startMotor, startDelay, stopDelay, status)\n{\n    var delayPayload = null;\n    if (startDelay) {\n        delayPayload = msg;\n    } else if (stopDelay) {\n        delayPayload = { \"payload\" : \"stop\" };\n    }\n    \n    return [\n        [\n            makeRelayMsg(relay1, \"one\"),\n            makeRelayMsg(relay2, \"two\")\n        ],\n        delayPayload,\n        startMotor ? msg : null,\n        { \"payload\" : status }\n    ];\n}\n\nif (msg.payload == \"close\") {\n    finalStatus = \"closed\";\n    node.warn(\"***** Closing valve, finalStatus='\" + finalStatus + \"'\");\n    return makeMsg(false, true, true, false, true, \"closing...\");\n}\n\nif (msg.payload == \"timedclose\" || msg.payload == \"TimedCloseButton\") {\n    finalStatus = \"timed closed\";\n    return makeMsg(false, true, true, true, false, \"timed closing...\");\n}\n\nif (msg.payload == \"open\") {\n    finalStatus = \"open\";\n    return makeMsg(true, false, true, false, true, \"opening...\");\n}\n\nif (msg.payload == \"stop\") {\n    finalStatus = \"stopped\";\n    return makeMsg(false, false, false, false, true, \"stopped\");\n}\n\nif (msg.payload == \"runmotordone\") {\n    node.warn(\"***** runmotordone, finalStatus='\" + finalStatus + \"'\");\n    return makeMsg(false, false, false, false, false, finalStatus);\n}\n\nreturn null;\n",
         "outputs": 4,
         "timeout": "",
         "noerr": 0,
-        "initialize": "// Code added here will be run once\n// whenever the node is started.\nfinalStatus = \"\";",
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\nvar finalStatus = \"open\";",
         "finalize": "",
         "libs": [],
         "x": 340,
         "y": 380,
         "wires": [
             [
-                "3f3ee6b11e05d312"
+                "3f3ee6b11e05d312",
+                "8e5e857dc85cda6b"
             ],
             [
                 "3ebc7f2e926afbb4"
@@ -999,6 +980,10 @@
         "format": "{{msg.payload}}",
         "layout": "col-center",
         "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": "",
+        "color": "#000000",
         "x": 620,
         "y": 500,
         "wires": []
@@ -1101,22 +1086,41 @@
         ]
     },
     {
+        "id": "8e5e857dc85cda6b",
+        "type": "debug",
+        "z": "9e626f8b528b7958",
+        "name": "Valve Setting",
+        "active": true,
+        "tosidebar": true,
+        "console": true,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 580,
+        "y": 200,
+        "wires": []
+    },
+    {
         "id": "5189ccc827abf99c",
         "type": "function",
         "z": "83b262e887c512b6",
         "name": "String to Light Command",
-        "func": "function makeMsg(adr, cmd, data)\n{\n    return {\n        \"topic\" : \"ControlLights\", \n        \"payload\" : {\n            \"adr\": adr,\n            \"cmd\": cmd,\n            \"size\": data.length,\n            \"data\": data\n        }\n    };\n}\n\nvar effect = msg.payload;\n\nvar brightness = global.get(\"LightBrightnesses\")[global.get(\"LightEffect\")];\nif (brightness == undefined) {\n    brightness = 255;\n}\n\nvar color = global.get(\"LightColors\")[global.get(\"LightEffect\")];\nif (color == undefined) {\n    color = { h : 0, s : 0 };\n}\nvar hue = Math.round(color.h / 355 * 255);\nvar sat = Math.round(color.s * 255);\n\n//node.warn(\"*** hue=\" + hue + \", sat=\" + sat + \", brightness=\" + brightness)\n\nswitch (effect) {\n    case \"CenterButton\":\n    case \"LightOff\":\n        return makeMsg(0, \"C\", [ 0, 0, 0, 0, 0 ]);\n    case \"UpperLeftButton\":\n    case \"LightColor\":\n        return makeMsg(0, \"C\", [hue, sat, brightness, 0, 0]);\n    case \"LowerLeftButton\":\n    case \"LightFlicker\":\n        return makeMsg(0, \"f\", [hue, sat, brightness, 2 ]);\n    case \"LightPulse\":\n        return makeMsg(0, \"p\", [hue, sat, brightness, 5, 5 ]);\n    case \"LowerRightButton\":\n    case \"LightMulti\":\n        return makeMsg(0, \"m\", [\n              0, 255, brightness, \n             96, 255, brightness,\n            170, 255, brightness,\n             38, 255, brightness, 5 ]);\n    case \"UpperRightButton\":\n    case \"LightRainbow\":\n        return makeMsg(0, \"r\", [0, 224, brightness, 15, 0, 1 ]);\n\n    default:            return null;\n}\n",
+        "func": "function makeMsg(adr, cmd, data)\n{\n    return {\n        \"topic\" : \"ControlLights\", \n        \"payload\" : {\n            \"adr\": adr,\n            \"cmd\": cmd,\n            \"size\": data.length,\n            \"data\": data\n        }\n    };\n}\n\nvar effect = msg.payload;\n\nvar brightness = global.get(\"LightBrightnesses\")[global.get(\"LightEffect\")];\nif (brightness == undefined) {\n    brightness = 255;\n}\n\nvar color = global.get(\"LightColors\")[global.get(\"LightEffect\")];\nif (color == undefined) {\n    color = { h : 0, s : 0 };\n}\nvar hue = Math.round(color.h / 355 * 255);\nvar sat = Math.round(color.s * 255);\n\n//node.warn(\"*** hue=\" + hue + \", sat=\" + sat + \", brightness=\" + brightness)\n\nswitch (effect) {\n    case \"CenterButton\":\n    case \"LightOff\":\n        return makeMsg(0, \"C\", [ 0, 0, 0, 0, 0 ]);\n    case \"UpperLeftButton\":\n    case \"LightColor\":\n        return makeMsg(0, \"C\", [hue, sat, brightness, 0, 0]);\n    case \"LowerLeftButton\":\n    case \"LightFlicker\":\n        return makeMsg(0, \"f\", [hue, sat, brightness, 2 ]);\n    case \"LightPulse\":\n        return makeMsg(0, \"p\", [hue, sat, brightness, 5, 5 ]);\n    case \"LowerRightButton\":\n    case \"LightMulti\":\n        return makeMsg(0, \"m\", [\n              0, 255, brightness, \n             96, 255, brightness,\n            170, 255, brightness,\n             38, 255, brightness, 100 ]);\n    case \"UpperRightButton\":\n    case \"LightRainbow\":\n        return makeMsg(0, \"r\", [0, 224, brightness, 15, 0, 1 ]);\n\n    default:            return null;\n}\n",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
         "initialize": "// Setup the payload\n\ncurrentPayload = 0;\n\npayloads = [\n    {\n        \"adr\":  0,\n        \"cmd\":  \"C\",\n        \"hue\":  0,\n        \"sat\":  0,\n        \"val\":  0,\n        \"par1\": 0,\n        \"par2\": 0\n    },\n    {\n        \"adr\":  0,\n        \"cmd\":  \"C\",\n        \"hue\":  60,\n        \"sat\":  56,\n        \"val\":  16,\n        \"par1\": 0,\n        \"par2\": 0\n    },\n    {\n        \"adr\":  0,\n        \"cmd\":  \"F\",\n        \"hue\":  6,\n        \"sat\":  56,\n        \"val\":  32,\n        \"par1\": 0,\n        \"par2\": 0\n    },\n    {\n        \"adr\":  0,\n        \"cmd\":  \"F\",\n        \"hue\":  60,\n        \"sat\":  56,\n        \"val\":  16,\n        \"par1\": 4,\n        \"par2\": 0\n    }\n];\n",
         "finalize": "",
         "libs": [],
-        "x": 690,
-        "y": 500,
+        "x": 410,
+        "y": 600,
         "wires": [
             [
-                "ab18ffce2710d4ef"
+                "ab18ffce2710d4ef",
+                "58de6e528897e6a1",
+                "567de1a3c9d68ca9"
             ]
         ]
     },
@@ -1126,8 +1130,8 @@
         "z": "83b262e887c512b6",
         "name": "",
         "serial": "39f99e4a62f373c8",
-        "x": 550,
-        "y": 600,
+        "x": 610,
+        "y": 740,
         "wires": []
     },
     {
@@ -1142,8 +1146,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 350,
-        "y": 600,
+        "x": 390,
+        "y": 740,
         "wires": [
             [
                 "f89025884f3c4982"
@@ -1160,8 +1164,8 @@
             "6ade50d9688a761c",
             "1a80e8d709cc8728"
         ],
-        "x": 145,
-        "y": 600,
+        "x": 65,
+        "y": 740,
         "wires": [
             [
                 "ab18ffce2710d4ef"
@@ -1213,32 +1217,12 @@
         "topic": "topic",
         "topicType": "msg",
         "className": "",
-        "x": 250,
-        "y": 420,
+        "x": 190,
+        "y": 220,
         "wires": [
             [
                 "1637cd383e19b35d",
                 "339cc0af2fba3a55"
-            ]
-        ]
-    },
-    {
-        "id": "139141666827c756",
-        "type": "function",
-        "z": "83b262e887c512b6",
-        "name": "Homebridge Post Lights",
-        "func": "return { \"payload\": (msg.payload.On == 1) ? \"LightOn\" : \"LightOff\" };\n",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 330,
-        "y": 260,
-        "wires": [
-            [
-                "2e42f0ef7971df0d"
             ]
         ]
     },
@@ -1261,8 +1245,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 450,
-        "y": 420,
+        "x": 390,
+        "y": 220,
         "wires": [
             [
                 "9e52f6473491b0bd"
@@ -1277,8 +1261,8 @@
         "links": [
             "59a5d73d4167b001"
         ],
-        "x": 135,
-        "y": 420,
+        "x": 85,
+        "y": 220,
         "wires": [
             [
                 "0e2d3091deb1c749"
@@ -1311,11 +1295,12 @@
         "offcolor": "",
         "animate": false,
         "className": "",
-        "x": 280,
-        "y": 340,
+        "x": 220,
+        "y": 500,
         "wires": [
             [
-                "67f60b3b525552dc"
+                "67f60b3b525552dc",
+                "d7368721f6ded4ab"
             ]
         ]
     },
@@ -1327,8 +1312,8 @@
         "links": [
             "9b574ec0e8a790da"
         ],
-        "x": 135,
-        "y": 340,
+        "x": 75,
+        "y": 500,
         "wires": [
             [
                 "2e42f0ef7971df0d"
@@ -1354,8 +1339,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 440,
-        "y": 340,
+        "x": 540,
+        "y": 440,
         "wires": [
             [
                 "9e52f6473491b0bd"
@@ -1374,30 +1359,11 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 720,
+        "x": 800,
         "y": 380,
         "wires": [
             [
                 "5189ccc827abf99c"
-            ]
-        ]
-    },
-    {
-        "id": "678ac40f2584bf02",
-        "type": "hb-event",
-        "z": "83b262e887c512b6",
-        "name": "Post Lights",
-        "Homebridge": "homebridge",
-        "Manufacturer": "Homebridge",
-        "Service": "Switch",
-        "device": "homebridge0E:AD:47:4A:2B:77HomebridgePost Lights00000049",
-        "conf": "2380de9671d7f576",
-        "sendInitialState": false,
-        "x": 110,
-        "y": 260,
-        "wires": [
-            [
-                "139141666827c756"
             ]
         ]
     },
@@ -1420,8 +1386,8 @@
         "max": "255",
         "step": 1,
         "className": "",
-        "x": 150,
-        "y": 180,
+        "x": 330,
+        "y": 160,
         "wires": [
             [
                 "134b50e89aa44adc"
@@ -1440,8 +1406,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 410,
-        "y": 180,
+        "x": 530,
+        "y": 160,
         "wires": [
             [
                 "9e52f6473491b0bd"
@@ -1454,8 +1420,8 @@
         "z": "83b262e887c512b6",
         "name": "Effect Parameters",
         "info": "Current effects:\n\nColor(h, s, v, n, d)\n\nSet a constant color (h, s, v). Flash n\ntimes with a duration of d ms per flash.\nIf n == 0, leave lights on.\n\n\nFlicker(h, s, v, speed)\n\nFlicker light with color (h, s, v) at\nthe passed speed (0-7).\n\n\nRainbow(h, s, v, speed, range, mode)\n\nChange colors starting at (h, s, v) at a rate\nof speed from 0 (very slow) to 15 (very fast). \nRange is how far from the initial color to \ngo, from 0 (little change) to 7 (full range). \nIf mode is 0 colors bounce back and forth\nbetween start color through range. If it \nis 1 colors cycle the full color spectrum \nand range is ignored.\n\n\nMulticolor( h1, s1, v1, \n            h2, s2, v2,\n            h3, s3, v3,\n            h4, s4, v4,\n            duration)\n\nCross fade between the four passed colors.\nPassed duration is number of seconds between\ncolor changes.\n\n\nPulse(h, s, v, speed, depth)\n\nPulse color (h, s, v) from the brightness in\nv down according to the value of depth where\na value of 0 is very slight and 7 is very\ndeep. Speed is now fast to pulse from 0\n(slow) to 7 (fast)",
-        "x": 770,
-        "y": 600,
+        "x": 130,
+        "y": 40,
         "wires": []
     },
     {
@@ -1482,8 +1448,8 @@
         "topic": "topic",
         "topicType": "msg",
         "className": "",
-        "x": 130,
-        "y": 100,
+        "x": 350,
+        "y": 80,
         "wires": [
             [
                 "7d06e11eeba97614"
@@ -1502,8 +1468,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 480,
-        "y": 100,
+        "x": 580,
+        "y": 80,
         "wires": [
             [
                 "9e52f6473491b0bd"
@@ -1522,14 +1488,181 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 300,
-        "y": 500,
+        "x": 160,
+        "y": 100,
         "wires": [
             [
                 "b1cdcf75bc9e5ed3"
             ],
             [
                 "760cef2ce3f4e4e5"
+            ]
+        ]
+    },
+    {
+        "id": "58de6e528897e6a1",
+        "type": "debug",
+        "z": "83b262e887c512b6",
+        "name": "Light Command",
+        "active": true,
+        "tosidebar": true,
+        "console": true,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 690,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "2296c2d9a191b138",
+        "type": "homekit-service",
+        "z": "83b262e887c512b6",
+        "isParent": true,
+        "hostType": "0",
+        "bridge": "fcbbba1626153ba8",
+        "accessoryId": "",
+        "parentService": "",
+        "name": "PondController-Light",
+        "serviceName": "Lightbulb",
+        "topic": "",
+        "filter": false,
+        "manufacturer": "NRCHKB",
+        "model": "1.7.3",
+        "serialNo": "Default Serial Number",
+        "firmwareRev": "1.7.3",
+        "hardwareRev": "1.7.3",
+        "softwareRev": "1.7.3",
+        "cameraConfigVideoProcessor": "ffmpeg",
+        "cameraConfigSource": "",
+        "cameraConfigStillImageSource": "",
+        "cameraConfigMaxStreams": 2,
+        "cameraConfigMaxWidth": 1280,
+        "cameraConfigMaxHeight": 720,
+        "cameraConfigMaxFPS": 10,
+        "cameraConfigMaxBitrate": 300,
+        "cameraConfigVideoCodec": "libx264",
+        "cameraConfigAudioCodec": "libfdk_aac",
+        "cameraConfigAudio": false,
+        "cameraConfigPacketSize": 1316,
+        "cameraConfigVerticalFlip": false,
+        "cameraConfigHorizontalFlip": false,
+        "cameraConfigMapVideo": "0:0",
+        "cameraConfigMapAudio": "0:1",
+        "cameraConfigVideoFilter": "scale=1280:720",
+        "cameraConfigAdditionalCommandLine": "-tune zerolatency",
+        "cameraConfigDebug": false,
+        "cameraConfigSnapshotOutput": "disabled",
+        "cameraConfigInterfaceName": "",
+        "characteristicProperties": "{}",
+        "waitForSetupMsg": false,
+        "outputs": 2,
+        "adaptiveLightingOptionsEnable": false,
+        "adaptiveLightingOptionsCustomTemperatureAdjustment": "",
+        "x": 240,
+        "y": 340,
+        "wires": [
+            [
+                "677dc93e3737ed38"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "677dc93e3737ed38",
+        "type": "function",
+        "z": "83b262e887c512b6",
+        "name": "HK To LightOn",
+        "func": "if (\"On\" in msg.payload) {\n    return { \"payload\": msg.payload.On ? \"LightOn\" : \"LightOff\" };\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 400,
+        "wires": [
+            [
+                "2e42f0ef7971df0d"
+            ]
+        ]
+    },
+    {
+        "id": "d7368721f6ded4ab",
+        "type": "function",
+        "z": "83b262e887c512b6",
+        "name": "LightOn To HK",
+        "func": "    return {\n        payload: { \"On\": msg.payload == \"LightOn\" }\n    }\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 140,
+        "y": 280,
+        "wires": [
+            [
+                "2296c2d9a191b138"
+            ]
+        ]
+    },
+    {
+        "id": "85930b171fa6428d",
+        "type": "exec",
+        "z": "83b262e887c512b6",
+        "command": "curl ",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 890,
+        "y": 600,
+        "wires": [
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "567de1a3c9d68ca9",
+        "type": "function",
+        "z": "83b262e887c512b6",
+        "name": "Build Command Msg",
+        "func": "function toChar(i)\n{\n    return String.fromCharCode(0x30 + i);\n}\n\nfunction toCharCode(i)\n{\n    return 0x30 + i;\n}\n\nvar uri = \"192.168.4.254\";\nvar contents = \"\";\n\nif (msg.topic == \"executable\") {\n    var file = \"/home/cmarrin/PostLightEffects.clvx\";\n    var root = \"fs\";\n\n    contents = \" -F file=@\" + file + \" http://\" + uri + \"/\" + root;\n} else {\n    contents = \" http://\" + uri + \"/command?cmd=\";\n\n    // Add command\n    // Make enough room for 3 digit param plus comma\n    contents += msg.payload.cmd;\n\n    for (var i = 0; i < msg.payload.size; ++i) {\n        contents += \",\" + msg.payload.data[i];\n    }\n}\n\nnode.warn(\"HTTP:cmd='\" + contents + \"'\");\n\nreturn { payload : contents };\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 600,
+        "wires": [
+            [
+                "85930b171fa6428d"
+            ]
+        ]
+    },
+    {
+        "id": "f98591d03909e258",
+        "type": "link in",
+        "z": "83b262e887c512b6",
+        "name": "Post Executable In",
+        "links": [
+            "42e4d9b4e324b0d0"
+        ],
+        "x": 575,
+        "y": 680,
+        "wires": [
+            [
+                "567de1a3c9d68ca9"
             ]
         ]
     }
