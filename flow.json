@@ -245,7 +245,7 @@
         "payload": "enable",
         "payloadType": "str",
         "x": 130,
-        "y": 860,
+        "y": 920,
         "wires": [
             [
                 "756bc5ace9c187c4"
@@ -274,7 +274,7 @@
         "payload": "disable",
         "payloadType": "str",
         "x": 130,
-        "y": 940,
+        "y": 1000,
         "wires": [
             [
                 "756bc5ace9c187c4"
@@ -287,7 +287,7 @@
         "z": "ae504a8ef127642b",
         "name": "",
         "x": 400,
-        "y": 900,
+        "y": 960,
         "wires": []
     },
     {
@@ -309,7 +309,7 @@
         "z": "ae504a8ef127642b",
         "name": "",
         "x": 480,
-        "y": 740,
+        "y": 800,
         "wires": []
     },
     {
@@ -333,7 +333,7 @@
         "topic": "topic",
         "topicType": "msg",
         "x": 120,
-        "y": 780,
+        "y": 840,
         "wires": [
             [
                 "6671d25a8f9b59c9"
@@ -346,7 +346,7 @@
         "z": "ae504a8ef127642b",
         "name": "",
         "x": 470,
-        "y": 780,
+        "y": 840,
         "wires": []
     },
     {
@@ -370,7 +370,7 @@
         "topic": "topic",
         "topicType": "msg",
         "x": 130,
-        "y": 740,
+        "y": 800,
         "wires": [
             [
                 "6b3dfa5f81fe6002"
@@ -573,7 +573,7 @@
         "payload": "open",
         "payloadType": "str",
         "x": 160,
-        "y": 540,
+        "y": 600,
         "wires": [
             [
                 "3e38fe48749d1e5e"
@@ -602,7 +602,7 @@
         "payload": "timedclose",
         "payloadType": "str",
         "x": 180,
-        "y": 620,
+        "y": 680,
         "wires": [
             [
                 "3e38fe48749d1e5e"
@@ -631,7 +631,7 @@
         "payload": "close",
         "payloadType": "str",
         "x": 160,
-        "y": 580,
+        "y": 640,
         "wires": [
             [
                 "3e38fe48749d1e5e"
@@ -648,7 +648,7 @@
             "5e68170bc315b36a"
         ],
         "x": 435,
-        "y": 580,
+        "y": 640,
         "wires": []
     },
     {
@@ -661,7 +661,7 @@
         "threshold": "0.5",
         "adc4_threshold": "0.5",
         "x": 110,
-        "y": 680,
+        "y": 740,
         "wires": [
             [
                 "e04a1c57b514626e"
@@ -681,7 +681,7 @@
         "finalize": "",
         "libs": [],
         "x": 280,
-        "y": 680,
+        "y": 740,
         "wires": [
             [
                 "a6a72b3a8cdf7d86"
@@ -699,7 +699,7 @@
             "5e68170bc315b36a"
         ],
         "x": 435,
-        "y": 680,
+        "y": 740,
         "wires": []
     },
     {
@@ -858,6 +858,35 @@
         "x": 635,
         "y": 160,
         "wires": []
+    },
+    {
+        "id": "bf7b737d06c02492",
+        "type": "inject",
+        "z": "ae504a8ef127642b",
+        "name": "Send Christmas Msg",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "LightChristmas",
+        "payloadType": "str",
+        "x": 180,
+        "y": 520,
+        "wires": [
+            [
+                "59a5d73d4167b001"
+            ]
+        ]
     },
     {
         "id": "b118e96062651eda",
@@ -1107,20 +1136,20 @@
         "type": "function",
         "z": "83b262e887c512b6",
         "name": "String to Light Command",
-        "func": "function makeMsg(adr, cmd, data)\n{\n    return {\n        \"topic\" : \"ControlLights\", \n        \"payload\" : {\n            \"adr\": adr,\n            \"cmd\": cmd,\n            \"size\": data.length,\n            \"data\": data\n        }\n    };\n}\n\nvar effect = msg.payload;\n\nvar brightness = global.get(\"LightBrightnesses\")[global.get(\"LightEffect\")];\nif (brightness == undefined) {\n    brightness = 255;\n}\n\nvar color = global.get(\"LightColors\")[global.get(\"LightEffect\")];\nif (color == undefined) {\n    color = { h : 0, s : 0 };\n}\nvar hue = Math.round(color.h / 355 * 255);\nvar sat = Math.round(color.s * 255);\n\n//node.warn(\"*** hue=\" + hue + \", sat=\" + sat + \", brightness=\" + brightness)\n\nswitch (effect) {\n    case \"CenterButton\":\n    case \"LightOff\":\n        return makeMsg(0, \"C\", [ 0, 0, 0, 0, 0 ]);\n    case \"UpperLeftButton\":\n    case \"LightColor\":\n        return makeMsg(0, \"C\", [hue, sat, brightness, 0, 0]);\n    case \"LowerLeftButton\":\n    case \"LightFlicker\":\n        return makeMsg(0, \"f\", [hue, sat, brightness, 2 ]);\n    case \"LightPulse\":\n        return makeMsg(0, \"p\", [hue, sat, brightness, 5, 5 ]);\n    case \"LowerRightButton\":\n    case \"LightMulti\":\n        return makeMsg(0, \"m\", [\n              0, 255, brightness, \n             96, 255, brightness,\n            170, 255, brightness,\n             38, 255, brightness, 100 ]);\n    case \"UpperRightButton\":\n    case \"LightRainbow\":\n        return makeMsg(0, \"r\", [0, 224, brightness, 15, 0, 1 ]);\n\n    default:            return null;\n}\n",
+        "func": "function makeMsg(adr, cmd, data)\n{\n    return {\n        \"topic\" : \"ControlLights\", \n        \"payload\" : {\n            \"adr\": adr,\n            \"cmd\": cmd,\n            \"size\": data.length,\n            \"data\": data\n        }\n    };\n}\n\nvar effect = msg.payload;\n\nvar brightness = global.get(\"LightBrightnesses\")[global.get(\"LightEffect\")];\nif (brightness == undefined) {\n    brightness = 255;\n}\n\nvar color = global.get(\"LightColors\")[global.get(\"LightEffect\")];\nif (color == undefined) {\n    color = { h : 0, s : 0 };\n}\nvar hue = Math.round(color.h / 355 * 255);\nvar sat = Math.round(color.s * 255);\n\n//node.warn(\"*** hue=\" + hue + \", sat=\" + sat + \", brightness=\" + brightness)\n\nswitch (effect) {\n    case \"CenterButton\":\n    case \"LightOff\":\n        return makeMsg(0, \"C\", [ 0, 0, 0, 0, 0 ]);\n    case \"UpperLeftButton\":\n    case \"LightColor\":\n        return makeMsg(0, \"C\", [hue, sat, brightness, 0, 0]);\n    case \"LowerLeftButton\":\n    case \"LightFlicker\":\n        return makeMsg(0, \"f\", [hue, sat, brightness, 2 ]);\n    case \"LightPulse\":\n        return makeMsg(0, \"p\", [hue, sat, brightness, 5, 5 ]);\n    case \"LowerRightButton\":\n    case \"LightMulti\":\n        return makeMsg(0, \"m\", [\n              0, 255, brightness, \n             96, 255, brightness,\n            170, 255, brightness,\n             38, 255, brightness, 100 ]);\n    case \"UpperRightButton\":\n    case \"LightRainbow\":\n        return makeMsg(0, \"r\", [0, 224, brightness, 15, 0, 1]);\n    case \"LightChristmas\":\n        node.send(makeMsg(1, \"f\", [  0, 255, brightness, 2])); // Red\n        node.send(makeMsg(2, \"f\", [ 85, 255, brightness, 2])); // Green\n        node.send(makeMsg(3, \"f\", [  0, 255, brightness, 2])); // Red\n        node.send(makeMsg(4, \"f\", [ 85, 255, brightness, 2])); // Green\n        node.send(makeMsg(5, \"f\", [  0, 255, brightness, 2])); // Red\n        node.send(makeMsg(6, \"f\", [ 85, 255, brightness, 2])); // Green\n        node.send(makeMsg(7, \"f\", [  0, 255, brightness, 2])); // Red\n        return null;\n\n    default:            return null;\n}\n",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
         "initialize": "// Setup the payload\n\ncurrentPayload = 0;\n\npayloads = [\n    {\n        \"adr\":  0,\n        \"cmd\":  \"C\",\n        \"hue\":  0,\n        \"sat\":  0,\n        \"val\":  0,\n        \"par1\": 0,\n        \"par2\": 0\n    },\n    {\n        \"adr\":  0,\n        \"cmd\":  \"C\",\n        \"hue\":  60,\n        \"sat\":  56,\n        \"val\":  16,\n        \"par1\": 0,\n        \"par2\": 0\n    },\n    {\n        \"adr\":  0,\n        \"cmd\":  \"F\",\n        \"hue\":  6,\n        \"sat\":  56,\n        \"val\":  32,\n        \"par1\": 0,\n        \"par2\": 0\n    },\n    {\n        \"adr\":  0,\n        \"cmd\":  \"F\",\n        \"hue\":  60,\n        \"sat\":  56,\n        \"val\":  16,\n        \"par1\": 4,\n        \"par2\": 0\n    }\n];\n",
         "finalize": "",
         "libs": [],
-        "x": 410,
+        "x": 450,
         "y": 600,
         "wires": [
             [
-                "ab18ffce2710d4ef",
                 "58de6e528897e6a1",
-                "567de1a3c9d68ca9"
+                "567de1a3c9d68ca9",
+                "0175e4cf1d9c36f2"
             ]
         ]
     },
@@ -1130,7 +1159,7 @@
         "z": "83b262e887c512b6",
         "name": "",
         "serial": "39f99e4a62f373c8",
-        "x": 610,
+        "x": 650,
         "y": 740,
         "wires": []
     },
@@ -1146,7 +1175,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 390,
+        "x": 430,
         "y": 740,
         "wires": [
             [
@@ -1160,11 +1189,9 @@
         "z": "83b262e887c512b6",
         "name": "Receive Light Effect",
         "links": [
-            "d295f401330fd8bd",
-            "6ade50d9688a761c",
             "1a80e8d709cc8728"
         ],
-        "x": 65,
+        "x": 105,
         "y": 740,
         "wires": [
             [
@@ -1211,13 +1238,18 @@
                 "label": "Pulse",
                 "value": "LightPulse",
                 "type": "str"
+            },
+            {
+                "label": "Christmas",
+                "value": "LightChristmas",
+                "type": "str"
             }
         ],
         "payload": "",
         "topic": "topic",
         "topicType": "msg",
         "className": "",
-        "x": 190,
+        "x": 230,
         "y": 220,
         "wires": [
             [
@@ -1245,8 +1277,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 390,
-        "y": 220,
+        "x": 590,
+        "y": 200,
         "wires": [
             [
                 "9e52f6473491b0bd"
@@ -1261,7 +1293,7 @@
         "links": [
             "59a5d73d4167b001"
         ],
-        "x": 85,
+        "x": 125,
         "y": 220,
         "wires": [
             [
@@ -1295,7 +1327,7 @@
         "offcolor": "",
         "animate": false,
         "className": "",
-        "x": 220,
+        "x": 260,
         "y": 500,
         "wires": [
             [
@@ -1312,7 +1344,7 @@
         "links": [
             "9b574ec0e8a790da"
         ],
-        "x": 75,
+        "x": 115,
         "y": 500,
         "wires": [
             [
@@ -1339,7 +1371,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 540,
+        "x": 580,
         "y": 440,
         "wires": [
             [
@@ -1359,7 +1391,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 800,
+        "x": 840,
         "y": 380,
         "wires": [
             [
@@ -1386,8 +1418,8 @@
         "max": "255",
         "step": 1,
         "className": "",
-        "x": 330,
-        "y": 160,
+        "x": 410,
+        "y": 140,
         "wires": [
             [
                 "134b50e89aa44adc"
@@ -1406,8 +1438,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 530,
-        "y": 160,
+        "x": 610,
+        "y": 140,
         "wires": [
             [
                 "9e52f6473491b0bd"
@@ -1420,7 +1452,7 @@
         "z": "83b262e887c512b6",
         "name": "Effect Parameters",
         "info": "Current effects:\n\nColor(h, s, v, n, d)\n\nSet a constant color (h, s, v). Flash n\ntimes with a duration of d ms per flash.\nIf n == 0, leave lights on.\n\n\nFlicker(h, s, v, speed)\n\nFlicker light with color (h, s, v) at\nthe passed speed (0-7).\n\n\nRainbow(h, s, v, speed, range, mode)\n\nChange colors starting at (h, s, v) at a rate\nof speed from 0 (very slow) to 15 (very fast). \nRange is how far from the initial color to \ngo, from 0 (little change) to 7 (full range). \nIf mode is 0 colors bounce back and forth\nbetween start color through range. If it \nis 1 colors cycle the full color spectrum \nand range is ignored.\n\n\nMulticolor( h1, s1, v1, \n            h2, s2, v2,\n            h3, s3, v3,\n            h4, s4, v4,\n            duration)\n\nCross fade between the four passed colors.\nPassed duration is number of seconds between\ncolor changes.\n\n\nPulse(h, s, v, speed, depth)\n\nPulse color (h, s, v) from the brightness in\nv down according to the value of depth where\na value of 0 is very slight and 7 is very\ndeep. Speed is now fast to pulse from 0\n(slow) to 7 (fast)",
-        "x": 130,
+        "x": 170,
         "y": 40,
         "wires": []
     },
@@ -1448,7 +1480,7 @@
         "topic": "topic",
         "topicType": "msg",
         "className": "",
-        "x": 350,
+        "x": 390,
         "y": 80,
         "wires": [
             [
@@ -1468,7 +1500,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 580,
+        "x": 640,
         "y": 80,
         "wires": [
             [
@@ -1512,7 +1544,7 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 690,
+        "x": 730,
         "y": 540,
         "wires": []
     },
@@ -1556,12 +1588,12 @@
         "cameraConfigDebug": false,
         "cameraConfigSnapshotOutput": "disabled",
         "cameraConfigInterfaceName": "",
-        "characteristicProperties": "{}",
+        "characteristicProperties": "",
         "waitForSetupMsg": false,
         "outputs": 2,
         "adaptiveLightingOptionsEnable": false,
         "adaptiveLightingOptionsCustomTemperatureAdjustment": "",
-        "x": 240,
+        "x": 300,
         "y": 340,
         "wires": [
             [
@@ -1582,8 +1614,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 320,
-        "y": 400,
+        "x": 520,
+        "y": 340,
         "wires": [
             [
                 "2e42f0ef7971df0d"
@@ -1602,7 +1634,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 140,
+        "x": 180,
         "y": 280,
         "wires": [
             [
@@ -1622,7 +1654,7 @@
         "winHide": false,
         "oldrc": false,
         "name": "",
-        "x": 890,
+        "x": 930,
         "y": 600,
         "wires": [
             [],
@@ -1642,7 +1674,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 700,
+        "x": 740,
         "y": 600,
         "wires": [
             [
@@ -1658,11 +1690,36 @@
         "links": [
             "42e4d9b4e324b0d0"
         ],
-        "x": 575,
+        "x": 615,
         "y": 680,
         "wires": [
             [
                 "567de1a3c9d68ca9"
+            ]
+        ]
+    },
+    {
+        "id": "0175e4cf1d9c36f2",
+        "type": "delay",
+        "z": "83b262e887c512b6",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "100",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "0.5",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 330,
+        "y": 660,
+        "wires": [
+            [
+                "ab18ffce2710d4ef"
             ]
         ]
     }
